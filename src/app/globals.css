@@ -1,0 +1,359 @@
+@import "tailwindcss";
+
+/* ============================================================
+   GREEN LINE DESIGN TOKENS
+   Every color below was sampled from the client's photographs
+   or the logo file. Contrast ratios are measured, see the spec.
+   RULE: --turf is text on dark surfaces only. On concrete it is
+   a graphic color. Green text on concrete uses --turf-ink.
+   ============================================================ */
+
+@font-face {
+  font-family: "National Park";
+  src: url("/fonts/NationalPark-Variable.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Public Sans";
+  src: url("/fonts/PublicSans-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@theme {
+  /* Structure */
+  --color-black: #010101;
+  --color-field: #191f10;
+
+  /* Concrete surfaces (sampled: driveway, sidewalk) */
+  --color-concrete-00: #e4dfd2;
+  --color-concrete-10: #d3cebe;
+  --color-concrete-20: #c4baa6;
+  --color-concrete-30: #a79c86;
+
+  /* Type */
+  --color-ink: #14180e;      /* 11.44:1 on concrete-10, AAA */
+  --color-ink-60: #4a5040;   /*  5.31:1 on concrete-10, AA  */
+  --color-paper: #f2efe7;    /* 14.68:1 on field, AAA       */
+
+  /* Green */
+  --color-turf: #6e9b1e;     /* GRAPHIC on light. Text on dark only (5.12:1 on field). */
+  --color-turf-ink: #275e12; /* green text/links on concrete, 4.95:1 AA */
+  --color-turf-fill: #2c6c14;/* button fill, white on it 6.44:1 AA */
+  --color-olive: #768651;    /* supporting graphic tone, never text */
+
+  /* Faces */
+  --font-display: "National Park", "Avenir Next Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius. Nothing above 12. */
+  --radius-sm: 4px;
+  --radius-md: 10px;
+
+  /* Spacing rhythm (sections use these directly, deliberately uneven) */
+  --spacing-section-tight: 4rem;
+  --spacing-section-mid: 6rem;
+  --spacing-section-open: 11rem;
+}
+
+:root {
+  --ease-exit: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background: var(--color-concrete-10);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Type scale (perfect fourth, 1.333) ---- */
+.t-display-xl {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.75rem, 6.5vw, 4.5rem);
+  line-height: 0.94;
+  letter-spacing: 0.005em;
+}
+.t-display-lg {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.125rem, 4.5vw, 3.375rem);
+  line-height: 1.0;
+}
+.t-display-md {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 1.06;
+}
+.t-display-sm {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  line-height: 1.15;
+}
+.t-body-lg { font-size: 1.25rem; line-height: 1.6; }
+.t-body-sm { font-size: 0.9375rem; line-height: 1.6; }
+.t-label {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.t-data {
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Measure ---- */
+.measure { max-width: 68ch; }
+.measure-narrow { max-width: 46ch; }
+
+/* ---- Focus. Ink ring, never green (green fails on concrete). ---- */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.on-dark :focus-visible,
+.on-dark:focus-visible {
+  outline-color: var(--color-paper);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background-color 200ms var(--ease-exit), border-color 200ms var(--ease-exit), color 200ms var(--ease-exit);
+}
+.btn-fill {
+  background: var(--color-turf-fill);
+  color: #ffffff;
+}
+.btn-fill:hover { background: #235710; }
+.btn-ghost-dark {
+  background: transparent;
+  color: var(--color-paper);
+  border-color: var(--color-paper);
+}
+.btn-ghost-dark:hover { border-color: var(--color-turf); color: #fff; }
+.btn-ghost-light {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+.btn-ghost-light:hover { border-color: var(--color-turf-fill); color: var(--color-turf-ink); }
+
+/* ---- The line device ---- */
+.line-h {
+  height: 3px;
+  background: var(--color-turf);
+  border: none;
+}
+.line-v {
+  width: 3px;
+  background: var(--color-turf);
+}
+
+/* Hero line draw: the single orchestrated moment on the site. */
+.hero-line-path {
+  stroke: var(--color-turf);
+  stroke-width: 5;
+  fill: none;
+  stroke-linecap: square;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-line-path {
+    stroke-dasharray: 2400;
+    stroke-dashoffset: 2400;
+    animation: draw-line 900ms var(--ease-exit) 250ms forwards;
+  }
+  @keyframes draw-line {
+    to { stroke-dashoffset: 0; }
+  }
+}
+
+/* Entrance enhancement. Content is visible at rest; motion only adds. */
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 280ms var(--ease-exit) both;
+  }
+  .rise-1 { animation-delay: 45ms; }
+  .rise-2 { animation-delay: 90ms; }
+  .rise-3 { animation-delay: 135ms; }
+  @keyframes rise {
+    from { opacity: 0.001; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Service index rows */
+.svc-row {
+  display: block;
+  border-bottom: 1px solid var(--color-concrete-30);
+  padding: 1.5rem 0;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: transform 200ms var(--ease-exit);
+}
+.svc-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 3px;
+  width: 0;
+  background: var(--color-turf);
+  transition: width 200ms var(--ease-exit);
+}
+.svc-row:hover { transform: translateX(8px); }
+.svc-row:hover::after { width: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .svc-row, .svc-row::after { transition: none; }
+  .svc-row:hover { transform: none; }
+}
+
+/* Prose for service pages and blog posts */
+.prose-gl h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.1;
+  margin: 2.5rem 0 1rem;
+}
+.prose-gl h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin: 2rem 0 0.75rem;
+}
+.prose-gl p { margin: 0 0 1.1rem; max-width: 68ch; }
+.prose-gl ul, .prose-gl ol { margin: 0 0 1.1rem 1.25rem; max-width: 64ch; }
+.prose-gl li { margin-bottom: 0.4rem; }
+.prose-gl a { color: var(--color-turf-ink); text-underline-offset: 3px; }
+.prose-gl hr {
+  border: none;
+  height: 3px;
+  width: 96px;
+  background: var(--color-turf);
+  margin: 3rem 0;
+}
+.prose-gl table { border-collapse: collapse; margin: 1.5rem 0; width: 100%; max-width: 68ch; }
+.prose-gl th, .prose-gl td {
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--color-concrete-30);
+}
+.prose-gl th { font-weight: 600; font-size: 0.9375rem; }
+.prose-gl blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--color-turf);
+  color: var(--color-ink-60);
+}
+
+/* Form fields */
+.field {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.7rem 0.9rem;
+  background: var(--color-concrete-00);
+  border: 1.5px solid var(--color-concrete-30);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  font: inherit;
+}
+.field:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 1px;
+  border-color: var(--color-ink);
+}
+.field-error-text {
+  margin-top: 0.35rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--color-turf-ink);
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+}
+
+/* Honeypot: visually hidden, still focus-reachable by bots */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Wipe comparison */
+.wipe {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  touch-action: none;
+  user-select: none;
+}
+.wipe img { pointer-events: none; }
+.wipe-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-turf);
+  cursor: ew-resize;
+}
+.wipe-grip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 34px;
+  background: var(--color-turf);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-black);
+  color: var(--color-paper);
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+}
+.skip-link:focus { left: 0; }
