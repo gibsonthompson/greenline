@@ -52,7 +52,17 @@ export default function Home() {
           quality={82}
           className="object-cover object-[50%_64%]"
         />
-        <div className="hero-veil" aria-hidden="true" />
+        <div
+          className="hero-veil"
+          aria-hidden="true"
+          style={{
+            // Full-width shadow across the top and the bottom, clear through
+            // the middle. Grow or shrink a band by moving its last stop (the
+            // "34%" / "38%"); darken it by raising the first alpha (".72").
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,.72) 0%, rgba(0,0,0,.28) 14%, rgba(0,0,0,0) 34%), linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.30) 16%, rgba(0,0,0,0) 38%)",
+          }}
+        />
         <div className={`relative w-full ${WRAP} pb-[clamp(3rem,5vw,4.5rem)] pt-[clamp(6rem,10vw,8.5rem)]`}>
           <h1 className="h1 max-w-[17ch] text-white">The Best-Looking Yard On Your Street</h1>
           <p className="lead mt-5 max-w-[52ch] text-white/95">
@@ -208,7 +218,7 @@ export default function Home() {
       </section>
 
       {/* ══ WORK ══ */}
-      <section id="work" className={`dark ${PAD}`}>
+      <section id="work" className={`dark ${PAD}`} style={{ background: "#000000" }}>
         <div className={WRAP}>
           <div className="mb-9 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,34ch)] lg:items-end">
             <div>
@@ -246,7 +256,7 @@ export default function Home() {
                 rather than in a slider.
               </p>
             </div>
-            <div className="grid max-w-[760px] grid-cols-1 gap-[2px] bg-forest-3 sm:grid-cols-2">
+            <div className="grid max-w-[760px] grid-cols-1 gap-[2px] bg-black sm:grid-cols-2">
               <div className="relative">
                 <span className="tag tag-b">Before</span>
                 <Image src="/photos/pair-gutter-before.jpg" alt="Roof gutter packed with fallen leaves and needles" width={1100} height={1375} sizes="380px" className="aspect-[4/5] w-full object-cover" />
