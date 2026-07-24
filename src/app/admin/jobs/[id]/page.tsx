@@ -6,7 +6,7 @@ import { updateJob } from "@/app/admin/actions";
 export default async function JobDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const admin = getAdminClient();
-  if (!admin) return <p className="text-ink-60">Database not configured.</p>;
+  if (!admin) return <p className="text-mute-l">Database not configured.</p>;
 
   const { data: j } = await admin
     .from("gl_jobs")
@@ -25,34 +25,34 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
 
   return (
     <div className="max-w-xl">
-      <nav aria-label="Breadcrumb" className="t-body-sm text-ink-60">
-        <Link href="/admin/calendar" className="text-turf-ink underline underline-offset-2">
+      <nav aria-label="Breadcrumb" className="t-body-sm text-mute-l">
+        <Link href="/admin/calendar" className="text-green underline underline-offset-2">
           Calendar
         </Link>{" "}
         / {j.title}
       </nav>
-      <h1 className="t-display-md mt-2">{j.title}</h1>
-      <p className="mt-1 text-ink-60">
+      <h1 className="h2 mt-2">{j.title}</h1>
+      <p className="mt-1 text-mute-l">
         {la(j.starts_at, { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" })}
         {c ? ` \u00b7 ${c.first_name} ${c.last_name ?? ""}` : ""}
       </p>
 
       <div className="mt-4 flex flex-wrap gap-3">
-        <a href={`/api/calendar/job/${j.id}.ics`} className="btn btn-ghost-light">
+        <a href={`/api/calendar/job/${j.id}.ics`} className="btn btn-ol">
           Add to my calendar
         </a>
         {c?.phone && (
-          <a href={`tel:${c.phone}`} className="btn btn-ghost-light">
+          <a href={`tel:${c.phone}`} className="btn btn-ol">
             Call customer
           </a>
         )}
         {c && (
-          <Link href={`/admin/contacts/${c.id}`} className="btn btn-ghost-light">
+          <Link href={`/admin/contacts/${c.id}`} className="btn btn-ol">
             Contact
           </Link>
         )}
       </div>
-      <p className="mt-2 text-[0.85rem] text-ink-60">
+      <p className="mt-2 text-[0.85rem] text-mute-l">
         Edits made here reach the subscribed iPhone calendar automatically within about an hour.
         The download button is for adding a brand-new event only.
       </p>
@@ -122,12 +122,12 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
           </label>
           <textarea id="notes" name="notes" className="field min-h-[96px]" defaultValue={j.notes ?? ""} />
         </div>
-        <button type="submit" className="btn btn-fill">
+        <button type="submit" className="btn btn-p">
           Save changes
         </button>
       </form>
 
-      <p className="mt-6 text-[0.85rem] text-ink-60">
+      <p className="mt-6 text-[0.85rem] text-mute-l">
         Cancelling keeps the event in the calendar feed marked CANCELLED so it disappears
         correctly from subscribed phones instead of lingering as a ghost.
       </p>

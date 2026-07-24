@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase-admin";
 import { buildSingleEvent, IcsJob } from "@/lib/ics";
 import { SITE } from "@/data/site";
-import { createServerClient } from "@supabase/ssr";
+import { isSignedIn } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 
@@ -11,23 +11,7 @@ export const runtime = "nodejs";
 // feed because iOS Safari does not reliably apply updates from a
 // re-downloaded ICS even with correct UID and SEQUENCE.
 export async function GET(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (url && anon) {
-    const supa = createServerClient(url, anon, {
-      cookies: {
-        getAll: () =>
-          req.cookies.getAll().map(({ name, value }) => ({ name, value })),
-        setAll: () => {},
-      },
-    });
-    const {
-      data: { user },
-    } = await supa.auth.getUser();
-    if (!user) return new NextResponse(null, { status: 404 });
-  } else {
-    return new NextResponse(null, { status: 404 });
-  }
+  if (!(await isSignedIn())) return new NextResponse(null, { status: 404 });
 
   const { id } = await ctx.params;
   const admin = getAdminClient();

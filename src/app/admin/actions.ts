@@ -4,12 +4,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { randomBytes } from "crypto";
 import { getAdminClient } from "@/lib/supabase-admin";
-import { requireUser } from "@/lib/supabase-server";
+import { isSignedIn } from "@/lib/admin-auth";
 import { toE164 } from "@/lib/phone";
 
 async function guard() {
-  const user = await requireUser();
-  if (!user) throw new Error("unauthorized");
+  if (!(await isSignedIn())) throw new Error("unauthorized");
   const admin = getAdminClient();
   if (!admin) throw new Error("not configured");
   return admin;

@@ -1,22 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase-admin";
-import { sendSms } from "@/lib/sms";
+import { notifyNewLead, notifyCustomerReceived } from "@/lib/notify";
+import { allow } from "@/lib/rate-limit";
 import { toE164 } from "@/lib/phone";
 import { zipStatus } from "@/data/service-zips";
 import { SITE } from "@/data/site";
 
 export const runtime = "nodejs";
 
-// Naive in-memory rate limit: fine for a single-region deployment of a
-// local service site. 5 submissions per IP per hour.
-const hits = new Map<string, number[]>();
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const arr = (hits.get(ip) ?? []).filter((t) => now - t < 3_600_000);
-  arr.push(now);
-  hits.set(ip, arr);
-  return arr.length > 5;
-}
 
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
@@ -37,7 +28,7 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (rateLimited(ip)) {
+  if (!(await allow("estimate", ip, 5, 60))) {
     return NextResponse.json({ error: "Too many requests. Call us instead." }, { status: 429 });
   }
 
@@ -162,27 +153,14 @@ export async function POST(req: NextRequest) {
     /* logged implicitly by absence; lead already saved */
   }
 
-  // SMS: both fire-and-forget after commit (spec section 10 and 13)
-  const owner = process.env.OWNER_SMS_NUMBER;
-  const photoCount = photoPaths.length;
-  const cityStr = String(body.city ?? "");
-  if (owner) {
-    void sendSms({
-      to: owner,
-      template: "owner-new-lead",
-      leadId: lead.id,
-      body: `New estimate request\n${name} \u00b7 ${cityStr}\n${servicesArr.join(", ")}\n${phone}\n${photoCount} photo(s)\n${SITE.url}/admin/leads/${lead.id}`,
-    });
-  }
-  if (smsConsent) {
-    const first = name.split(/\s+/)[0];
-    void sendSms({
-      to: phone,
-      template: "customer-confirmation",
-      leadId: lead.id,
-      body: `Green Line Lawn Care: thanks ${first}, we got your request. Jaydin will text or call you back today with a price. Questions in the meantime, reply here or call (925) 436-6691. Reply STOP to opt out.`,
-    });
-  }
+  // Notifications fire after the lead is committed and never block the
+  // response. Routing, opt-out checks and logging all live in lib/notify.
+  void notifyNewLead({
+    id: lead.id, name, phone, city: String(body.city ?? "") || null,
+    services: servicesArr, photoCount: photoPaths.length,
+    outOfArea: zipStatus(zip) !== "core",
+  });
+  if (smsConsent) void notifyCustomerReceived({ id: lead.id, name, phone });
 
   return NextResponse.json({ ok: true, leadId: lead.id });
 }

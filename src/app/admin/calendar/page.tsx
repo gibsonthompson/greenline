@@ -5,13 +5,11 @@ import {
   eachDayOfInterval, isSameMonth, isSameDay, parse,
 } from "date-fns";
 
-// Hand-rolled month grid with date-fns (build spec 11): the needs are
-// simple and calendar libraries are heavy and restyle badly. Jobs are
-// colored by type: estimates turf, service olive, followup concrete.
+// Jobs are colored by type: estimate lime, service green, followup neutral.
 const typeColor: Record<string, string> = {
-  estimate: "bg-turf-fill text-white",
-  service: "bg-olive text-white",
-  followup: "bg-concrete-30 text-ink",
+  estimate: "bg-lime text-ink",
+  service: "bg-green text-white",
+  followup: "bg-paper-2 text-ink",
 };
 
 export default async function CalendarPage({
@@ -21,7 +19,7 @@ export default async function CalendarPage({
 }) {
   const { m } = await searchParams;
   const admin = getAdminClient();
-  if (!admin) return <p className="text-ink-60">Database not configured.</p>;
+  if (!admin) return <p className="text-mute-l">Database not configured.</p>;
 
   const anchor = m ? parse(m, "yyyy-MM", new Date()) : new Date();
   const monthStart = startOfMonth(anchor);
@@ -50,15 +48,15 @@ export default async function CalendarPage({
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="t-display-md">{format(monthStart, "MMMM yyyy")}</h1>
+        <h1 className="h2">{format(monthStart, "MMMM yyyy")}</h1>
         <nav aria-label="Change month" className="flex gap-2">
-          <Link href={`/admin/calendar?m=${prev}`} className="btn btn-ghost-light">
+          <Link href={`/admin/calendar?m=${prev}`} className="rounded-sm border border-ink px-3 py-2 text-sm font-semibold text-ink">
             &larr; {format(addMonths(monthStart, -1), "MMM")}
           </Link>
-          <Link href="/admin/calendar" className="btn btn-ghost-light">
+          <Link href="/admin/calendar" className="rounded-sm border border-ink px-3 py-2 text-sm font-semibold text-ink">
             Today
           </Link>
-          <Link href={`/admin/calendar?m=${next}`} className="btn btn-ghost-light">
+          <Link href={`/admin/calendar?m=${next}`} className="rounded-sm border border-ink px-3 py-2 text-sm font-semibold text-ink">
             {format(addMonths(monthStart, 1), "MMM")} &rarr;
           </Link>
         </nav>
@@ -66,9 +64,9 @@ export default async function CalendarPage({
 
       {/* Desktop month grid */}
       <div className="mt-6 hidden md:block">
-        <div className="grid grid-cols-7 border-b border-concrete-30 pb-2">
+        <div className="grid grid-cols-7 border-b border-line pb-2">
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
-            <div key={d} className="t-label px-2 text-ink-60">
+            <div key={d} className="t-label px-2 text-mute-l">
               {d}
             </div>
           ))}
@@ -81,11 +79,11 @@ export default async function CalendarPage({
             return (
               <div
                 key={key}
-                className={`min-h-[104px] border-b border-r border-concrete-30 p-1.5 ${
+                className={`min-h-[104px] border-b border-r border-line p-1.5 ${
                   isSameMonth(day, monthStart) ? "" : "opacity-40"
                 }`}
               >
-                <span className={`t-data inline-block px-1 ${today ? "bg-turf-fill text-white" : ""}`}>
+                <span className={`t-data inline-block px-1 ${today ? "bg-green text-white" : ""}`}>
                   {format(day, "d")}
                 </span>
                 <ul className="mt-1 space-y-1">
@@ -94,7 +92,7 @@ export default async function CalendarPage({
                       <Link
                         href={`/admin/jobs/${j.id}`}
                         className={`block truncate rounded-sm px-1.5 py-0.5 text-[0.78rem] font-medium ${
-                          j.status === "cancelled" ? "bg-concrete-20 line-through" : typeColor[j.job_type] ?? typeColor.service
+                          j.status === "cancelled" ? "bg-paper-2 line-through" : typeColor[j.job_type] ?? typeColor.service
                         }`}
                       >
                         {new Date(j.starts_at).toLocaleTimeString("en-US", {
@@ -112,7 +110,7 @@ export default async function CalendarPage({
         </div>
       </div>
 
-      {/* Mobile agenda: tap to edit rather than drag (spec 11) */}
+      {/* Mobile agenda: tap to edit rather than drag */}
       <ul className="mt-6 space-y-4 md:hidden">
         {days
           .filter((d) => isSameMonth(d, monthStart) && (jobsByDay.get(format(d, "yyyy-MM-dd"))?.length ?? 0) > 0)
@@ -120,8 +118,8 @@ export default async function CalendarPage({
             const key = format(day, "yyyy-MM-dd");
             return (
               <li key={key}>
-                <h2 className="t-label text-ink-60">{format(day, "EEEE, MMM d")}</h2>
-                <ul className="mt-1 divide-y divide-concrete-30">
+                <h2 className="t-label text-mute-l">{format(day, "EEEE, MMM d")}</h2>
+                <ul className="mt-1 divide-y divide-line">
                   {(jobsByDay.get(key) ?? []).map((j) => (
                     <li key={j.id}>
                       <Link href={`/admin/jobs/${j.id}`} className="flex items-baseline gap-3 py-2.5">
@@ -135,7 +133,7 @@ export default async function CalendarPage({
                         <span className={j.status === "cancelled" ? "line-through" : "font-medium"}>
                           {j.title}
                         </span>
-                        <span className="ml-auto text-[0.85rem] text-ink-60">{j.city}</span>
+                        <span className="ml-auto text-[0.85rem] text-mute-l">{j.city}</span>
                       </Link>
                     </li>
                   ))}
@@ -145,10 +143,10 @@ export default async function CalendarPage({
           })}
       </ul>
 
-      <p className="mt-8 text-[0.9rem] text-ink-60">
-        <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-turf-fill" /> Estimate</span>
-        <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-olive" /> Service</span>
-        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-concrete-30" /> Follow up</span>
+      <p className="mt-8 text-[0.9rem] text-mute-l">
+        <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-lime" /> Estimate</span>
+        <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-green" /> Service</span>
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm border border-line bg-paper-2" /> Follow up</span>
       </p>
     </div>
   );

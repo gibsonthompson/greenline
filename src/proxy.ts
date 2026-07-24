@@ -1,39 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { tokenValid, SESSION_COOKIE } from "@/lib/admin-auth";
 
-// Next 16 proxy (formerly middleware). Guards /admin/* behind Supabase Auth and keeps the session fresh.
-// /admin/login stays public. Without configured env vars everything
-// under /admin redirects to login, which renders a setup notice.
+/**
+ * Guards /admin/* behind the PIN session cookie.
+ * /admin/login stays public so the PIN can be entered or first set.
+ */
 export async function proxy(req: NextRequest) {
-  const res = NextResponse.next({ request: req });
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const isLogin = req.nextUrl.pathname === "/admin/login";
+  const signedIn = tokenValid(req.cookies.get(SESSION_COOKIE)?.value);
 
-  if (!url || !anon) {
-    return isLogin ? res : NextResponse.redirect(new URL("/admin/login", req.url));
-  }
-
-  const supabase = createServerClient(url, anon, {
-    cookies: {
-      getAll: () => req.cookies.getAll(),
-      setAll: (all) => {
-        all.forEach(({ name, value, options }) => res.cookies.set(name, value, options));
-      },
-    },
-  });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user && !isLogin) {
+  if (!signedIn && !isLogin) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
-  if (user && isLogin) {
+  if (signedIn && isLogin) {
     return NextResponse.redirect(new URL("/admin", req.url));
   }
-  return res;
+  return NextResponse.next();
 }
 
 export const config = { matcher: ["/admin/:path*"] };

@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/build-series",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}

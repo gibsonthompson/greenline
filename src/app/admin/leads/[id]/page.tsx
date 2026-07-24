@@ -5,10 +5,20 @@ import LeadActions from "@/components/admin/LeadActions";
 import { formatDisplay } from "@/lib/phone";
 import { createJob } from "@/app/admin/actions";
 
+// Shared with the leads list and dashboard so a status looks the same everywhere.
+const STATUS_TONE: Record<string, string> = {
+  new: "bg-lime text-ink",
+  contacted: "bg-paper-2 text-ink",
+  quoted: "bg-[#E8F0FE] text-[#1A56B8]",
+  scheduled: "bg-green text-white",
+  won: "bg-forest text-white",
+  lost: "bg-paper-2 text-mute-l",
+};
+
 export default async function LeadDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const admin = getAdminClient();
-  if (!admin) return <p className="text-ink-60">Database not configured.</p>;
+  if (!admin) return <p className="text-mute-l">Database not configured.</p>;
 
   const { data: lead } = await admin
     .from("gl_leads")
@@ -17,7 +27,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
     .maybeSingle();
   if (!lead) notFound();
 
-  // Short-lived signed GETs for the private bucket (spec section 9)
+  // Short-lived signed GETs for the private bucket
   const photos: { id: string; url: string }[] = [];
   for (const p of (lead.gl_lead_photos ?? []).sort(
     (a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order
@@ -28,31 +38,32 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
     if (data) photos.push({ id: p.id, url: data.signedUrl });
   }
 
-  const today = new Date().toISOString().slice(0, 10);
   const createJobForLead = createJob.bind(null);
 
   return (
     <div>
-      <nav aria-label="Breadcrumb" className="t-body-sm text-ink-60">
-        <Link href="/admin/leads" className="text-turf-ink underline underline-offset-2">
+      <nav aria-label="Breadcrumb" className="t-body-sm text-mute-l">
+        <Link href="/admin/leads" className="text-green underline underline-offset-2">
           Leads
         </Link>{" "}
         / {lead.name}
       </nav>
       <div className="mt-2 flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="t-display-md">{lead.name}</h1>
-        <span className="t-label rounded-sm bg-concrete-20 px-2 py-1 capitalize">{lead.status}</span>
+        <h1 className="h2">{lead.name}</h1>
+        <span className={`rounded-sm px-2 py-1 text-[0.7rem] font-bold uppercase tracking-wide ${STATUS_TONE[lead.status] ?? "bg-paper-2 text-mute-l"}`}>
+          {lead.status}
+        </span>
       </div>
 
       <div className="mt-3 flex flex-wrap gap-3">
-        <a href={`tel:${lead.phone}`} className="btn btn-fill">
+        <a href={`tel:${lead.phone}`} className="btn btn-p">
           Call {formatDisplay(lead.phone)}
         </a>
-        <a href={`sms:${lead.phone}`} className="btn btn-ghost-light">
+        <a href={`sms:${lead.phone}`} className="btn btn-ol">
           Text
         </a>
         {lead.email && (
-          <a href={`mailto:${lead.email}`} className="btn btn-ghost-light">
+          <a href={`mailto:${lead.email}`} className="btn btn-ol">
             Email
           </a>
         )}
@@ -77,27 +88,27 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
 
       <div className="mt-8 grid gap-10 md:grid-cols-2">
         <div>
-          <h2 className="t-display-sm">Request</h2>
+          <h2 className="h3">Request</h2>
           <dl className="mt-3 space-y-3">
             <div>
-              <dt className="t-label text-ink-60">Services</dt>
+              <dt className="t-label text-mute-l">Services</dt>
               <dd>{(lead.services ?? []).join(", ")}</dd>
             </div>
             <div>
-              <dt className="t-label text-ink-60">Address</dt>
+              <dt className="t-label text-mute-l">Address</dt>
               <dd>
                 {lead.address_line}, {lead.city} {lead.zip}
-                {lead.out_of_area && <span className="ml-2 text-turf-ink">(out of core area)</span>}
+                {lead.out_of_area && <span className="ml-2 text-green">(out of core area)</span>}
               </dd>
             </div>
             {lead.notes && (
               <div>
-                <dt className="t-label text-ink-60">Notes</dt>
+                <dt className="t-label text-mute-l">Notes</dt>
                 <dd className="whitespace-pre-line">{lead.notes}</dd>
               </div>
             )}
             <div>
-              <dt className="t-label text-ink-60">Received</dt>
+              <dt className="t-label text-mute-l">Received</dt>
               <dd>
                 {new Date(lead.created_at).toLocaleString("en-US", {
                   timeZone: "America/Los_Angeles",
@@ -105,7 +116,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
               </dd>
             </div>
             <div>
-              <dt className="t-label text-ink-60">SMS consent</dt>
+              <dt className="t-label text-mute-l">SMS consent</dt>
               <dd>{lead.sms_consent ? `Yes, ${new Date(lead.sms_consent_at).toLocaleDateString()}` : "No"}</dd>
             </div>
           </dl>
@@ -115,7 +126,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
         </div>
 
         <div>
-          <h2 className="t-display-sm">Schedule this</h2>
+          <h2 className="h3">Schedule this</h2>
           <form action={createJobForLead} className="mt-3 space-y-4">
             <input type="hidden" name="lead_id" value={lead.id} />
             <input type="hidden" name="contact_id" value={lead.contact_id ?? ""} />
@@ -172,7 +183,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
                 <input id="job-duration" name="duration" type="number" className="field" defaultValue={60} min={15} step={15} />
               </div>
             </div>
-            <button type="submit" className="btn btn-fill">
+            <button type="submit" className="btn btn-p">
               Create job
             </button>
           </form>

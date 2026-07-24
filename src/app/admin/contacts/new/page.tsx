@@ -3,7 +3,7 @@ import { createContact } from "@/app/admin/actions";
 export default function NewContactPage() {
   return (
     <div className="max-w-xl">
-      <h1 className="t-display-md">Add contact</h1>
+      <h1 className="h2">Add contact</h1>
       <form action={createContact} className="mt-6 space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -80,7 +80,7 @@ export default function NewContactPage() {
         </div>
         <fieldset className="flex items-end gap-4">
           <label className="flex items-center gap-2 pb-3 font-medium">
-            <input type="checkbox" name="is_recurring" className="h-5 w-5 accent-[#2c6c14]" />
+            <input type="checkbox" name="is_recurring" className="h-5 w-5 accent-green" />
             Recurring
           </label>
           <div className="flex-1">
@@ -103,7 +103,7 @@ export default function NewContactPage() {
           </label>
           <textarea id="notes" name="notes" className="field min-h-[96px]" />
         </div>
-        <button type="submit" className="btn btn-fill">
+        <button type="submit" className="btn btn-p">
           Save contact
         </button>
       </form>
