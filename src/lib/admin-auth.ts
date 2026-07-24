@@ -6,17 +6,20 @@ import { getAdminClient } from "./supabase-admin";
 /* ============================================================================
    PIN AUTHENTICATION
 
-   Replaces Supabase Auth so there is no email verification step. The PIN is
-   scrypt-hashed with a per-install salt and never stored in plain text.
+   The admin ships with a seeded default PIN so the first login needs no setup
+   step. Enter it, then change it in Settings. Once a custom PIN is saved the
+   default stops working.
 
-   A PIN is short, so brute force is the real threat. Two defences:
-     1. failed attempts are counted in the database and the login locks for
-        15 minutes after 5 misses
-     2. the session cookie is HMAC-signed, httpOnly and sameSite=lax
-
-   Use 6 digits. Four digits is 10,000 combinations, which a lockout makes
-   survivable but not comfortable.
+   The PIN is scrypt-hashed with a per-install salt and never stored in plain
+   text. Defences against brute force: failed attempts are counted in the
+   database and the login locks for 15 minutes after 5 misses, and the session
+   cookie is HMAC-signed, httpOnly and sameSite=lax. The login route adds a
+   per-IP throttle on top, which also guards the seeded default before any row
+   exists.
    ============================================================================ */
+
+// Seeded starting PIN. Active until a custom PIN is saved from Settings.
+const DEFAULT_PIN = "135791";
 
 const COOKIE = "gl_admin";
 const SESSION_HOURS = 12;
@@ -24,8 +27,6 @@ const MAX_ATTEMPTS = 5;
 const LOCKOUT_MIN = 15;
 
 function secret(): string {
-  // Falls back to the service role key so the app still works before
-  // ADMIN_SESSION_SECRET is set. Set it properly in production.
   return process.env.ADMIN_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || "insecure-dev-secret";
 }
 
@@ -64,9 +65,10 @@ async function putAuthRow(row: AuthRow) {
   );
 }
 
-/** True when no PIN has been set yet, so the UI can offer first-run setup. */
+/** Always true: there is always a usable PIN, the seeded default or a custom
+ *  one, so the login screen shows PIN entry rather than a first-run setup. */
 export async function pinIsSet(): Promise<boolean> {
-  return Boolean(await getAuthRow());
+  return true;
 }
 
 export async function setPin(pin: string): Promise<{ ok: boolean; error?: string }> {
@@ -85,6 +87,11 @@ export async function changePin(currentPin: string, newPin: string): Promise<{ o
     if (!safeEq(hashPin(currentPin, row.pin_salt), row.pin_hash)) {
       return { ok: false, error: "Current PIN is incorrect." };
     }
+  } else {
+    // Seeded default still active: the current PIN must be the default.
+    if (!safeEq(currentPin, DEFAULT_PIN)) {
+      return { ok: false, error: "Current PIN is incorrect." };
+    }
   }
   return setPin(newPin);
 }
@@ -93,7 +100,13 @@ export async function changePin(currentPin: string, newPin: string): Promise<{ o
 
 export async function verifyPin(pin: string): Promise<{ ok: boolean; error?: string }> {
   const row = await getAuthRow();
-  if (!row) return { ok: false, error: "No PIN has been set yet." };
+
+  // No custom PIN saved yet: the seeded default is the only valid PIN. The
+  // per-IP throttle in the login route guards this path against brute force.
+  if (!row) {
+    if (safeEq(pin, DEFAULT_PIN)) return { ok: true };
+    return { ok: false, error: "Incorrect PIN." };
+  }
 
   if (row.locked_until && new Date(row.locked_until) > new Date()) {
     const mins = Math.ceil((new Date(row.locked_until).getTime() - Date.now()) / 60000);

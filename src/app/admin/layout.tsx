@@ -1,11 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { SITE } from "@/data/site";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
 export const metadata: Metadata = {
   title: { default: "Admin", template: "%s | Green Line Admin" },
   robots: { index: false, follow: false },
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Green Line" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#010101",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 const nav = [
@@ -19,8 +28,10 @@ const nav = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-paper-2 pb-24 lg:pb-0">
-      {/* top bar */}
-      <header className="sticky top-0 z-40 bg-black">
+      <ServiceWorkerRegister />
+
+      {/* top bar: black extends into the notch in standalone */}
+      <header className="sticky top-0 z-40 bg-black" style={{ paddingTop: "env(safe-area-inset-top)" }}>
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
           <Link href="/admin" className="flex items-center gap-3">
             <Image src="/brand/logo.png" alt="" width={644} height={366} className="h-8 w-auto" />
@@ -48,10 +59,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               {SITE.phoneDisplay}
             </a>
-            <Link
-              href="/"
-              className="rounded-sm bg-lime px-3 py-2 text-[0.85rem] font-bold text-ink"
-            >
+            <Link href="/" className="rounded-sm bg-lime px-3 py-2 text-[0.85rem] font-bold text-ink">
               View Site
             </Link>
           </div>
