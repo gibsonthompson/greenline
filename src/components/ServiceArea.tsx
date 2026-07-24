@@ -38,13 +38,21 @@ export default function ServiceArea() {
             className="h-full w-full border-0 saturate-[.92]"
           />
         </div>
-        <div className="mt-5 columns-2 gap-6 border-t border-mute-d/30 pt-4 sm:columns-3">
+        {/* A real list, not bare links in a columns div. The <li> gives each
+            city its own block box; without it the .tap inline-flex rule made
+            them run together as "OaklandBerkeley". */}
+        <ul className="cities mt-5 columns-2 gap-x-8 border-t border-mute-d/30 pt-4 sm:columns-3">
           {cityPages.map((c) => (
-            <Link key={c.slug} href={`/areas/${c.slug}`} className="tap block py-1 text-[0.95rem] font-semibold text-lime-br hover:underline hover:underline-offset-4">
-              {c.name}
-            </Link>
+            <li key={c.slug} className="break-inside-avoid">
+              <Link
+                href={`/areas/${c.slug}`}
+                className="block py-2 text-[0.95rem] font-semibold text-lime-br hover:underline hover:underline-offset-4"
+              >
+                {c.name}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );

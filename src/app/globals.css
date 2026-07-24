@@ -335,6 +335,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible, [role="slider"]:fo
   /* Standalone calls to action that sit outside a list */
   a.tap { display: inline-flex; align-items: center; min-height: 44px; }
 
+  /* City lists: block-level, never inline, or adjacent names collide */
+  .cities li a { display: flex; align-items: center; min-height: 44px; }
+
   /* Header logo link */
   .gl-nav > a:first-child { display: flex; align-items: center; min-height: 44px; }
 
