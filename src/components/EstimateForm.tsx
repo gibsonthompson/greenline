@@ -277,10 +277,10 @@ export default function EstimateForm() {
 
       {step === 1 && (
         <fieldset>
-          <legend className="t-display-sm">What do you need?</legend>
+          <legend className="t-display-sm">What Do You Need?</legend>
           <p className="mt-2 text-ink-60">Pick everything that applies.</p>
           <ul className="mt-6 space-y-3">
-            {[...services.map((s) => ({ slug: s.slug, name: s.name })), { slug: "other", name: "Something else" }].map(
+            {[...services.map((s) => ({ slug: s.slug, name: s.name })), { slug: "other", name: "Something Else" }].map(
               (s) => {
                 const on = form.services.includes(s.slug);
                 return (
@@ -311,7 +311,7 @@ export default function EstimateForm() {
           {errors.services && <p className="field-error-text mt-4">{errors.services}</p>}
           <div className="mt-8">
             <button type="button" className="btn btn-fill" onClick={() => validateStep(1) && go(2)}>
-              Next: where is it
+              Next: Where Is It
             </button>
           </div>
         </fieldset>
@@ -319,11 +319,11 @@ export default function EstimateForm() {
 
       {step === 2 && (
         <fieldset>
-          <legend className="t-display-sm">Where is the property?</legend>
+          <legend className="t-display-sm">Where Is The Property?</legend>
           <div className="mt-6 space-y-5">
             <div>
               <label htmlFor="address" className="mb-1 block font-medium">
-                Street address
+                Street Address
               </label>
               <input
                 id="address"
@@ -380,7 +380,7 @@ export default function EstimateForm() {
               Back
             </button>
             <button type="button" className="btn btn-fill" onClick={() => validateStep(2) && go(3)}>
-              Next: photos
+              Next: Photos
             </button>
           </div>
         </fieldset>
@@ -388,13 +388,13 @@ export default function EstimateForm() {
 
       {step === 3 && (
         <fieldset>
-          <legend className="t-display-sm">Show us the property</legend>
+          <legend className="t-display-sm">Show Us The Property</legend>
           <p className="mt-2 max-w-[52ch] text-ink-60">
             Optional, but photos get you an accurate price without us needing to come out first. Up
             to six. Pick them from your photo library.
           </p>
           <label className="mt-6 block">
-            <span className="btn btn-ghost-light w-full cursor-pointer sm:w-auto">Choose photos</span>
+            <span className="btn btn-ghost-light w-full cursor-pointer sm:w-auto">Choose Photos</span>
             <input
               type="file"
               accept="image/*"
@@ -450,8 +450,8 @@ export default function EstimateForm() {
               onClick={() => go(4)}
             >
               {photos.some((p) => p.status === "uploading" || p.status === "processing")
-                ? "Finishing uploads\u2026"
-                : "Next: contact info"}
+                ? "Finishing Uploads\u2026"
+                : "Next: Contact Info"}
             </button>
           </div>
         </fieldset>
@@ -459,7 +459,7 @@ export default function EstimateForm() {
 
       {step === 4 && (
         <fieldset>
-          <legend className="t-display-sm">How do we reach you?</legend>
+          <legend className="t-display-sm">How Do We Reach You?</legend>
           <div className="mt-6 space-y-5">
             <div>
               <label htmlFor="name" className="mb-1 block font-medium">
@@ -502,7 +502,7 @@ export default function EstimateForm() {
             </div>
             <div>
               <label htmlFor="email" className="mb-1 block font-medium">
-                Email <span className="font-normal text-ink-60">(optional)</span>
+                Email <span className="font-normal text-ink-60">(Optional)</span>
               </label>
               <input
                 id="email"
@@ -521,7 +521,7 @@ export default function EstimateForm() {
             </div>
             <div>
               <label htmlFor="notes" className="mb-1 block font-medium">
-                Anything else <span className="font-normal text-ink-60">(optional)</span>
+                Anything Else <span className="font-normal text-ink-60">(Optional)</span>
               </label>
               <textarea
                 id="notes"
@@ -559,7 +559,7 @@ export default function EstimateForm() {
               Back
             </button>
             <button type="button" className="btn btn-fill" disabled={submitting} onClick={submit}>
-              {submitting ? "Sending\u2026" : "Send my estimate request"}
+              {submitting ? "Sending\u2026" : "Send My Estimate Request"}
             </button>
           </div>
         </fieldset>

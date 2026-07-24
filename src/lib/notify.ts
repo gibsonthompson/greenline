@@ -24,6 +24,12 @@ export const DEVELOPER_SMS = "+16783161454";
 
 export type Audience = "customer" | "owner" | "developer";
 
+/** "gutter-cleaning" -> "Gutter Cleaning". Used so service names read cleanly
+ *  in alerts instead of as lowercase slugs. */
+function titleCase(s: string): string {
+  return s.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 function ownerNumber(): string | null {
   return toE164(process.env.OWNER_SMS_NUMBER ?? "") ?? null;
 }
@@ -139,11 +145,13 @@ export async function notifyNewLead(lead: {
   id: string; name: string; phone: string; city: string | null;
   services: string[]; photoCount: number; outOfArea: boolean;
 }) {
-  const flag = lead.outOfArea ? "\nOUTSIDE CORE AREA" : "";
+  const svc = lead.services.map(titleCase).join(", ") || "Not Specified";
+  const photos = `${lead.photoCount} Photo${lead.photoCount === 1 ? "" : "s"}`;
   await alertInternal(
-    `New estimate request\n${lead.name} \u00b7 ${lead.city ?? "no city"}\n` +
-      `${lead.services.join(", ")}\n${formatDisplay(lead.phone)}\n` +
-      `${lead.photoCount} photo(s)${flag}\n${SITE.url}/admin/leads/${lead.id}`,
+    `New Estimate Request\n` +
+      `${lead.name} \u00b7 ${formatDisplay(lead.phone)}\n` +
+      `${lead.city ?? "No City"} \u00b7 ${svc}\n` +
+      `${photos}\n${SITE.url}/admin/leads/${lead.id}`,
     "owner-new-lead",
     { leadId: lead.id }
   );
@@ -157,8 +165,8 @@ export async function notifyCustomerReceived(lead: { id: string; name: string; p
     template: "customer-confirmation",
     leadId: lead.id,
     body:
-      `Green Line Lawn Care: thanks ${first}, we got your request. ` +
-      `You'll have a price back today. Questions in the meantime, reply here or call ${SITE.phoneDisplay}. ` +
+      `Green Line Lawn Care: Thanks ${first}, we have your request. ` +
+      `You'll have a price back today. Questions in the meantime? Reply here or call ${SITE.phoneDisplay}. ` +
       `Reply STOP to opt out.`,
   });
 }
@@ -173,7 +181,7 @@ export async function notifyQuoteSent(lead: {
     template: "customer-quote",
     leadId: lead.id,
     body:
-      `Green Line Lawn Care: hi ${first}, your quote is $${lead.amount.toFixed(0)}. ` +
+      `Green Line Lawn Care: Hi ${first}, your quote is $${lead.amount.toFixed(0)}. ` +
       `Reply YES to get on the schedule, or reply with any questions. Reply STOP to opt out.`,
   });
 }
@@ -188,7 +196,7 @@ export async function notifyJobScheduled(job: {
     template: "customer-scheduled",
     jobId: job.id,
     body:
-      `Green Line Lawn Care: you're booked for ${laDate(job.startsAt)} at ${laTime(job.startsAt)}. ` +
+      `Green Line Lawn Care: You're booked for ${laDate(job.startsAt)} at ${laTime(job.startsAt)}. ` +
       `We'll text the morning of. Reply STOP to opt out.`,
   });
 }
@@ -202,7 +210,7 @@ export async function notifyReminder(job: {
     template: "customer-reminder",
     jobId: job.id,
     body:
-      `Green Line Lawn Care: reminder, we're scheduled at your property tomorrow, ` +
+      `Green Line Lawn Care: Reminder, we're scheduled at your property tomorrow, ` +
       `${laDate(job.startsAt)}, around ${laTime(job.startsAt)}. ` +
       `Please unlock gates and secure pets. Reply STOP to opt out.`,
   });
@@ -214,7 +222,7 @@ export async function notifyEnRoute(job: { id: string; phone: string; etaMin: nu
     audience: "customer",
     template: "customer-enroute",
     jobId: job.id,
-    body: `Green Line Lawn Care: on our way, about ${job.etaMin} minutes out. Reply STOP to opt out.`,
+    body: `Green Line Lawn Care: On our way, about ${job.etaMin} minutes out. Reply STOP to opt out.`,
   });
 }
 
@@ -225,7 +233,7 @@ export async function notifyCompleted(job: { id: string; phone: string }) {
     template: "customer-complete",
     jobId: job.id,
     body:
-      `Green Line Lawn Care: all done for today. Walks and drive are blown off. ` +
+      `Green Line Lawn Care: All done for today. Walks and drive are blown off. ` +
       `Anything you'd like handled differently next visit, just reply. Reply STOP to opt out.`,
   });
 }
@@ -237,7 +245,7 @@ export async function notifyReviewRequest(job: { id: string; phone: string; revi
     template: "customer-review",
     jobId: job.id,
     body:
-      `Green Line Lawn Care: hope the yard is looking good. If we did right by you, ` +
+      `Green Line Lawn Care: Hope the yard is looking good. If we did right by you, ` +
       `a quick Google review helps us a lot: ${job.reviewUrl} Reply STOP to opt out.`,
   });
 }
