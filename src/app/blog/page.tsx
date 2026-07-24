@@ -15,7 +15,7 @@ export default async function BlogIndex() {
   const posts = await getAllPosts();
 
   return (
-    <div className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(6.75rem,12vw,10rem)] md:px-8">
+    <div className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(6rem,10vw,8.5rem)] md:px-8">
       <h1 className="h2 max-w-[18ch]">Lawn care, explained plainly</h1>
       <p className="lead mt-4 max-w-[52ch] text-mute-l">
         What East Bay lawns actually need, month by month and problem by problem. No fluff, no

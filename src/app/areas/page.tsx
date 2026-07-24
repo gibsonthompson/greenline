@@ -21,7 +21,7 @@ const built = new Map(cityPages.map((c) => [c.name.toLowerCase(), c.slug]));
 
 export default function AreasPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(6.75rem,12vw,10rem)] md:px-8">
+    <div className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(6rem,10vw,8.5rem)] md:px-8">
       <h1 className="h2 max-w-[20ch]">Where we work</h1>
       <div className="mt-6 grid gap-10 md:grid-cols-2 md:items-start">
         <div className="max-w-[56ch] space-y-4">

@@ -14,7 +14,7 @@ export type ServiceContent = {
 
 export const serviceContent: Record<string, ServiceContent> = {
   mowing: {
-    lead: "A lawn that gets cut right, on a schedule that matches how the grass actually grows.",
+    lead: "A lawn that stays thick and green all season, cut on a schedule you never have to manage.",
     reviewId: "josiah-barbeau",
     siblings: ["edging-and-trimming", "weed-removal"],
     faqs: [
@@ -33,14 +33,14 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
     body: (
       <>
-        <h2>What a visit includes</h2>
+        <h2>What a Visit Includes</h2>
         <p>
           Every mowing visit is the full pass: the cut at the right height, string trimming along
           fences and beds, edging along walks and drives, and a blower pass so the hard surfaces
           are clean when we pull away. The mow is the fast part. The finish work is what makes it
           look maintained instead of just shorter.
         </p>
-        <h2>Why the height matters</h2>
+        <h2>Why the Height Matters</h2>
         <p>
           Most East Bay lawns are tall fescue, and tall fescue wants to be cut at three to three
           and a half inches. Cutting shorter to stretch the time between visits is the most common
@@ -55,14 +55,14 @@ export const serviceContent: Record<string, ServiceContent> = {
           mower blades sharp, because dull blades shred the grass tips and make a healthy lawn look
           brown. We sharpen ours on a schedule.
         </p>
-        <h2>Clean equipment is not a detail</h2>
+        <h2>Clean Equipment is not a Detail</h2>
         <p>
           One more thing from the water district worth knowing: bermuda grass spreads from house to
           house on gardeners' uncleaned mower decks. It is one of the hardest weeds to get back out
           of a fescue lawn once it is in. We clean our deck between properties. If your last crew
           did not, that may be where those wiry patches came from.
         </p>
-        <h2>Recurring or one-time</h2>
+        <h2>Recurring or One-time</h2>
         <p>
           Weekly and every-other-week clients get a fixed weekday and a lower per-visit rate.
           One-time cuts are welcome too, and if the lawn is badly overgrown we will quote it as a{" "}
@@ -74,7 +74,7 @@ export const serviceContent: Record<string, ServiceContent> = {
   },
 
   "edging-and-trimming": {
-    lead: "The clean line where the grass meets the concrete. It is the whole reason we are called Green Line.",
+    lead: "The crisp lines along your walks and driveway that make a property read as cared for.",
     reviewId: "chris-b",
     siblings: ["mowing", "weed-removal"],
     faqs: [
@@ -102,7 +102,7 @@ export const serviceContent: Record<string, ServiceContent> = {
           It is the first thing that goes when a crew is rushing, because it is the slowest part of
           the visit and the easiest to skip.
         </p>
-        <h2>What gets edged and trimmed</h2>
+        <h2>What Gets Edged and Trimmed</h2>
         <p>
           Walks, driveways, curb lines, and patio borders get a bladed edge. Fence lines, tree
           rings, bed borders, mailbox posts, and utility fixtures get string-trimmed to the same
@@ -110,7 +110,7 @@ export const serviceContent: Record<string, ServiceContent> = {
           Contra Costa Water District specifically recommends for keeping coverage even and the
           water bill honest.
         </p>
-        <h2>Beds hold their shape</h2>
+        <h2>Beds Hold Their Shape</h2>
         <p>
           A defined bed edge is also the cheapest weed control there is. When the line between
           turf and bed is maintained, grass cannot creep in and{" "}
@@ -122,7 +122,7 @@ export const serviceContent: Record<string, ServiceContent> = {
   },
 
   "yard-cleanup": {
-    lead: "Overgrown, storm-hit, or a few years behind. We bring it back and haul the evidence away.",
+    lead: "Hand back a yard that got away from you looking like someone has been keeping it all along.",
     reviewId: "operations-llc",
     siblings: ["weed-removal", "hedge-and-shrub"],
     faqs: [
@@ -141,14 +141,14 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
     body: (
       <>
-        <h2>What a cleanup covers</h2>
+        <h2>What a Cleanup Covers</h2>
         <p>
           Cutting down overgrowth, clearing weeds from beds and fence lines, cutting back shrubs
           that have gone shapeless, raking out accumulated leaf and debris layers, re-establishing
           the edges, and hauling everything off. The goal is a property that looks reset, not
           trimmed around the problem.
         </p>
-        <h2>Side yards and forgotten corners</h2>
+        <h2>Side Yards and Forgotten Corners</h2>
         <p>
           The jobs we see most are not front lawns. They are side yards, the strip between the
           house and the fence that nobody walks through, where weeds go chest-high in one wet
@@ -156,7 +156,7 @@ export const serviceContent: Record<string, ServiceContent> = {
           a single visit, and they stay back if you put them on a{" "}
           <Link href="/services/mowing">maintenance schedule</Link> afterward.
         </p>
-        <h2>Selling or renting</h2>
+        <h2>Selling or Renting</h2>
         <p>
           Curb appeal is the cheapest work you can do on a listing, and landlords between tenants
           need the yard turned around on a date, not a window. We work to deadlines and we send
@@ -167,7 +167,7 @@ export const serviceContent: Record<string, ServiceContent> = {
   },
 
   "weed-removal": {
-    lead: "Beds, cracks, fence lines, and the curb strip everyone forgets.",
+    lead: "Clean beds and clear fence lines, so the front of your house is never the one people notice.",
     reviewId: "geraldine-brown",
     siblings: ["yard-cleanup", "edging-and-trimming"],
     faqs: [
@@ -186,7 +186,7 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
     body: (
       <>
-        <h2>Where weeds actually live</h2>
+        <h2>Where Weeds Actually Live</h2>
         <p>
           Not the middle of the lawn. They live at the boundaries: bed edges, fence lines, sidewalk
           cracks, driveway seams, and the curb strip between the walk and the street that belongs
@@ -194,7 +194,7 @@ export const serviceContent: Record<string, ServiceContent> = {
           piece of your frontage from the street, which is why a weedy one drags down a property
           that is otherwise fine.
         </p>
-        <h2>Removal, honestly</h2>
+        <h2>Removal, Honestly</h2>
         <p>
           We clear beds and lines mechanically and get roots where the species allows. What we will
           not do is promise a one-time visit makes weeds permanent history, because it does not.
@@ -208,7 +208,7 @@ export const serviceContent: Record<string, ServiceContent> = {
   },
 
   "hedge-and-shrub": {
-    lead: "Shaped so they read as intentional instead of neglected.",
+    lead: "Shaped so your yard looks designed instead of overgrown, and stays that way between visits.",
     reviewId: "geraldine-brown",
     siblings: ["yard-cleanup", "mowing"],
     faqs: [
@@ -227,7 +227,7 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
     body: (
       <>
-        <h2>Shape is a maintenance product</h2>
+        <h2>Shape is a Maintenance Product</h2>
         <p>
           A hedge holds its shape the way a lawn holds its edge: through regular, moderate work.
           Most common hedge species carry their foliage in a thin outer shell over bare wood, so
@@ -235,7 +235,7 @@ export const serviceContent: Record<string, ServiceContent> = {
           and the line stays crisp. Left for a year and then sheared hard, the cut goes past the
           shell into bare interior, and the hedge looks worse than before it was touched.
         </p>
-        <h2>Timing by plant, not by truck schedule</h2>
+        <h2>Timing by Plant, not by Truck Schedule</h2>
         <p>
           We trim to the plant. Spring-flowering shrubs get shaped after they bloom so next year's
           flowers are not cut off. Fast hedges get more passes, slow ones fewer. If a shrub is the
@@ -247,7 +247,7 @@ export const serviceContent: Record<string, ServiceContent> = {
   },
 
   "gutter-cleaning": {
-    lead: "Cleared and flushed before the rains, with the ground left clean before we go.",
+    lead: "Cleared before the winter rains so water runs off your roof instead of down your siding.",
     reviewId: "salvador-moreno",
     siblings: ["yard-cleanup", "commercial-maintenance"],
     faqs: [
@@ -266,14 +266,14 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
     body: (
       <>
-        <h2>Why this is a lawn care company's job</h2>
+        <h2>Why This is a Lawn Care Company's Job</h2>
         <p>
           Because the failure shows up in the landscape. An overflowing gutter carves out bed
           mulch, drowns the plants under the drip line, and dumps a winter's worth of roof grit
           into the lawn edge. Keeping the gutters clear is part of keeping the ground under them
           maintained, and we are already there.
         </p>
-        <h2>What the visit includes</h2>
+        <h2>What the Visit Includes</h2>
         <p>
           Every run scooped clean by hand, every downspout flushed with water and confirmed
           flowing, debris bucketed down rather than flicked over the side, and the ground beneath
@@ -285,7 +285,7 @@ export const serviceContent: Record<string, ServiceContent> = {
   },
 
   "commercial-maintenance": {
-    lead: "Storefronts, sign islands, and parking strips on a schedule you can count on.",
+    lead: "A frontage that tells customers you are open and you care, kept on a schedule you never police.",
     reviewId: "operations-llc",
     siblings: ["mowing", "yard-cleanup"],
     faqs: [
@@ -304,7 +304,7 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
     body: (
       <>
-        <h2>The sign island problem</h2>
+        <h2>The Sign Island Problem</h2>
         <p>
           Every commercial corridor has them: the little planted island under the road sign, the
           strip between the parking lot and the sidewalk, the frontage nobody owns day to day.
@@ -312,7 +312,7 @@ export const serviceContent: Record<string, ServiceContent> = {
           the jobs in <Link href="/work">our gallery</Link> is exactly this: a sign island on a
           busy corner, overgrown and littered, brought back to clean cut grass in one visit.
         </p>
-        <h2>Scheduled, not summoned</h2>
+        <h2>Scheduled, not Summoned</h2>
         <p>
           Commercial upkeep works when it is on a calendar. We set a cadence, show up on the day,
           and the property never gets the chance to slip. For property managers, that is one line
@@ -323,7 +323,7 @@ export const serviceContent: Record<string, ServiceContent> = {
   },
 
   "mulch-and-plantings": {
-    lead: "Fresh mulch, stone, and new plants for beds that have gone bare or thin.",
+    lead: "Fresh mulch, stone, and planting that makes tired beds look finished for the whole season.",
     reviewId: "geraldine-brown",
     siblings: ["weed-removal", "hedge-and-shrub"],
     faqs: [

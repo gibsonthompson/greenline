@@ -113,21 +113,19 @@ body {
 .btn-ol:hover { border-color: var(--color-green); color: var(--color-green); }
 
 /* ---- Header: transparent over the hero, solid on scroll ---- */
-.gl-util {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 80;
-  background: rgba(17,26,19,.55); color: var(--color-paper); font-size: .85rem;
-  transition: opacity .25s, transform .25s;
-}
-body.scrolled .gl-util { opacity: 0; transform: translateY(-100%); pointer-events: none; }
-
 .gl-header {
-  position: fixed; top: 40px; left: 0; right: 0; z-index: 90;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 90;
   background: transparent;
   border-bottom: 1px solid rgba(247,247,243,.14);
   transition: background-color .28s, top .28s, border-color .28s, box-shadow .28s;
 }
+.gl-header-solid {
+  background: rgba(9,32,14,.98);
+  border-bottom-color: var(--color-lime);
+}
+.gl-header-solid .gl-navlink { text-shadow: none; }
+
 body.scrolled .gl-header {
-  top: 0;
   background: rgba(9,32,14,.96);
   backdrop-filter: blur(12px);
   border-bottom-color: var(--color-lime);
@@ -308,10 +306,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, [role="slider"]:fo
   body.scrolled .gl-nav { height: 58px; }
   .gl-logo { height: 42px; }
   body.scrolled .gl-logo { height: 38px; }
-  .gl-header { top: 34px; }
 
-  .gl-util { font-size: .82rem; }          /* 12px was below the readable floor */
-  .gl-util a { display: inline-block; min-height: 44px; line-height: 44px; }
 }
 
 @media (max-width: 760px) {
@@ -346,9 +341,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible, [role="slider"]:fo
   /* Checkboxes and radios need to be thumb-sized, not text-sized */
   input[type="checkbox"], input[type="radio"] { width: 28px; height: 28px; flex: none; }
   label:has(input[type="checkbox"]) { min-height: 44px; padding-block: .4rem; }
-  /* A phone number is the highest-intent tap on the page. Never let one
-     render as a bare inline link on a phone. */
-  a[href^="tel:"] { display: inline-flex; align-items: center; min-height: 44px; }
+  /* Standalone phone links get a thumb-sized target. Scoped with .tap on
+     purpose: a blanket a[href^="tel:"] rule turns inline links into flex
+     boxes and pushes the punctuation after them onto its own line. */
+  a[href^="tel:"].tap,
+  .btn[href^="tel:"] { display: inline-flex; align-items: center; min-height: 44px; }
 
   .field { min-height: 52px; font-size: 16px; }  /* 16px stops iOS zoom-on-focus */
 

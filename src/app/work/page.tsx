@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function WorkPage() {
   return (
-    <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-16 pt-[clamp(6.75rem,12vw,10rem)]">
+    <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-16 pt-[clamp(6rem,10vw,8.5rem)]">
       <div className="rule" />
       <div className="kicker">Our Work</div>
       <h1 className="h1 mt-2 max-w-[16ch]">Before And After</h1>

@@ -10,7 +10,7 @@ export default function SmsTermsPage() {
   return (
     <article>
       <header className="dark">
-        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-10 pt-[clamp(7rem,13vw,10.5rem)]">
+        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-10 pt-[clamp(6rem,10vw,8.5rem)]">
           <div className="rule" />
           <div className="kicker">Legal</div>
           <h1 className="h1 mt-2 max-w-[18ch] text-white">SMS Terms And Conditions</h1>

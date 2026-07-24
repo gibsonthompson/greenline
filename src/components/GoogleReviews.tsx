@@ -27,25 +27,38 @@ export default function GoogleReviews({ limit }: { limit?: number }) {
 
   return (
     <>
-      <div className="mb-6 flex flex-wrap items-center gap-4 rounded-md border border-line bg-white p-5 shadow-[0_1px_2px_rgba(17,26,19,.06)]">
-        <GoogleMark size={28} />
-        <div>
-          <div className="h4 text-[0.94rem]">Google Reviews</div>
-          <div className="t-sm text-mute-l">Green Line Lawn Care LLC</div>
-        </div>
-        <div className="ml-auto flex items-center gap-3">
-          <div
-            className="font-[family-name:var(--font-display)] text-[2.5rem] leading-none"
-            style={{ fontVariationSettings: '"wdth" 92, "wght" 800' }}
-          >
-            5.0
+      {/* Summary card. Stacks into three clean rows on a phone; the score
+          block used ml-auto before, which flung it to the right on its own
+          line as soon as the row wrapped. */}
+      <div className="mb-6 rounded-md border border-line bg-white p-5 shadow-[0_1px_2px_rgba(17,26,19,.06)]">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <GoogleMark size={30} />
+            <div>
+              <div className="h4 text-[0.98rem] leading-tight">Google Reviews</div>
+              <div className="t-sm text-mute-l">Green Line Lawn Care LLC</div>
+            </div>
           </div>
-          <div>
-            <Stars />
-            <div className="t-sm text-mute-l">Rated 5.0 out of 5</div>
+
+          <div className="flex items-center gap-3 sm:justify-end">
+            <div
+              className="font-[family-name:var(--font-display)] text-[2.4rem] leading-none"
+              style={{ fontVariationSettings: '"wdth" 92, "wght" 800' }}
+            >
+              5.0
+            </div>
+            <div>
+              <Stars />
+              <div className="t-sm text-mute-l">Rated 5.0 out of 5</div>
+            </div>
           </div>
         </div>
-        <a href={reviewLink()} rel="noopener" className="btn btn-p min-h-[44px] text-[0.92rem]">
+
+        <a
+          href={reviewLink()}
+          rel="noopener"
+          className="btn btn-p mt-4 w-full text-[0.95rem] sm:mt-5"
+        >
           Read All Reviews
         </a>
       </div>

@@ -67,7 +67,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       {/* Dark banner clears the fixed header and gives the page a real top */}
       <header className="dark relative overflow-hidden">
         <Image src={s.photo} alt="" fill sizes="100vw" className="object-cover opacity-25" />
-        <div className="relative mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-12 pt-[clamp(7rem,13vw,10.5rem)]">
+        <div className="relative mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-12 pt-[clamp(6rem,10vw,8.5rem)]">
           <nav aria-label="Breadcrumb" className="t-sm text-mute-d">
             <Link href="/services" className="text-lime-br hover:underline hover:underline-offset-4">Services</Link>
             <span className="px-2" aria-hidden="true">/</span>

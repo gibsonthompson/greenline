@@ -17,7 +17,7 @@ export default function EstimatePage() {
           utility here: it overrides the pt- clamp at that breakpoint and the
           heading slides back under the nav. */}
       <header className="dark">
-        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-12 pt-[clamp(7rem,13vw,10.5rem)]">
+        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-12 pt-[clamp(6rem,10vw,8.5rem)]">
           <div className="rule" />
           <div className="kicker">Free Estimate</div>
           <h1 className="h1 mt-2 max-w-[18ch] text-white">Get Your Price Today</h1>
@@ -60,11 +60,13 @@ export default function EstimatePage() {
           </div>
 
           <p className="mx-auto mt-6 max-w-2xl text-center text-[0.92rem] text-mute-l">
-            Would rather talk it through? Call or text{" "}
-            <a href={`tel:${SITE.phoneE164}`} className="font-bold text-green">
+            {/* Phone link sits at the END of the sentence on purpose, so no
+                punctuation trails it and gets pushed to its own line. */}
+            Would you rather talk it through? We answer {SITE.hours.days},{" "}
+            {SITE.hours.open} to {SITE.hours.close}. Call or text{" "}
+            <a href={`tel:${SITE.phoneE164}`} className="tap font-bold text-green">
               {SITE.phoneDisplay}
             </a>
-            , {SITE.hours.days}, {SITE.hours.open} to {SITE.hours.close}.
           </p>
         </div>
       </div>

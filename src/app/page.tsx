@@ -53,7 +53,7 @@ export default function Home() {
           className="object-cover object-[50%_64%]"
         />
         <div className="hero-veil" aria-hidden="true" />
-        <div className={`relative w-full ${WRAP} pb-[clamp(3rem,5vw,4.5rem)] pt-[clamp(8rem,13vw,10rem)]`}>
+        <div className={`relative w-full ${WRAP} pb-[clamp(3rem,5vw,4.5rem)] pt-[clamp(6rem,10vw,8.5rem)]`}>
           <h1 className="h1 max-w-[17ch] text-white">The Best-Looking Yard On Your Street</h1>
           <p className="lead mt-5 max-w-[52ch] text-white/95">
             Professional lawn care across the East Bay on a schedule you never have to manage.
@@ -63,11 +63,11 @@ export default function Home() {
             <Link href="/estimate" className="btn btn-l">Get My Free Estimate</Link>
             <a href={`tel:${SITE.phoneE164}`} className="btn btn-o">Call {SITE.phoneDisplay}</a>
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.92rem] text-[#d8e2d4]">
-            <span className="inline-flex items-center gap-2"><span className="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 On Google</span>
-            <span className="inline-flex items-center gap-2"><Check /> Owner-Operated</span>
+          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-2 text-[0.95rem] text-[#d8e2d4]">
+            <span className="inline-flex items-center gap-2">
+              <span className="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 On Google
+            </span>
             <span className="inline-flex items-center gap-2"><Check /> Licensed And Insured</span>
-            <span className="inline-flex items-center gap-2"><Check /> No Contracts</span>
           </div>
         </div>
       </section>

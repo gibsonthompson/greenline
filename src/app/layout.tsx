@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import UtilityBar from "@/components/UtilityBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SITE } from "@/data/site";
@@ -77,7 +76,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a href="#main" className="skip-link">Skip to content</a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema()) }} />
-        <UtilityBar />
         <Header />
         <main id="main">{children}</main>
         <Footer />
