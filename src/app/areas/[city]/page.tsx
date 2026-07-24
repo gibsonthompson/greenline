@@ -39,7 +39,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   };
 
   return (
-    <article className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(8rem,12vw,10rem)] md:px-8">
+    <article className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(6.75rem,12vw,10rem)] md:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

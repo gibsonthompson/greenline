@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <article>
       <header className="dark">
-        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-14 pt-[clamp(8.5rem,13vw,10.5rem)]">
+        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-14 pt-[clamp(7rem,13vw,10.5rem)]">
           <div className="rule" />
           <div className="kicker">Page Not Found</div>
           <h1 className="h1 mt-2 max-w-[16ch] text-white">That Page Is Not Here</h1>

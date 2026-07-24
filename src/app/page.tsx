@@ -123,7 +123,7 @@ export default function Home() {
             <p className="text-mute-l">
               Also available: hedge and shrub trimming, and grounds upkeep for commercial properties.
             </p>
-            <Link href="/services" className="ml-auto font-bold text-green">View All Services &rarr;</Link>
+            <Link href="/services" className="tap ml-auto font-bold text-green">View All Services &rarr;</Link>
           </div>
         </div>
       </section>

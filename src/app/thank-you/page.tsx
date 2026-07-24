@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ThankYouPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 pb-24 pt-[clamp(8rem,12vw,10rem)] md:px-8">
+    <div className="mx-auto max-w-6xl px-5 pb-24 pt-[clamp(6.75rem,12vw,10rem)] md:px-8">
       <div className="max-w-[52ch]">
         <div aria-hidden="true" className="rule w-24" />
         <h1 className="h2 mt-6">Estimate request sent</h1>

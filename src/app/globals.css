@@ -295,3 +295,80 @@ a:focus-visible, button:focus-visible, summary:focus-visible, [role="slider"]:fo
 
 /* Every page below the header needs to clear it, since the header is fixed. */
 .page-top { padding-top: clamp(8rem, 12vw, 10rem); }
+
+/* ============================================================
+   MOBILE
+   Verified with Playwright at 375, 390, and 412px.
+   ============================================================ */
+
+@media (max-width: 900px) {
+  /* Header was a flat 88px on every screen, so the utility bar plus nav
+     came to 129px and clipped the h1 on pages padded to 128px. */
+  .gl-nav { height: 64px; }
+  body.scrolled .gl-nav { height: 58px; }
+  .gl-logo { height: 42px; }
+  body.scrolled .gl-logo { height: 38px; }
+  .gl-header { top: 34px; }
+
+  .gl-util { font-size: .82rem; }          /* 12px was below the readable floor */
+  .gl-util a { display: inline-block; min-height: 44px; line-height: 44px; }
+}
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+
+  /* Navigation-style links were 16 to 20px tall, well under any thumb.
+     Inline links inside prose are deliberately excluded: padding them out
+     would wreck the line rhythm, and WCAG exempts links set in a sentence. */
+  /* Every list-style navigation link gets a thumb-sized row. Inline links
+     inside sentences are deliberately excluded: padding them out wrecks the
+     line rhythm, and WCAG 2.5.8 exempts links set within a block of text. */
+  footer ul li a,
+  .f-bot a,
+  footer p a,
+  .cities a,
+  nav[aria-label="Breadcrumb"] a,
+  aside ul li a,
+  .city-list a,
+  .faq summary {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  footer ul { gap: 0; }
+
+  /* Standalone calls to action that sit outside a list */
+  a.tap { display: inline-flex; align-items: center; min-height: 44px; }
+
+  /* Header logo link */
+  .gl-nav > a:first-child { display: flex; align-items: center; min-height: 44px; }
+
+  /* Checkboxes and radios need to be thumb-sized, not text-sized */
+  input[type="checkbox"], input[type="radio"] { width: 28px; height: 28px; flex: none; }
+  label:has(input[type="checkbox"]) { min-height: 44px; padding-block: .4rem; }
+  /* A phone number is the highest-intent tap on the page. Never let one
+     render as a bare inline link on a phone. */
+  a[href^="tel:"] { display: inline-flex; align-items: center; min-height: 44px; }
+
+  .field { min-height: 52px; font-size: 16px; }  /* 16px stops iOS zoom-on-focus */
+
+  .btn { width: 100%; }
+  .btn-inline { width: auto; }
+
+  /* The wipe slider needs a bigger grip and no page-scroll hijack */
+  .wipe-grip { width: 52px; height: 52px; }
+  .wipe { max-width: 100%; }
+
+  /* Long unbroken strings (emails, URLs) must not force sideways scroll */
+  .prose-gl a, footer a, .gcard blockquote { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 420px) {
+  .h1 { font-size: clamp(2.1rem, 9vw, 2.6rem); }
+  .h2 { font-size: clamp(1.6rem, 7vw, 2rem); }
+  .gsum { flex-direction: column; align-items: flex-start; }
+  .gsum .btn { width: 100%; }
+}
+
+/* Anything inside a fixed-position bar keeps its own sizing */
+.gl-header .btn { width: auto; }

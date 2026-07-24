@@ -13,7 +13,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#08240E] text-paper">
-      <div className="mx-auto grid max-w-[1340px] gap-8 px-[clamp(1.1rem,4.2vw,4rem)] py-[clamp(3rem,5vw,4.2rem)] sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.15fr]">
+      <div className="mx-auto grid max-w-[1340px] gap-8 px-[clamp(1.1rem,4.2vw,4rem)] py-[clamp(3rem,5vw,4.2rem)] sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.1fr]">
         <div>
           <Image src="/brand/logo.png" alt="Green Line Lawn Care" width={644} height={366} className="h-[58px] w-auto" />
           <p className="mt-4 max-w-[36ch] text-[0.93rem] text-[#b6c4b2]">
@@ -33,6 +33,25 @@ export default function Footer() {
               <li key={s.slug}>
                 <Link href={`/services/${s.slug}`} className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">
                   {s.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="h4 mb-3 text-lime-br">Company</h2>
+          <ul className="flex flex-col gap-2">
+            {[
+              ["Our Work", "/work"],
+              ["Reviews", "/reviews"],
+              ["About Us", "/about"],
+              ["Blog", "/blog"],
+              ["Free Estimate", "/estimate"],
+            ].map(([label, href]) => (
+              <li key={href}>
+                <Link href={href} className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">
+                  {label}
                 </Link>
               </li>
             ))}
@@ -90,6 +109,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-[1340px] flex-wrap items-center justify-between gap-4 px-[clamp(1.1rem,4.2vw,4rem)] py-5 text-[0.85rem] text-[#8fa08c]">
           <p>&copy; {new Date().getFullYear()} {SITE.name}. All Rights Reserved.</p>
           <p className="flex gap-6">
+            <Link href="/blog" className="hover:text-lime-br">Blog</Link>
             <Link href="/privacy" className="hover:text-lime-br">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-lime-br">Terms Of Service</Link>
             <Link href="/sms-terms" className="hover:text-lime-br">SMS Terms</Link>

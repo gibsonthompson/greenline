@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-16 pt-[clamp(8rem,12vw,10rem)]">
+    <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-16 pt-[clamp(6.75rem,12vw,10rem)]">
       <div className="rule" />
       <div className="kicker">Services</div>
       <h1 className="h1 mt-2 max-w-[20ch]">Complete Lawn And Property Care</h1>
