@@ -40,12 +40,8 @@ export default function Header() {
 
   if (pathname?.startsWith("/admin")) return null;
 
-  // Only the homepage has a dark hero behind the header. On every other
-  // page the header must paint its own background immediately.
-  const overHero = pathname === "/";
-
   return (
-    <header className={`gl-header${overHero ? "" : " gl-header-solid"}`}>
+    <header className="gl-header">
       <div className="gl-nav mx-auto flex max-w-[1340px] items-center justify-between gap-6 px-[clamp(1.1rem,4.2vw,4rem)]">
         <Link href="/" aria-label="Green Line Lawn Care, home" onClick={() => setOpen(false)}>
           <Image src="/brand/logo.png" alt="Green Line Lawn Care" width={644} height={366} priority className="gl-logo" />

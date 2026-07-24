@@ -112,23 +112,16 @@ body {
 .btn-ol { border-color: var(--color-ink); color: var(--color-ink); }
 .btn-ol:hover { border-color: var(--color-green); color: var(--color-green); }
 
-/* ---- Header: transparent over the hero, solid on scroll ---- */
+/* ---- Header: solid black on every page, matching the logo field ---- */
 .gl-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 90;
-  background: transparent;
-  border-bottom: 1px solid rgba(247,247,243,.14);
-  transition: background-color .28s, top .28s, border-color .28s, box-shadow .28s;
+  background: #010101;                 /* the logo's own field colour */
+  border-bottom: 1px solid var(--color-lime);
+  transition: height .28s, box-shadow .28s;
 }
-.gl-header-solid {
-  background: #010101;
-  border-bottom-color: var(--color-lime);
-}
-.gl-header-solid .gl-navlink { text-shadow: none; }
 
 body.scrolled .gl-header {
-  background: rgba(1,1,1,.97);
-  backdrop-filter: blur(12px);
-  border-bottom-color: var(--color-lime);
+  background: #010101;
   box-shadow: 0 6px 24px rgba(0,0,0,.28);
 }
 .gl-nav { height: 88px; transition: height .28s; }
@@ -138,9 +131,7 @@ body.scrolled .gl-logo { height: 44px; }
 .gl-navlink {
   color: #fff; text-decoration: none; font-weight: 600; font-size: .95rem;
   padding-block: .35rem; border-bottom: 2px solid transparent;
-  text-shadow: 0 1px 3px rgba(0,0,0,.4);
 }
-body.scrolled .gl-navlink { text-shadow: none; }
 .gl-navlink:hover { border-bottom-color: var(--color-lime); }
 
 /* ---- Hero ---- */
@@ -148,7 +139,6 @@ body.scrolled .gl-navlink { text-shadow: none; }
   position: absolute; inset: 0;
   background:
     linear-gradient(92deg, rgba(8,30,13,.94) 0%, rgba(8,30,13,.84) 34%, rgba(8,30,13,.48) 63%, rgba(8,30,13,.16) 88%),
-    linear-gradient(to bottom, rgba(8,30,13,.72) 0%, rgba(8,30,13,0) 24%),
     linear-gradient(to top, rgba(8,30,13,.8), rgba(8,30,13,0) 42%);
 }
 .stars { color: var(--color-gold); letter-spacing: .1em; }
