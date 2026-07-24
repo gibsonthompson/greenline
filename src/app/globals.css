@@ -242,3 +242,56 @@ a:focus-visible, button:focus-visible, summary:focus-visible, [role="slider"]:fo
 }
 .skip-link { position: absolute; left: -9999px; top: 0; background: var(--color-ink); color: #fff; padding: .75rem 1.25rem; z-index: 100; }
 .skip-link:focus { left: 0; }
+
+/* ============================================================
+   LEGACY TOKEN COMPATIBILITY
+   The redesign renamed the whole palette. Twenty-five files still
+   reference the old names (estimate form, areas, blog, legal pages,
+   admin). Rather than risk a mass find-and-replace across all of
+   them, these aliases map every retired name onto the CURRENT
+   palette, so those pages pick up the new design automatically
+   instead of rendering unstyled.
+   Safe to delete once every file has been migrated by hand.
+   ============================================================ */
+
+@theme {
+  --color-concrete-00: #ffffff;
+  --color-concrete-10: #f7f7f3;
+  --color-concrete-20: #edeee7;
+  --color-concrete-30: #d8dacf;
+  --color-field: #0b3d18;
+  --color-turf: #8aaf17;
+  --color-turf-ink: #216413;
+  --color-turf-fill: #216413;
+  --color-olive: #54604f;
+  --color-ink-60: #54604f;
+}
+
+.t-display-xl { font-family: var(--font-display); font-variation-settings: "wdth" 88, "wght" 800; font-size: clamp(2.55rem,5.4vw,4.35rem); line-height: 1; letter-spacing: -.012em; }
+.t-display-lg { font-family: var(--font-display); font-variation-settings: "wdth" 88, "wght" 800; font-size: clamp(1.85rem,3.2vw,2.75rem); line-height: 1.03; letter-spacing: -.012em; }
+.t-display-md { font-family: var(--font-display); font-variation-settings: "wdth" 90, "wght" 780; font-size: clamp(1.5rem,2.4vw,2rem); line-height: 1.06; }
+.t-display-sm { font-family: var(--font-display); font-variation-settings: "wdth" 92, "wght" 750; font-size: clamp(1.18rem,1.75vw,1.45rem); line-height: 1.15; }
+.t-body-lg { font-size: clamp(1.02rem,1.25vw,1.16rem); line-height: 1.6; }
+.t-body-sm { font-size: .92rem; line-height: 1.6; }
+.t-label { font-family: var(--font-display); font-variation-settings: "wdth" 96, "wght" 700; font-size: .7rem; letter-spacing: .17em; text-transform: uppercase; }
+.t-data { font-size: 1rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.btn-ghost-light { background: transparent; border-color: var(--color-ink); color: var(--color-ink); }
+.btn-ghost-light:hover { border-color: var(--color-green); color: var(--color-green); }
+.btn-ghost-dark { background: transparent; border-color: rgba(247,247,243,.5); color: #fff; }
+.btn-ghost-dark:hover { border-color: var(--color-lime); color: var(--color-lime-br); }
+.btn-fill { background: var(--color-green); color: #fff; }
+.btn-fill:hover { background: var(--color-green-h); }
+
+.line-h { height: 3px; background: var(--color-lime); border: none; }
+.line-v { width: 3px; background: var(--color-lime); }
+
+.measure { max-width: 68ch; }
+.measure-narrow { max-width: 46ch; }
+.svc-row { display: block; border-bottom: 1px solid var(--color-line); padding: 1.5rem 0; text-decoration: none; color: inherit; }
+.svc-row:hover { background: #fff; }
+.on-dark { color: var(--color-paper); }
+.rise { animation: none; }
+
+/* Every page below the header needs to clear it, since the header is fixed. */
+.page-top { padding-top: clamp(8rem, 12vw, 10rem); }

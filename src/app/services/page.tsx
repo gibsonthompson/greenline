@@ -22,16 +22,22 @@ export default function ServicesPage() {
         Every visit ends with the edges cut and the walks blown clean.
       </p>
 
-      <div className="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => (
-          <Link key={s.slug} href={`/services/${s.slug}`} className={`flex flex-col bg-paper transition-colors hover:bg-white ${s.feature ? "lg:col-span-2" : ""}`}>
-            <div className={`relative overflow-hidden bg-forest-2 ${s.feature ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
-              <Image src={s.photo} alt={s.name} fill sizes="(min-width:1080px) 50vw, 100vw" className="object-cover saturate-[1.06]" />
+          <Link
+            key={s.slug}
+            href={`/services/${s.slug}`}
+            className="group flex flex-col border border-line bg-white transition-shadow hover:shadow-[0_6px_28px_rgba(17,26,19,.10)]"
+          >
+            <div className="relative aspect-[4/3] overflow-hidden bg-forest-2">
+              <Image src={s.photo} alt={s.name} fill sizes="(min-width:1080px) 33vw, (min-width:640px) 50vw, 100vw" className="object-cover saturate-[1.06]" />
             </div>
-            <div className="flex flex-1 flex-col gap-2 px-5 pb-6 pt-5">
-              <div className="h3">{s.name}</div>
-              <p className="text-[0.92rem] text-mute-l">{s.short}</p>
-              <span className="mt-auto pt-3 text-[0.88rem] font-bold text-green">See Details &rarr;</span>
+            <div className="flex flex-1 flex-col gap-2 p-6">
+              <h2 className="h3">{s.name}</h2>
+              <p className="text-[0.94rem] text-mute-l">{s.short}</p>
+              <span className="mt-auto pt-4 text-[0.9rem] font-bold text-green">
+                See Details <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+              </span>
             </div>
           </Link>
         ))}

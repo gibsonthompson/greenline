@@ -11,16 +11,12 @@ export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const s = getService(slug);
   if (!s) return {};
   return {
-    title: s.metaTitle.replace(" | Green Line Lawn Care", "").replace(" | Green Line", ""),
+    title: s.metaTitle,
     description: s.metaDescription,
     alternates: { canonical: `/services/${s.slug}` },
   };
@@ -33,9 +29,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   if (!s || !content) notFound();
 
   const review = reviews.find((r) => r.id === content.reviewId);
-  const siblings = content.siblings
-    .map((sl) => getService(sl))
-    .filter((x): x is NonNullable<typeof x> => Boolean(x));
+  const siblings = content.siblings.map(getService).filter((x): x is NonNullable<typeof x> => Boolean(x));
 
   const schema = [
     {
@@ -68,40 +62,38 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
   return (
     <article>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
-      <div className="mx-auto max-w-6xl px-5 pt-14 md:px-8">
-        <nav aria-label="Breadcrumb" className="t-body-sm text-ink-60">
-          <Link href="/services" className="text-turf-ink underline underline-offset-2">
-            Services
-          </Link>{" "}
-          / {s.name}
-        </nav>
-        <h1 className="t-display-lg mt-3 max-w-[20ch]">{s.name}</h1>
-        <p className="t-body-lg mt-4 max-w-[52ch] text-ink-60">{content.lead}</p>
-      </div>
+      {/* Dark banner clears the fixed header and gives the page a real top */}
+      <header className="dark relative overflow-hidden">
+        <Image src={s.photo} alt="" fill sizes="100vw" className="object-cover opacity-25" />
+        <div className="relative mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-12 pt-[clamp(8.5rem,13vw,10.5rem)]">
+          <nav aria-label="Breadcrumb" className="t-sm text-mute-d">
+            <Link href="/services" className="text-lime-br hover:underline hover:underline-offset-4">Services</Link>
+            <span className="px-2" aria-hidden="true">/</span>
+            <span>{s.name}</span>
+          </nav>
+          <div className="rule mt-4" />
+          <h1 className="h1 mt-2 max-w-[20ch] text-white">{s.name}</h1>
+          <p className="lead mt-4 max-w-[54ch] text-white/90">{content.lead}</p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link href="/estimate" className="btn btn-l">Get My Free Estimate</Link>
+            <a href={`tel:${SITE.phoneE164}`} className="btn btn-o">Call {SITE.phoneDisplay}</a>
+          </div>
+        </div>
+      </header>
 
-      <div className="mx-auto mt-10 max-w-6xl px-5 md:px-8">
-        <div className="relative aspect-[16/9] max-h-[480px] w-full overflow-hidden rounded-md bg-field">
-          <Image
-            src={s.photo}
-            alt={s.name}
-            fill
-            priority
-            sizes="(min-width: 1152px) 1088px, 100vw"
-            className="object-cover"
-          />
+      <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] py-12">
+        <div className="relative aspect-[16/9] max-h-[460px] w-full overflow-hidden bg-forest-2">
+          <Image src={s.photo} alt={s.name} fill priority sizes="(min-width:1400px) 1300px, 100vw" className="object-cover" />
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl gap-16 px-5 py-14 md:grid md:grid-cols-[minmax(0,1fr)_300px] md:px-8">
+      <div className="mx-auto max-w-[1340px] gap-14 px-[clamp(1.1rem,4.2vw,4rem)] pb-16 lg:grid lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="prose-gl">
           {content.body}
           <hr />
-          <h2>Common questions</h2>
+          <h2>Common Questions</h2>
           {content.faqs.map((f) => (
             <div key={f.q}>
               <h3>{f.q}</h3>
@@ -110,42 +102,40 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
 
-        <aside className="mt-12 md:mt-0">
+        <aside className="mt-12 lg:mt-0">
           {review && (
-            <figure className="border-l-[3px] border-turf pl-5">
-              <blockquote className="text-[1.05rem]">&ldquo;{review.body}&rdquo;</blockquote>
-              <figcaption className="mt-3 text-[0.9rem] text-ink-60">
-                <span className="font-semibold text-ink">{review.author}</span> on Google
+            <figure className="border-l-[3px] border-lime bg-paper-2 p-5">
+              <div className="stars mb-2" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <blockquote className="text-[1rem] leading-relaxed">&ldquo;{review.body}&rdquo;</blockquote>
+              <figcaption className="mt-3 text-[0.9rem] text-mute-l">
+                <span className="font-bold text-ink">{review.author}</span> on Google
               </figcaption>
             </figure>
           )}
-          <div className="mt-10 bg-concrete-00 p-6">
-            <h2 className="t-display-sm">Get a price today</h2>
-            <p className="mt-2 text-[0.95rem] text-ink-60">
-              Send a few photos and Jaydin will come back with a number, usually the same day.
+
+          <div className="mt-8 border border-line bg-white p-6">
+            <h2 className="h3">Get A Price Today</h2>
+            <p className="mt-2 text-[0.94rem] text-mute-l">
+              Send a few photos and your written quote comes back the same day. No cost, no obligation.
             </p>
-            <Link href="/estimate" className="btn btn-fill mt-4 w-full">
-              Start your free estimate
-            </Link>
-            <a href={`tel:${SITE.phoneE164}`} className="btn btn-ghost-light mt-3 w-full">
-              Call {SITE.phoneDisplay}
-            </a>
+            <Link href="/estimate" className="btn btn-p mt-4 w-full">Get My Free Estimate</Link>
+            <a href={`tel:${SITE.phoneE164}`} className="btn btn-ol mt-3 w-full">Call {SITE.phoneDisplay}</a>
           </div>
-          <div className="mt-10">
-            <h2 className="t-label text-ink-60">Related</h2>
-            <ul className="mt-3 space-y-2">
-              {siblings.map((sib) => (
-                <li key={sib.slug}>
-                  <Link
-                    href={`/services/${sib.slug}`}
-                    className="font-medium text-turf-ink underline decoration-2 underline-offset-4"
-                  >
-                    {sib.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+
+          {siblings.length > 0 && (
+            <div className="mt-8">
+              <h2 className="kicker">Related Services</h2>
+              <ul className="mt-3 flex flex-col gap-2">
+                {siblings.map((sib) => (
+                  <li key={sib.slug}>
+                    <Link href={`/services/${sib.slug}`} className="font-semibold text-green hover:underline hover:underline-offset-4">
+                      {sib.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </aside>
       </div>
     </article>
