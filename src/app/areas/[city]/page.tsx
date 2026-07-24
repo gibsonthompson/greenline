@@ -18,7 +18,7 @@ export async function generateMetadata({
   const c = getCityPage(city);
   if (!c) return {};
   return {
-    title: `Lawn Care in ${c.name}`,
+    title: `Lawn Care In ${c.name}`,
     description: `${c.intro} Free same-day estimates from an owner-operated East Bay crew.`,
     alternates: { canonical: `/areas/${c.slug}` },
   };
@@ -33,7 +33,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Service areas", item: `${SITE.url}/areas` },
+      { "@type": "ListItem", position: 1, name: "Service Areas", item: `${SITE.url}/areas` },
       { "@type": "ListItem", position: 2, name: c.name, item: `${SITE.url}/areas/${c.slug}` },
     ],
   };
@@ -46,16 +46,16 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
       />
       <nav aria-label="Breadcrumb" className="t-sm text-mute-l">
         <Link href="/areas" className="text-green underline underline-offset-2">
-          Service areas
+          Service Areas
         </Link>{" "}
         / {c.name}
       </nav>
-      <h1 className="h2 mt-3 max-w-[20ch]">Lawn care in {c.name}</h1>
+      <h1 className="h2 mt-3 max-w-[20ch]">Lawn Care In {c.name}</h1>
       <p className="lead mt-4 max-w-[52ch] text-mute-l">{c.intro}</p>
 
       <div className="prose-gl mt-10 max-w-[68ch]">
         <p>{c.local}</p>
-        <h2>What we do in {c.name}</h2>
+        <h2>What We Do In {c.name}</h2>
         <p>
           The full scope:{" "}
           {services.map((s, i) => (
@@ -67,7 +67,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           Weekly and every-other-week maintenance runs on fixed weekdays, and one-time cleanups
           are quoted from photos, usually the same day.
         </p>
-        <h2>Getting a price</h2>
+        <h2>Getting A Price</h2>
         <p>
           Send a few photos through the <Link href="/estimate">estimate form</Link> with your{" "}
           {c.name} address and Jaydin will come back with a number. Water here is managed by{" "}
@@ -78,7 +78,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
 
       <div className="mt-12 flex flex-wrap gap-4">
         <Link href="/estimate" className="btn btn-p">
-          Get a free estimate in {c.name}
+          Get A Free Estimate In {c.name}
         </Link>
         <a href={`tel:${SITE.phoneE164}`} className="btn btn-ol">
           Call {SITE.phoneDisplay}

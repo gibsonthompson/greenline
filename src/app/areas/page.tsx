@@ -22,7 +22,7 @@ const built = new Map(cityPages.map((c) => [c.name.toLowerCase(), c.slug]));
 export default function AreasPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(6rem,10vw,8.5rem)] md:px-8">
-      <h1 className="h2 max-w-[20ch]">Where we work</h1>
+      <h1 className="h2 max-w-[20ch]">Where We Work</h1>
       <div className="mt-6 grid gap-10 md:grid-cols-2 md:items-start">
         <div className="max-w-[56ch] space-y-4">
           <p className="lead">
@@ -39,7 +39,7 @@ export default function AreasPage() {
           </p>
           <p>
             <Link href="/estimate" className="btn btn-p">
-              Check your address with a free estimate
+              Check Your Address With A Free Estimate
             </Link>
           </p>
         </div>
@@ -55,7 +55,7 @@ export default function AreasPage() {
         </div>
       </div>
 
-      <h2 className="h2 mt-16">Core East Bay cities</h2>
+      <h2 className="h2 mt-16">Core East Bay Cities</h2>
       <p className="mt-2 max-w-[56ch] text-mute-l">
         These are the cities where we run weekly routes. Each has its own page with what we know
         about maintaining a lawn there.
@@ -73,7 +73,7 @@ export default function AreasPage() {
         ))}
       </ul>
 
-      <h2 className="h2 mt-16">The full nine-county Bay Area</h2>
+      <h2 className="h2 mt-16">The Full Nine-County Bay Area</h2>
       <p className="mt-2 max-w-[56ch] text-mute-l">
         Every incorporated city and town in the region. Outside the core area, jobs are quoted
         case by case.

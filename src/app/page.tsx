@@ -246,8 +246,7 @@ export default function Home() {
             </div>
             <figcaption className="mx-auto mt-4 max-w-[600px] text-center text-[0.95rem] text-mute-d">
               Scooped by hand, downspouts flushed until they ran clear, and the ground underneath
-              cleaned up. These two are different sections of the roof, so they sit side by side
-              rather than in a slider.
+              cleaned up.
             </figcaption>
           </figure>
         </div>
