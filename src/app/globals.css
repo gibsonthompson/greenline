@@ -33,8 +33,8 @@
   --color-forest-2: #124a1e;
   --color-forest-3: #1b5c28;
 
-  --color-green: #216413;      /* logo mid. buttons on light, 6.75:1 */
-  --color-green-h: #1a5210;
+  --color-green: #2d6d14;      /* sampled from the logo G */
+  --color-green-h: #245910;
   --color-lime: #8aaf17;       /* logo light green */
   --color-lime-br: #a6ce2a;    /* 6.78:1 on forest */
 
@@ -105,8 +105,8 @@ body {
 }
 .btn-p { background: var(--color-green); color: #fff; }
 .btn-p:hover { background: var(--color-green-h); }
-.btn-l { background: var(--color-lime); color: var(--color-ink); }
-.btn-l:hover { background: var(--color-lime-br); }
+.btn-l { background: var(--color-green); color: #fff; }
+.btn-l:hover { background: var(--color-green-h); }
 .btn-o { border-color: rgba(247,247,243,.5); color: #fff; }
 .btn-o:hover { border-color: var(--color-lime); color: var(--color-lime-br); }
 .btn-ol { border-color: var(--color-ink); color: var(--color-ink); }
@@ -254,8 +254,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible, [role="slider"]:fo
   --color-concrete-30: #d8dacf;
   --color-field: #0b3d18;
   --color-turf: #8aaf17;
-  --color-turf-ink: #216413;
-  --color-turf-fill: #216413;
+  --color-turf-ink: #2d6d14;
+  --color-turf-fill: #2d6d14;
   --color-olive: #54604f;
   --color-ink-60: #54604f;
 }

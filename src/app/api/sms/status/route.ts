@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { timingSafeEqual } from "crypto";
 import { getAdminClient } from "@/lib/supabase-admin";
 import { setOptOut, notifySystem } from "@/lib/notify";
 import { toE164 } from "@/lib/phone";
@@ -10,31 +9,11 @@ const STOP_WORDS = ["STOP", "STOPALL", "UNSUBSCRIBE", "CANCEL", "END", "QUIT", "
 const START_WORDS = ["START", "UNSTOP", "YES", "SUBSCRIBE", "OPTIN"];
 
 /**
- * Shared-secret webhook auth.
- *
- * Telnyx signs webhooks with Ed25519, but that needs the account public key
- * on hand. A secret embedded in the webhook URL gives the same practical
- * protection with nothing extra to configure: set the Telnyx webhook to
- *
- *     https://yourdomain.com/api/sms/status?k=<TELNYX_WEBHOOK_SECRET>
- *
- * Without it, anyone who guesses the endpoint can forge a STOP and
- * unsubscribe your customers, or fake delivery receipts.
+ * Telnyx delivery receipts and inbound messages (STOP / START / HELP).
+ * The webhook URL secret was removed. Point the Telnyx webhook straight at
+ * https://yourdomain.com/api/sms/status with no query string.
  */
-function authorised(req: NextRequest): boolean {
-  const expected = process.env.TELNYX_WEBHOOK_SECRET;
-  if (!expected) return process.env.NODE_ENV !== "production";
-  const got = req.nextUrl.searchParams.get("k") ?? "";
-  const a = Buffer.from(got.padEnd(64).slice(0, 64));
-  const b = Buffer.from(expected.padEnd(64).slice(0, 64));
-  return timingSafeEqual(a, b);
-}
-
 export async function POST(req: NextRequest) {
-  if (!authorised(req)) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
-
   let payload: { data?: { event_type?: string; payload?: Record<string, unknown> } };
   try {
     payload = await req.json();

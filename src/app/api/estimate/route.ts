@@ -153,14 +153,21 @@ export async function POST(req: NextRequest) {
     /* logged implicitly by absence; lead already saved */
   }
 
-  // Notifications fire after the lead is committed and never block the
-  // response. Routing, opt-out checks and logging all live in lib/notify.
-  void notifyNewLead({
-    id: lead.id, name, phone, city: String(body.city ?? "") || null,
-    services: servicesArr, photoCount: photoPaths.length,
-    outOfArea: zipStatus(zip) !== "core",
-  });
-  if (smsConsent) void notifyCustomerReceived({ id: lead.id, name, phone });
+  // Notifications MUST be awaited. As fire-and-forget (void), the serverless
+  // function froze right after responding and the SMS never sent or even
+  // logged, which is why the lead saved but no text ever arrived. send()
+  // catches its own errors and does not throw, but wrap defensively so a
+  // notify problem can never fail the request now that it is awaited.
+  try {
+    await notifyNewLead({
+      id: lead.id, name, phone, city: String(body.city ?? "") || null,
+      services: servicesArr, photoCount: photoPaths.length,
+      outOfArea: zipStatus(zip) !== "core",
+    });
+    if (smsConsent) await notifyCustomerReceived({ id: lead.id, name, phone });
+  } catch {
+    /* lead already saved; never fail the request on a notification error */
+  }
 
   return NextResponse.json({ ok: true, leadId: lead.id });
 }

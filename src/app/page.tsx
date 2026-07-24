@@ -335,7 +335,7 @@ export default function Home() {
       </section>
 
       {/* ══ SERVICE AREA ══ */}
-      <section id="areas" className={`dark ${PAD}`}>
+      <section id="areas" className={`dark ${PAD}`} style={{ background: "#000000" }}>
         <ServiceArea />
       </section>
 

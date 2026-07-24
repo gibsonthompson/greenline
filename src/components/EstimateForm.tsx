@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { services } from "@/data/services";
-import { zipStatus } from "@/data/service-zips";
 import { processPhoto } from "@/lib/image-pipeline";
 
 // Four steps, three fields max per step (build spec 8.2). Progress is
@@ -140,7 +139,6 @@ export default function EstimateForm() {
     if (n === 2) {
       if (!form.address.trim()) e.address = "We need the street address to quote the job.";
       if (!form.city.trim()) e.city = "Enter the city.";
-      if (zipStatus(form.zip) === "invalid") e.zip = "Enter the five-digit ZIP.";
     }
     if (n === 4) {
       if (!form.name.trim()) e.name = "Enter your name so we know who to ask for.";
@@ -178,13 +176,13 @@ export default function EstimateForm() {
           }),
         });
         if (!res.ok) throw new Error("upload url");
-        const { uploadUrl, storagePath, token } = await res.json();
+        const { uploadUrl, storagePath } = await res.json();
+        // Supabase signed upload URLs carry the token in the query string.
+        // Adding an Authorization header makes the PUT fail, which is why
+        // uploads were not working. Send the bytes with no auth header.
         const put = await fetch(uploadUrl, {
           method: "PUT",
-          headers: {
-            "Content-Type": "image/jpeg",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
+          headers: { "Content-Type": "image/jpeg" },
           body: processed.blob,
         });
         if (!put.ok) throw new Error("upload");
@@ -203,13 +201,9 @@ export default function EstimateForm() {
           )
         );
       } catch {
-        setPhotos((p) =>
-          p.map((ph) =>
-            ph.key === key
-              ? { ...ph, status: "skipped", reason: "We could not read this file. The rest of your request still goes through." }
-              : ph
-          )
-        );
+        // Photos are optional. If one cannot be processed or uploaded, drop it
+        // silently rather than showing an error.
+        setPhotos((p) => p.filter((ph) => ph.key !== key));
       }
     }
   }
@@ -259,11 +253,6 @@ export default function EstimateForm() {
       setSubmitting(false);
     }
   }
-
-  const zipNote =
-    form.zip.length === 5 && zipStatus(form.zip) === "outside"
-      ? "That ZIP is outside our core East Bay area. Send the request anyway and we will let you know honestly whether we can get to you and what it would cost."
-      : "";
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -382,21 +371,9 @@ export default function EstimateForm() {
                   maxLength={5}
                   value={form.zip}
                   onChange={(e) => set("zip", e.target.value.replace(/\D/g, ""))}
-                  onBlur={() => validateStep(2)}
-                  aria-describedby={errors.zip ? "zip-err" : zipNote ? "zip-note" : undefined}
                 />
-                {errors.zip && (
-                  <p id="zip-err" className="field-error-text">
-                    {errors.zip}
-                  </p>
-                )}
               </div>
             </div>
-            {zipNote && (
-              <p id="zip-note" className="rounded-sm bg-concrete-00 p-4 text-[0.95rem]">
-                {zipNote}
-              </p>
-            )}
           </div>
           <div className="mt-8 flex gap-4">
             <button type="button" className="btn btn-ghost-light" onClick={() => go(1)}>
@@ -446,11 +423,6 @@ export default function EstimateForm() {
                     {p.status === "uploading" && (
                       <div className="absolute inset-x-0 bottom-0 bg-black/70 py-1 text-center text-[0.75rem] text-paper">
                         Uploading&hellip;
-                      </div>
-                    )}
-                    {p.status === "skipped" && (
-                      <div className="absolute inset-0 grid place-items-center bg-concrete-20/90 p-2 text-center text-[0.75rem]">
-                        {p.reason}
                       </div>
                     )}
                   </div>
@@ -561,7 +533,7 @@ export default function EstimateForm() {
             <label className="flex items-start gap-3 text-[0.95rem]">
               <input
                 type="checkbox"
-                className="mt-1 h-5 w-5 accent-[#2c6c14]"
+                className="mt-1 h-5 w-5 accent-[#2d6d14]"
                 checked={form.smsConsent}
                 onChange={(e) => set("smsConsent", e.target.checked)}
               />
