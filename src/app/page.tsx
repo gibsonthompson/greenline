@@ -63,11 +63,16 @@ export default function Home() {
             <Link href="/estimate" className="btn btn-l">Get My Free Estimate</Link>
             <a href={`tel:${SITE.phoneE164}`} className="btn btn-o">Call {SITE.phoneDisplay}</a>
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-2 text-[0.95rem] text-[#d8e2d4]">
-            <span className="inline-flex items-center gap-2">
-              <span className="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 On Google
+          {/* These two sit on ONE line at every width. flex-nowrap plus
+              whitespace-nowrap on each item; the type steps down on small
+              phones rather than wrapping to a second row. */}
+          <div className="mt-8 flex flex-nowrap items-center gap-x-4 text-[0.8rem] text-[#d8e2d4] sm:gap-x-7 sm:text-[0.95rem]">
+            <span className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap">
+              <span className="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 on Google
             </span>
-            <span className="inline-flex items-center gap-2"><Check /> Licensed And Insured</span>
+            <span className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap">
+              <Check /> Licensed &amp; Insured
+            </span>
           </div>
         </div>
       </section>
@@ -173,13 +178,12 @@ export default function Home() {
             <Link href="/estimate" className="btn btn-p mt-8">Get My Free Estimate</Link>
           </div>
 
-          <div>
-            <figure>
-              <Image src="/photos/detail-tall.jpg" alt="Bed reset with fresh mulch, flagstone stepping stones, and new plantings" width={900} height={1200} sizes="(min-width:1080px) 480px, 100vw" className="w-full object-cover" />
-              <figcaption className="t-sm mt-2 text-mute-l">Bed reset with fresh mulch, stone, and new plants.</figcaption>
-            </figure>
-            <div className="mt-6 border border-line bg-white">
-              <div className="bg-forest px-4 py-3 font-[family-name:var(--font-display)] text-[0.8rem] uppercase tracking-[0.09em] text-white" style={{ fontVariationSettings: '"wdth" 94, "wght" 700' }}>
+          <aside className="lg:sticky lg:top-28">
+            <div className="border border-line bg-white">
+              <div
+                className="bg-black px-5 py-4 font-[family-name:var(--font-display)] text-[0.82rem] uppercase tracking-[0.09em] text-white"
+                style={{ fontVariationSettings: '"wdth" 94, "wght" 700' }}
+              >
                 Included In Every Maintenance Visit
               </div>
               {[
@@ -190,13 +194,16 @@ export default function Home() {
                 "Haul away every clipping and cutting",
                 "Flag anything on the property you should know about",
               ].map((item, i, arr) => (
-                <div key={item} className={`flex items-center justify-between gap-4 px-4 py-3 text-[0.93rem] ${i < arr.length - 1 ? "border-b border-line" : ""}`}>
+                <div key={item} className={`flex items-start justify-between gap-4 px-5 py-4 text-[0.95rem] ${i < arr.length - 1 ? "border-b border-line" : ""}`}>
                   <span>{item}</span>
-                  <span className="font-bold text-green" aria-hidden="true">&#10003;</span>
+                  <span className="mt-0.5 font-bold text-green" aria-hidden="true">&#10003;</span>
                 </div>
               ))}
             </div>
-          </div>
+            <p className="t-sm mt-3 text-mute-l">
+              No add-on charges for edging, trimming, or clean-up. It is one price.
+            </p>
+          </aside>
         </div>
       </section>
 

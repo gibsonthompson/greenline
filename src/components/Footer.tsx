@@ -12,7 +12,7 @@ export default function Footer() {
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <footer className="bg-[#08240E] text-paper">
+    <footer className="bg-black text-paper">
       <div className="mx-auto grid max-w-[1340px] gap-8 px-[clamp(1.1rem,4.2vw,4rem)] py-[clamp(3rem,5vw,4.2rem)] sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr_1.1fr]">
         <div>
           <Image src="/brand/logo.png" alt="Green Line Lawn Care" width={644} height={366} className="h-[58px] w-auto" />
@@ -105,7 +105,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-mute-d/20">
+      <div className="border-t border-white/12">
         <div className="mx-auto flex max-w-[1340px] flex-wrap items-center justify-between gap-4 px-[clamp(1.1rem,4.2vw,4rem)] py-5 text-[0.85rem] text-[#8fa08c]">
           <p>&copy; {new Date().getFullYear()} {SITE.name}. All Rights Reserved.</p>
           <p className="flex gap-6">

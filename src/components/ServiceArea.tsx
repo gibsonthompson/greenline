@@ -12,8 +12,8 @@ export default function ServiceArea() {
         <div className="kicker">Service Area</div>
         <h2 className="h2 mt-2 text-white">Where We Work</h2>
         <p className="lead mt-4 max-w-[44ch] text-mute-d">
-          Our weekly routes run from Richmond and El Cerrito south through Oakland, San Leandro,
-          and Hayward down to Union City, Fremont, and Newark.
+          Our routes run the length of the East Bay, from Orinda and Richmond in the north,
+          down through Oakland, San Leandro, Hayward, and Fremont, as far south as San Jose.
         </p>
         <p className="mt-4 max-w-[44ch] text-mute-d">
           We&rsquo;ll take cleanups and commercial work further out and price those one at a time.
@@ -26,10 +26,12 @@ export default function ServiceArea() {
       </div>
 
       <div>
-        <div className="aspect-[4/3] overflow-hidden border-[3px] border-lime bg-forest-2">
+        {/* Portrait on phones: at z=9 a 4:3 box is too short to hold
+            Orinda and San Jose at once, a 3:4 box clears it comfortably. */}
+        <div className="aspect-[3/4] overflow-hidden border-[3px] border-lime bg-forest-2 sm:aspect-[4/3]">
           <iframe
             title="Map of the Green Line Lawn Care service area in the East Bay"
-            src="https://maps.google.com/maps?q=Oakland,%20California&t=&z=11&ie=UTF8&iwloc=&output=embed"
+            src="https://maps.google.com/maps?q=37.6076,-122.0330&z=9&output=embed"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen

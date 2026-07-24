@@ -87,11 +87,11 @@ export default function Header() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" aria-label="Main" className="bg-forest px-[clamp(1.1rem,4.2vw,4rem)] pb-6 lg:hidden">
+        <nav id="mobile-nav" aria-label="Main" className="bg-black px-[clamp(1.1rem,4.2vw,4rem)] pb-6 lg:hidden">
           <ul>
             {nav.map((n) => (
               <li key={n.href}>
-                <Link href={n.href} onClick={() => setOpen(false)} className="block border-b border-forest-3 py-4 text-lg font-semibold text-white">
+                <Link href={n.href} onClick={() => setOpen(false)} className="block border-b border-white/12 py-4 text-lg font-semibold text-white">
                   {n.label}
                 </Link>
               </li>

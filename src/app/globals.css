@@ -120,13 +120,13 @@ body {
   transition: background-color .28s, top .28s, border-color .28s, box-shadow .28s;
 }
 .gl-header-solid {
-  background: rgba(9,32,14,.98);
+  background: #010101;
   border-bottom-color: var(--color-lime);
 }
 .gl-header-solid .gl-navlink { text-shadow: none; }
 
 body.scrolled .gl-header {
-  background: rgba(9,32,14,.96);
+  background: rgba(1,1,1,.97);
   backdrop-filter: blur(12px);
   border-bottom-color: var(--color-lime);
   box-shadow: 0 6px 24px rgba(0,0,0,.28);

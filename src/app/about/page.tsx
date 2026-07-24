@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-16 pt-[clamp(6rem,10vw,8.5rem)]">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,400px)]">
+      <div className="max-w-[68ch]">
         <div>
           <div className="rule" />
           <div className="kicker">About Us</div>
@@ -64,15 +64,6 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="relative aspect-[3/4] overflow-hidden bg-forest-2 lg:sticky lg:top-28">
-          <Image
-            src="/photos/detail-tall.jpg"
-            alt="Bed reset with fresh mulch, stone, and new plantings"
-            fill
-            sizes="(min-width:1024px) 400px, 100vw"
-            className="object-cover"
-          />
-        </div>
       </div>
     </div>
   );
