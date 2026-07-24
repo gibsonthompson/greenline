@@ -50,21 +50,18 @@ export default function Home() {
           priority
           sizes="100vw"
           quality={82}
-          className="object-cover object-[50%_64%]"
+          className="z-0 object-cover object-[50%_64%]"
         />
         <div
           aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-[2]"
           style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 1,
-            pointerEvents: "none",
-            // Full-width shadow across the top and bottom, clear through the
-            // middle. Own layer with an explicit z-index so nothing can drop it.
-            // Last stop ("38%"/"42%") sets how far a band reaches; first alpha
-            // (".78"/".85") sets how dark.
+            // Shadow across the top and bottom, clear through the middle.
+            // z-[2] on the class sits it ABOVE the hero image (z-0) and below
+            // the text (z-10). Last stop ("40%"/"44%") = how far a band reaches;
+            // first alpha (".85"/".9") = how dark.
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,.78) 0%, rgba(0,0,0,.34) 16%, rgba(0,0,0,0) 38%), linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.4) 18%, rgba(0,0,0,0) 42%)",
+              "linear-gradient(to bottom, rgba(0,0,0,.85) 0%, rgba(0,0,0,.45) 15%, rgba(0,0,0,0) 40%), linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.5) 18%, rgba(0,0,0,0) 44%)",
           }}
         />
         <div className={`relative z-10 w-full ${WRAP} pb-[clamp(3rem,5vw,4.5rem)] pt-[clamp(6rem,10vw,8.5rem)]`}>
