@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import UtilityBar from "@/components/UtilityBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import MobileDock from "@/components/MobileDock";
 import { SITE } from "@/data/site";
 import { services } from "@/data/services";
 import { reviews, AGGREGATE } from "@/data/reviews";
@@ -11,15 +11,15 @@ import { cityPages } from "@/data/city-pages";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Green Line Lawn Care | Lawn Mowing, Edging and Cleanups, East Bay",
+    default: "Green Line Lawn Care | Lawn Mowing & Cleanups | East Bay, CA",
     template: "%s | Green Line Lawn Care",
   },
   description:
-    "Owner-operated lawn maintenance across the East Bay. Mowing, edging, cleanups, weed removal, and gutter cleaning. Send photos, get a free same-day quote.",
+    "Owner-operated lawn care across the East Bay. Weekly and every-other-week mowing, cleanups, and gutters. Send a few photos and get a price the same day.",
   openGraph: {
     siteName: SITE.shortName,
     type: "website",
-    images: [{ url: "/photos/hero/edge-line-16x9.jpg", width: 1920, height: 1080 }],
+    images: [{ url: "/photos/hero-wide.jpg", width: 2000, height: 1125 }],
   },
 };
 
@@ -32,7 +32,8 @@ function businessSchema() {
     telephone: "+1-925-436-6691",
     email: SITE.email,
     url: SITE.url,
-    image: `${SITE.url}/photos/hero/edge-line-1x1.jpg`,
+    image: `${SITE.url}/photos/hero-wide.jpg`,
+    logo: `${SITE.url}/brand/logo.png`,
     priceRange: "$$",
     areaServed: cityPages.map((c) => ({ "@type": "City", name: c.name })),
     openingHoursSpecification: [
@@ -49,20 +50,17 @@ function businessSchema() {
       name: "Lawn care services",
       itemListElement: services.map((s) => ({
         "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: s.name,
-          url: `${SITE.url}/services/${s.slug}`,
-        },
+        itemOffered: { "@type": "Service", name: s.name, url: `${SITE.url}/services/${s.slug}` },
       })),
     },
-    // Note: self-serving reviews are ineligible for star rich results
-    // (Google, Sept 2019 policy). Included for entity understanding and
-    // AI surfaces, not for SERP stars. See build spec 15.2.
+    // Self-serving reviews are ineligible for star rich results (Google,
+    // Sept 2019). Included for entity understanding and AI surfaces only.
+    // ratingCount is intentionally omitted: the live Google profile has
+    // more reviews than the six reproduced on this site.
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: AGGREGATE.rating.toFixed(1),
-      reviewCount: String(AGGREGATE.count),
+      bestRating: "5",
     },
     review: reviews.map((r) => ({
       "@type": "Review",
@@ -77,17 +75,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema()) }}
-        />
+        <a href="#main" className="skip-link">Skip to content</a>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema()) }} />
+        <UtilityBar />
         <Header />
         <main id="main">{children}</main>
         <Footer />
-        <MobileDock />
       </body>
     </html>
   );

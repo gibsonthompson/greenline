@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import CoverageMap from "@/components/CoverageMap";
 import { bayAreaCounties, totalCityCount } from "@/data/bay-area-cities";
 import { cityPages } from "@/data/city-pages";
 import { SITE } from "@/data/site";
@@ -22,7 +21,7 @@ const built = new Map(cityPages.map((c) => [c.name.toLowerCase(), c.slug]));
 
 export default function AreasPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16 md:px-8">
+    <div className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(8rem,12vw,10rem)] md:px-8">
       <h1 className="t-display-lg max-w-[20ch]">Where we work</h1>
       <div className="mt-6 grid gap-10 md:grid-cols-2 md:items-start">
         <div className="max-w-[56ch] space-y-4">
@@ -44,7 +43,16 @@ export default function AreasPage() {
             </Link>
           </p>
         </div>
-        <CoverageMap />
+        <div className="aspect-[4/3] overflow-hidden border-[3px] border-lime bg-forest-2">
+          <iframe
+            title="Map of the Green Line Lawn Care service area in the East Bay"
+            src="https://maps.google.com/maps?q=Oakland,%20California&t=&z=9&ie=UTF8&iwloc=&output=embed"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+            className="h-full w-full border-0"
+          />
+        </div>
       </div>
 
       <h2 className="t-display-md mt-16">Core East Bay cities</h2>

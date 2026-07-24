@@ -1,8 +1,9 @@
 export type Service = {
   slug: string;
   name: string;
-  short: string;       // one-sentence for the homepage index
+  short: string;
   photo: string;
+  feature: boolean;   // renders as a wide card on the homepage grid
   metaTitle: string;
   metaDescription: string;
 };
@@ -10,59 +11,87 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: "mowing",
-    name: "Lawn Mowing and Maintenance",
-    short: "Weekly or every other week, cut at the right height for the grass you actually have.",
-    photo: "/photos/clean/1_51_34.jpg",
-    metaTitle: "Lawn Mowing East Bay | Green Line Lawn Care",
-    metaDescription: "Weekly and every-other-week lawn mowing across the East Bay. Tall fescue cut at the right height, edges included, clippings handled. Free same-day estimates.",
+    name: "Mowing And Maintenance",
+    short:
+      "A lawn that stays thick and green through the dry season, cut on the same day every week so you never have to think about it or ask when we are coming.",
+    photo: "/photos/svc-mowing.jpg",
+    feature: true,
+    metaTitle: "Lawn Mowing In The East Bay",
+    metaDescription:
+      "Weekly and every-other-week mowing across the East Bay, cut at the right height with edging and blow-off included. Send photos, get a price the same day.",
   },
   {
     slug: "edging-and-trimming",
-    name: "Edging and Trimming",
-    short: "The clean line along your walk, drive, and beds. This is the part people notice.",
-    photo: "/photos/sidewalk-edge.jpg",
-    metaTitle: "Lawn Edging and Trimming East Bay | Green Line",
-    metaDescription: "Crisp edges along walks, driveways, and beds, and careful trimming around sprinklers and fences. The visible proof your property is maintained.",
+    name: "Edging And Trimming",
+    short:
+      "The crisp lines along your walks and driveway that make a property read as cared for rather than simply cut. Included with every mow.",
+    photo: "/photos/svc-edging.jpg",
+    feature: true,
+    metaTitle: "Lawn Edging And Trimming In The East Bay",
+    metaDescription:
+      "Crisp edges along walks, drives, and beds, with careful trimming around fences and sprinkler heads. Included in every Green Line mowing visit.",
   },
   {
     slug: "yard-cleanup",
-    name: "Yard and Landscape Cleanup",
-    short: "Overgrown, storm-hit, or years behind. We clear it and haul the debris off.",
-    photo: "/photos/pairs/side-yard-after.jpg",
-    metaTitle: "Yard Cleanup East Bay | Green Line Lawn Care",
-    metaDescription: "One-time and seasonal yard cleanups in the East Bay. Overgrowth cleared, beds reset, debris hauled off, property left clean. Free photo-based quotes.",
+    name: "Yard Cleanups",
+    short: "Hand back a yard that got away from you looking like someone has been keeping it all along.",
+    photo: "/photos/svc-cleanup.jpg",
+    feature: false,
+    metaTitle: "Yard Cleanups In The East Bay",
+    metaDescription:
+      "One-time and seasonal yard cleanups across the East Bay. Overgrowth cleared, beds reset, and every load hauled away. Free photo quotes.",
   },
   {
     slug: "weed-removal",
     name: "Weed Removal",
-    short: "Beds, cracks, fence lines, and the strip along the curb everyone forgets.",
-    photo: "/photos/clean/1_49_11.jpg",
-    metaTitle: "Weed Removal East Bay | Green Line Lawn Care",
-    metaDescription: "Weed clearing for beds, fence lines, sidewalk cracks, and curb strips across the East Bay, with honest advice on keeping them from coming back.",
+    short: "Clear beds and clean fence lines, so the front of your house is not the one people notice for the wrong reason.",
+    photo: "/photos/svc-weeds.jpg",
+    feature: false,
+    metaTitle: "Weed Removal In The East Bay",
+    metaDescription:
+      "Weed clearing for beds, fence lines, driveway cracks, and curb strips, with straight advice on keeping them from coming back.",
   },
   {
     slug: "hedge-and-shrub",
-    name: "Hedge and Shrub Trimming",
-    short: "Shaped so they read as intentional instead of neglected.",
-    photo: "/photos/clean/1_48_46.jpg",
-    metaTitle: "Hedge and Shrub Trimming East Bay | Green Line",
-    metaDescription: "Hedges and shrubs shaped cleanly and trimmed at the right time for the plant, not just whenever. East Bay service with free estimates.",
+    name: "Hedges And Shrubs",
+    short: "Shaped so your front yard looks designed instead of overgrown, and stays that way between visits.",
+    photo: "/photos/svc-shrub.jpg",
+    feature: false,
+    metaTitle: "Hedge And Shrub Trimming In The East Bay",
+    metaDescription:
+      "Hedges and shrubs trimmed on a cadence that suits the species, not the route. East Bay service with free estimates.",
   },
   {
     slug: "gutter-cleaning",
     name: "Gutter Cleaning",
-    short: "Cleared, flushed, and the ground left clean before we go.",
-    photo: "/photos/clean/1_48_39.jpg",
-    metaTitle: "Gutter Cleaning East Bay | Green Line Lawn Care",
-    metaDescription: "Gutters cleared and downspouts flushed before Bay Area winter rains, with the ground cleaned up before we leave. Free estimates.",
+    short: "Cleared before the winter rains so water runs off your roof instead of down your siding and into your foundation.",
+    photo: "/photos/svc-gutter.jpg",
+    feature: false,
+    metaTitle: "Gutter Cleaning In The East Bay",
+    metaDescription:
+      "Gutters cleared and downspouts flushed before the Bay Area rains, with the ground underneath cleaned up before we leave.",
   },
   {
     slug: "commercial-maintenance",
-    name: "Commercial Property Upkeep",
-    short: "Storefronts, sign islands, and parking strips on a schedule you can count on.",
-    photo: "/photos/pairs/commercial-island-after.jpg",
-    metaTitle: "Commercial Property Maintenance East Bay | Green Line",
-    metaDescription: "Scheduled exterior upkeep for storefronts, sign islands, and parking strips in the East Bay. Before-open service windows available.",
+    name: "Commercial Properties",
+    short:
+      "A frontage that tells customers you are open and you care, kept on a schedule you never have to police. Early service windows available so the work is done before your doors open.",
+    photo: "/photos/svc-commercial.jpg",
+    feature: true,
+    metaTitle: "Commercial Grounds Maintenance In The East Bay",
+    metaDescription:
+      "Scheduled exterior upkeep for storefronts, sign islands, and parking strips. Early service windows and completion photos on request.",
+  },
+  {
+    slug: "mulch-and-plantings",
+    name: "Mulch, Stone, And Plantings",
+    short:
+      "Fresh mulch, stone, and planting that makes tired beds look finished, and keeps the weeds from marching back in.",
+    photo: "/photos/svc-beds.jpg",
+    feature: true,
+    metaTitle: "Mulch, Stone, And Planting In The East Bay",
+    metaDescription:
+      "Fresh mulch, stone, and replacement plantings for tired beds, plus the clean bed border that keeps weeds out.",
   },
 ];
 

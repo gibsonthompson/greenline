@@ -93,7 +93,7 @@ export const serviceContent: Record<string, ServiceContent> = {
     ],
     body: (
       <>
-        <h2>The edge is the tell</h2>
+        <h2>Why It Matters</h2>
         <p>
           Stand at the curb of any two houses, one with a lawn that was mowed and one with a
           property that is being maintained. From thirty feet they look the same. The difference is
@@ -102,7 +102,6 @@ export const serviceContent: Record<string, ServiceContent> = {
           It is the first thing that goes when a crew is rushing, because it is the slowest part of
           the visit and the easiest to skip.
         </p>
-        <p>We do not skip it. It is in the name.</p>
         <h2>What gets edged and trimmed</h2>
         <p>
           Walks, driveways, curb lines, and patio borders get a bladed edge. Fence lines, tree
@@ -318,6 +317,48 @@ export const serviceContent: Record<string, ServiceContent> = {
           Commercial upkeep works when it is on a calendar. We set a cadence, show up on the day,
           and the property never gets the chance to slip. For property managers, that is one line
           item and zero phone calls. For owner-operators, it is a frontage that always says open.
+        </p>
+      </>
+    ),
+  },
+
+  "mulch-and-plantings": {
+    lead: "Fresh mulch, stone, and new plants for beds that have gone bare or thin.",
+    reviewId: "geraldine-brown",
+    siblings: ["weed-removal", "hedge-and-shrub"],
+    faqs: [
+      {
+        q: "How often should mulch be replaced?",
+        a: "Once a year for most beds, usually in spring. It breaks down and feeds the soil, which is the point, so it needs topping up rather than replacing outright.",
+      },
+      {
+        q: "Does mulch really cut down on weeds?",
+        a: "A lot, yes. Two to three inches over clean soil blocks most weed seeds from getting the light they need. It is cheaper and safer than spraying, which is why we suggest it first.",
+      },
+      {
+        q: "Can you match what is already in my beds?",
+        a: "Usually. Send a photo with your estimate request and we will tell you what it is and whether we can match it or whether the bed is better off starting over.",
+      },
+    ],
+    body: (
+      <>
+        <h2>What We Do</h2>
+        <p>
+          We clear out what is dead, define the bed border, lay fresh mulch or stone, and put in
+          replacement plants where there are gaps. Stepping stones and small edging go in at the
+          same time if you want them.
+        </p>
+        <h2>Why It Is Worth Doing</h2>
+        <p>
+          A bed with a clean border and a couple of inches of mulch is the cheapest weed control
+          you can buy. It blocks the light weed seeds need, holds water in through the dry months,
+          and keeps grass from creeping in from the lawn side. We would rather set a bed up
+          properly than come back and pull the same weeds four times a year, and it works out
+          cheaper for you too.
+        </p>
+        <p>
+          If you are already on <Link href="/services/mowing">regular mowing</Link> we usually
+          fold this into a visit rather than making a separate trip out.
         </p>
       </>
     ),

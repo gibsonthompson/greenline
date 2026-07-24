@@ -4,58 +4,72 @@ import Link from "next/link";
 import { SITE } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "About Jaydin",
+  title: "About Green Line Lawn Care",
   description:
-    "Green Line Lawn Care is owner-operated: the person who quotes your property is the person who maintains it. Meet Jaydin.",
+    "Owner-operated lawn care serving the East Bay. Reliable weekly service, a finished look every visit, and a written price before we start.",
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16 md:px-8">
-      <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(280px,400px)]">
+    <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-16 pt-[clamp(8rem,12vw,10rem)]">
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,400px)]">
         <div>
-          <h1 className="t-display-lg max-w-[16ch]">The person who quotes it, cuts it.</h1>
-          <div className="prose-gl mt-8">
+          <div className="rule" />
+          <div className="kicker">About Us</div>
+          <h1 className="h1 mt-2 max-w-[18ch]">The Lawn Company Your Neighbors Ask You About</h1>
+          <div className="mt-8 [&>p]:mt-4 [&>p]:max-w-[58ch]">
             <p>
-              I&rsquo;m Jaydin, and Green Line Lawn Care is my company. When you send an estimate
-              request, I&rsquo;m the one who reads it, prices it, and shows up to do the work. There
-              is no call center, no rotating crew, and no gap between the person who promised and
-              the person who delivers.
+              Green Line Lawn Care is an owner-operated company serving homeowners and small
+              commercial properties across the East Bay. We built it around the one thing most
+              people cannot get from a lawn service: showing up.
             </p>
             <p>
-              I started this company on a simple observation: most lawns in the East Bay are not
-              badly cut, they are badly kept. Crews rush, edges go soft, corners get skipped, and
-              nobody notices any single visit, only the slow slide. So I named the company after
-              the thing that proves the difference: the line where the grass meets the concrete.
-              If that line is sharp, everything behind it got the same attention.
+              Nearly every customer who calls us has the same history. A crew that started strong,
+              then came every third week, then stopped answering the phone. By the time they reach
+              us the yard has gotten away from them and a routine mow has turned into a cleanup.
             </p>
             <p>
-              What that means in practice: I show up when I said I would, I cut at the height the
-              grass actually needs instead of the height that stretches a route, I clean my
-              equipment between properties, and I blow off every walk and drive before I leave.
-              Five of my six Google reviews mention me by name, and I intend to keep it that way.
+              We run a fixed weekly schedule so that never happens to you. Your property is
+              serviced on the same day every week or every other week, the full job every time,
+              and if anything ever puts us behind you hear about it before you notice.
             </p>
             <p>
-              If you want a property that looks maintained instead of just mowed, send me a few
-              photos and I&rsquo;ll get you a price today.
+              Because the owner runs every visit personally, the person who quotes your property is
+              the person who maintains it. There is no dispatch line, no rotating crew, and nobody
+              you have to explain your gate code to twice.
+            </p>
+            <p>
+              The result is a property that looks its best all year, and one less thing on your list.
             </p>
           </div>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/estimate" className="btn btn-fill">
-              Get a free estimate
-            </Link>
-            <a href={`tel:${SITE.phoneE164}`} className="btn btn-ghost-light">
-              Call {SITE.phoneDisplay}
-            </a>
+
+          <div className="mt-9 grid gap-6 border-t border-line pt-7 sm:grid-cols-2">
+            {[
+              ["Rated 5.0 On Google", "Every customer who has left a review has given us five stars."],
+              ["Licensed And Insured", "Documentation available on request for landlords and property managers."],
+              ["Free Written Estimates", "A real price, in writing, usually the same day. No obligation."],
+              ["No Long Contracts", "Stay because the work is good, not because you signed something."],
+            ].map(([t, d]) => (
+              <div key={t}>
+                <div className="h4">{t}</div>
+                <p className="mt-1 max-w-[34ch] text-[0.92rem] text-mute-l">{d}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link href="/estimate" className="btn btn-p">Get My Free Estimate</Link>
+            <a href={`tel:${SITE.phoneE164}`} className="btn btn-ol">Call {SITE.phoneDisplay}</a>
           </div>
         </div>
-        <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-field md:sticky md:top-8">
+
+        <div className="relative aspect-[3/4] overflow-hidden bg-forest-2 lg:sticky lg:top-28">
           <Image
-            src="/photos/hero/edge-line-3x4.jpg"
-            alt="A Green Line maintained lawn: striped cut meeting a clean driveway edge"
+            src="/photos/detail-tall.jpg"
+            alt="Bed reset with fresh mulch, stone, and new plantings"
             fill
-            sizes="(min-width: 768px) 400px, 100vw"
+            sizes="(min-width:1024px) 400px, 100vw"
             className="object-cover"
           />
         </div>

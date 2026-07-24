@@ -1,72 +1,74 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import WipeCompare from "@/components/WipeCompare";
+import BeforeAfter from "@/components/BeforeAfter";
 
 export const metadata: Metadata = {
-  title: "Our Work: Before and After",
+  title: "Our Work",
   description:
-    "Real before-and-after lawn care jobs from the East Bay: cleanups, recovered lawns, and commercial frontage. Drag the line to compare.",
+    "Before and after photos from real Green Line jobs across the East Bay. Cleanups, recovered lawns, gutters, and bed resets.",
   alternates: { canonical: "/work" },
 };
 
-const pairs = [
-  {
-    before: "/photos/pairs/side-yard-before.jpg",
-    after: "/photos/pairs/side-yard-after.jpg",
-    caption: "Side yard cleanup: chest-high weeds cleared and hauled in one visit.",
-    alt: "Side yard between a house and fence",
-  },
-  {
-    before: "/photos/pairs/back-lawn-before.jpg",
-    after: "/photos/pairs/back-lawn-after.jpg",
-    caption: "Back lawn brought back onto a weekly schedule.",
-    alt: "Back lawn behind a home",
-  },
-  {
-    before: "/photos/pairs/front-lawn-before.jpg",
-    after: "/photos/pairs/front-lawn-after.jpg",
-    caption: "Front lawn recovery: overgrowth down, edges re-established.",
-    alt: "Front lawn and walkway",
-  },
-  {
-    before: "/photos/pairs/commercial-island-before.jpg",
-    after: "/photos/pairs/commercial-island-after.jpg",
-    caption: "Commercial sign island: from neglected to maintained on a schedule.",
-    alt: "Commercial sign island on a corner lot",
-  },
-];
-
 export default function WorkPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16 md:px-8">
-      <h1 className="t-display-lg max-w-[16ch]">The work, before and after</h1>
-      <p className="t-body-lg mt-4 max-w-[52ch] text-ink-60">
-        Drag the line. These are real jobs, shot on a phone at the property, not staged.
+    <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-16 pt-[clamp(8rem,12vw,10rem)]">
+      <div className="rule" />
+      <div className="kicker">Our Work</div>
+      <h1 className="h1 mt-2 max-w-[16ch]">Before And After</h1>
+      <p className="lead mt-4 max-w-[52ch] text-mute-l">
+        Shot on a phone at the property. Every photo on this site is one of our jobs, not stock.
       </p>
 
-      <div className="mt-10 grid gap-10 md:grid-cols-2">
-        {pairs.map((p) => (
-          <WipeCompare key={p.before} {...p} />
+      <figure className="mt-10 border-t-2 border-ink pt-5">
+        <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
+          <h2 className="h3">Backyard Cleanup In One Visit</h2>
+          <p className="max-w-[64ch] text-[0.95rem] text-mute-l">
+            Knee-high and full of dry growth when we got there. Cut down, raked out, and hauled
+            away the same day. Drag the handle to see it.
+          </p>
+        </div>
+        <BeforeAfter
+          beforeSrc="/photos/slide-yard-before.jpg"
+          afterSrc="/photos/slide-yard-after.jpg"
+          beforeAlt="Backyard overgrown with tall dry grass around a storage shed"
+          afterAlt="The same backyard cleared, with the brick path exposed"
+        />
+      </figure>
+
+      <figure className="mt-12 border-t-2 border-ink pt-5">
+        <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
+          <h2 className="h3">Gutters Cleared Before The Rain</h2>
+          <p className="max-w-[64ch] text-[0.95rem] text-mute-l">
+            Scooped by hand, downspouts flushed until they ran clear, and the ground underneath
+            cleaned up. These two are different sections of the roof, so they sit side by side
+            rather than in a slider.
+          </p>
+        </div>
+        <div className="grid max-w-[760px] grid-cols-1 gap-[2px] bg-forest-3 sm:grid-cols-2">
+          <div className="relative">
+            <span className="tag tag-b">Before</span>
+            <Image src="/photos/pair-gutter-before.jpg" alt="Roof gutter packed with leaves and needles" width={1100} height={1375} sizes="380px" className="aspect-[4/5] w-full object-cover" />
+          </div>
+          <div className="relative">
+            <span className="tag tag-a" style={{ right: "auto", left: 0 }}>After</span>
+            <Image src="/photos/pair-gutter-after.jpg" alt="A cleared gutter run" width={1100} height={1375} sizes="380px" className="aspect-[4/5] w-full object-cover" />
+          </div>
+        </div>
+      </figure>
+
+      <h2 className="h2 mt-16">Finished Work</h2>
+      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
+        {["/photos/svc-beds.jpg", "/photos/svc-shrub.jpg", "/photos/svc-mowing.jpg"].map((src) => (
+          <div key={src} className="relative aspect-[4/3] overflow-hidden bg-forest-2">
+            <Image src={src} alt="Finished Green Line lawn care work" fill sizes="(min-width:1080px) 33vw, 50vw" className="object-cover" />
+          </div>
         ))}
       </div>
 
-      <h2 className="t-display-md mt-20">Finished work</h2>
-      <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
-        {["/photos/hero/edge-line-1x1.jpg", "/photos/clean/1_48_46.jpg", "/photos/clean/1_49_11.jpg"].map(
-          (src) => (
-            <div key={src} className="relative aspect-square overflow-hidden rounded-md bg-field">
-              <Image src={src} alt="Finished lawn care work" fill sizes="(min-width: 768px) 33vw, 50vw" className="object-cover" />
-            </div>
-          )
-        )}
-      </div>
-
-      <div className="mt-16 border-l-[3px] border-turf pl-6">
-        <p className="t-display-sm max-w-[24ch]">Yours could be the next pair.</p>
-        <Link href="/estimate" className="btn btn-fill mt-5">
-          Get a free estimate
-        </Link>
+      <div className="mt-14 border-l-[3px] border-lime pl-6">
+        <p className="h3 max-w-[24ch]">Yours Could Be The Next One.</p>
+        <Link href="/estimate" className="btn btn-p mt-5">Get A Free Estimate</Link>
       </div>
     </div>
   );
