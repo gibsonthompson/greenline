@@ -116,7 +116,7 @@ body {
 .gl-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 90;
   background: #010101;                 /* the logo's own field colour */
-  border-bottom: 1px solid var(--color-lime);
+  border-bottom: none;                 /* plain black bar, no accent rule */
   transition: height .28s, box-shadow .28s;
 }
 
