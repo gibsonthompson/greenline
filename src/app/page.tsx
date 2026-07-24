@@ -53,17 +53,21 @@ export default function Home() {
           className="object-cover object-[50%_64%]"
         />
         <div
-          className="hero-veil"
           aria-hidden="true"
           style={{
-            // Full-width shadow across the top and the bottom, clear through
-            // the middle. Grow or shrink a band by moving its last stop (the
-            // "34%" / "38%"); darken it by raising the first alpha (".72").
+            position: "absolute",
+            inset: 0,
+            zIndex: 1,
+            pointerEvents: "none",
+            // Full-width shadow across the top and bottom, clear through the
+            // middle. Own layer with an explicit z-index so nothing can drop it.
+            // Last stop ("38%"/"42%") sets how far a band reaches; first alpha
+            // (".78"/".85") sets how dark.
             background:
-              "linear-gradient(to bottom, rgba(0,0,0,.72) 0%, rgba(0,0,0,.28) 14%, rgba(0,0,0,0) 34%), linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.30) 16%, rgba(0,0,0,0) 38%)",
+              "linear-gradient(to bottom, rgba(0,0,0,.78) 0%, rgba(0,0,0,.34) 16%, rgba(0,0,0,0) 38%), linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.4) 18%, rgba(0,0,0,0) 42%)",
           }}
         />
-        <div className={`relative w-full ${WRAP} pb-[clamp(3rem,5vw,4.5rem)] pt-[clamp(6rem,10vw,8.5rem)]`}>
+        <div className={`relative z-10 w-full ${WRAP} pb-[clamp(3rem,5vw,4.5rem)] pt-[clamp(6rem,10vw,8.5rem)]`}>
           <h1 className="h1 max-w-[17ch] text-white">The Best-Looking Yard On Your Street</h1>
           <p className="lead mt-5 max-w-[52ch] text-white/95">
             Professional lawn care across the East Bay on a schedule you never have to manage.
