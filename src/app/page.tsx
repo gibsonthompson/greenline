@@ -210,43 +210,31 @@ export default function Home() {
       {/* ══ WORK ══ */}
       <section id="work" className={`dark ${PAD}`} style={{ background: "#000000" }}>
         <div className={WRAP}>
-          <div className="mb-9 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,34ch)] lg:items-end">
-            <div>
-              <div className="rule" />
-              <div className="kicker">Our Work</div>
-              <h2 className="h2 mt-2 text-white">Before And After</h2>
-            </div>
-            <p className="text-mute-d">
-              Shot on a phone at the property. Every photo on this site is one of our jobs, not stock.
-            </p>
+          <div className="mb-10">
+            <div className="rule" />
+            <div className="kicker">Our Work</div>
+            <h2 className="h2 mt-2 text-white">Before And After</h2>
           </div>
 
-          <figure className="mt-8 border-t-2 border-lime pt-5">
-            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-              <div className="h3 text-white">Backyard Cleanup In One Visit</div>
-              <p className="max-w-[64ch] text-[0.95rem] text-mute-d">
-                Knee-high and full of dry growth when we got there. Cut down, raked out, and hauled
-                away the same day. Drag the handle to see it.
-              </p>
+          <figure className="mt-8">
+            <h3 className="h3 text-center text-white">Backyard Cleanup In One Visit</h3>
+            <div className="mx-auto mt-5 max-w-[760px]">
+              <BeforeAfter
+                beforeSrc="/photos/slide-yard-before.jpg"
+                afterSrc="/photos/slide-yard-after.jpg"
+                beforeAlt="Backyard overgrown with tall dry grass around a storage shed"
+                afterAlt="The same backyard cleared, with the brick path exposed"
+              />
             </div>
-            <BeforeAfter
-              beforeSrc="/photos/slide-yard-before.jpg"
-              afterSrc="/photos/slide-yard-after.jpg"
-              beforeAlt="Backyard overgrown with tall dry grass around a storage shed"
-              afterAlt="The same backyard cleared, with the brick path exposed"
-            />
+            <figcaption className="mx-auto mt-4 max-w-[600px] text-center text-[0.95rem] text-mute-d">
+              Knee-high and full of dry growth when we got there. Cut down, raked out, and hauled
+              away the same day. Drag the handle to see it.
+            </figcaption>
           </figure>
 
-          <figure className="mt-10 border-t-2 border-lime pt-5">
-            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-              <div className="h3 text-white">Gutters Cleared Before The Rain</div>
-              <p className="max-w-[64ch] text-[0.95rem] text-mute-d">
-                Scooped by hand, downspouts flushed until they ran clear, and the ground underneath
-                cleaned up. These two are different sections of the roof, so they sit side by side
-                rather than in a slider.
-              </p>
-            </div>
-            <div className="grid max-w-[760px] grid-cols-1 gap-[2px] bg-black sm:grid-cols-2">
+          <figure className="mt-14">
+            <h3 className="h3 text-center text-white">Gutters Cleared Before The Rain</h3>
+            <div className="mx-auto mt-5 grid max-w-[760px] grid-cols-1 gap-[2px] bg-black sm:grid-cols-2">
               <div className="relative">
                 <span className="tag tag-b">Before</span>
                 <Image src="/photos/pair-gutter-before.jpg" alt="Roof gutter packed with fallen leaves and needles" width={1100} height={1375} sizes="380px" className="aspect-[4/5] w-full object-cover" />
@@ -256,6 +244,11 @@ export default function Home() {
                 <Image src="/photos/pair-gutter-after.jpg" alt="A cleared gutter run" width={1100} height={1375} sizes="380px" className="aspect-[4/5] w-full object-cover" />
               </div>
             </div>
+            <figcaption className="mx-auto mt-4 max-w-[600px] text-center text-[0.95rem] text-mute-d">
+              Scooped by hand, downspouts flushed until they ran clear, and the ground underneath
+              cleaned up. These two are different sections of the roof, so they sit side by side
+              rather than in a slider.
+            </figcaption>
           </figure>
         </div>
       </section>
