@@ -60,7 +60,7 @@ export default function Header() {
             <div className="text-[0.72rem] uppercase tracking-[0.09em] text-[#c3d0bf]">Call Or Text</div>
             <a
               href={`tel:${SITE.phoneE164}`}
-              className="font-[family-name:var(--font-display)] text-[1.24rem] text-white hover:text-lime-br"
+              className="font-[family-name:var(--font-display)] text-[1.24rem] text-white hover:opacity-80"
               style={{ fontVariationSettings: '"wdth" 92, "wght" 750' }}
             >
               {SITE.phoneDisplay}

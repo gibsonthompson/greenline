@@ -3,18 +3,18 @@ import { createContact } from "@/app/admin/actions";
 export default function NewContactPage() {
   return (
     <div className="max-w-xl">
-      <h1 className="h2">Add contact</h1>
+      <h1 className="h2">Add Contact</h1>
       <form action={createContact} className="mt-6 space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="first_name" className="mb-1 block font-medium">
-              First name
+              First Name
             </label>
             <input id="first_name" name="first_name" className="field" required />
           </div>
           <div>
             <label htmlFor="last_name" className="mb-1 block font-medium">
-              Last name
+              Last Name
             </label>
             <input id="last_name" name="last_name" className="field" />
           </div>
@@ -61,7 +61,7 @@ export default function NewContactPage() {
             <select id="contact_type" name="contact_type" className="field" defaultValue="residential">
               <option value="residential">Residential</option>
               <option value="commercial">Commercial</option>
-              <option value="property-manager">Property manager</option>
+              <option value="property-manager">Property Manager</option>
             </select>
           </div>
           <div>
@@ -74,7 +74,7 @@ export default function NewContactPage() {
               <option value="google">Google</option>
               <option value="instagram">Instagram</option>
               <option value="facebook">Facebook</option>
-              <option value="walk-up">Walk-up</option>
+              <option value="walk-up">Walk-Up</option>
             </select>
           </div>
         </div>
@@ -90,10 +90,10 @@ export default function NewContactPage() {
             <select id="cadence" name="cadence" className="field" defaultValue="">
               <option value="">None</option>
               <option value="weekly">Weekly</option>
-              <option value="biweekly">Every other week</option>
+              <option value="biweekly">Every Other Week</option>
               <option value="monthly">Monthly</option>
               <option value="seasonal">Seasonal</option>
-              <option value="one-time">One time</option>
+              <option value="one-time">One Time</option>
             </select>
           </div>
         </fieldset>
@@ -104,7 +104,7 @@ export default function NewContactPage() {
           <textarea id="notes" name="notes" className="field min-h-[96px]" />
         </div>
         <button type="submit" className="btn btn-p">
-          Save contact
+          Save Contact
         </button>
       </form>
     </div>

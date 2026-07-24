@@ -28,7 +28,7 @@ export default function ServiceArea() {
       <div>
         {/* Portrait on phones: at z=9 a 4:3 box is too short to hold
             Orinda and San Jose at once, a 3:4 box clears it comfortably. */}
-        <div className="aspect-[3/4] overflow-hidden border-[3px] border-lime bg-forest-2 sm:aspect-[4/3]">
+        <div className="aspect-[3/4] overflow-hidden border-[3px] border-green bg-forest-2 sm:aspect-[4/3]">
           <iframe
             title="Map of the Green Line Lawn Care service area in the East Bay"
             src="https://maps.google.com/maps?q=37.6076,-122.0330&z=9&output=embed"
@@ -46,7 +46,7 @@ export default function ServiceArea() {
             <li key={c.slug} className="break-inside-avoid">
               <Link
                 href={`/areas/${c.slug}`}
-                className="block py-2 text-[0.95rem] font-semibold text-lime-br hover:underline hover:underline-offset-4"
+                className="block py-2 text-[0.95rem] font-semibold text-green hover:underline hover:underline-offset-4"
               >
                 {c.name}
               </Link>

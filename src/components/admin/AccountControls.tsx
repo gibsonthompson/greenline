@@ -73,7 +73,7 @@ export default function AccountControls() {
           />
         </div>
         <div>
-          <label htmlFor="confirmPin" className="mb-1 block font-semibold">Confirm new PIN</label>
+          <label htmlFor="confirmPin" className="mb-1 block font-semibold">Confirm New PIN</label>
           <input
             id="confirmPin"
             className="field tabular-nums"
@@ -95,7 +95,7 @@ export default function AccountControls() {
       </form>
 
       <div>
-        <button onClick={signOut} className="btn btn-ol btn-inline">Sign out on this device</button>
+        <button onClick={signOut} className="btn btn-ol btn-inline">Sign Out On This Device</button>
       </div>
     </div>
   );

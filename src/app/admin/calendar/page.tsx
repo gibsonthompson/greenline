@@ -146,7 +146,7 @@ export default async function CalendarPage({
       <p className="mt-8 text-[0.9rem] text-mute-l">
         <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-lime" /> Estimate</span>
         <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-green" /> Service</span>
-        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm border border-line bg-paper-2" /> Follow up</span>
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm border border-line bg-paper-2" /> Follow Up</span>
       </p>
     </div>
   );

@@ -51,7 +51,7 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
       <h1 className="h2 mt-2">
         {c.first_name} {c.last_name}
       </h1>
-      <p className="mt-1 text-mute-l">
+      <p className="mt-1 capitalize text-mute-l">
         {c.contact_type}
         {c.is_recurring ? ` \u00b7 ${c.cadence ?? "recurring"}` : ""}
         {c.city ? ` \u00b7 ${c.city}` : ""}
@@ -84,7 +84,7 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
           </dd>
         </div>
         <div className="border border-line bg-white p-4">
-          <dt className="t-label text-mute-l">Total billed (complete jobs)</dt>
+          <dt className="t-label text-mute-l">Total Billed (Complete Jobs)</dt>
           <dd className="t-data mt-1 text-2xl">${totalBilled.toLocaleString()}</dd>
         </div>
         <div className="border border-line bg-white p-4">
@@ -100,7 +100,7 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
         </div>
       )}
 
-      <h2 className="h3 mt-10">Job history</h2>
+      <h2 className="h3 mt-10">Job History</h2>
       {(jobs?.length ?? 0) === 0 ? (
         <p className="mt-2 text-mute-l">No jobs yet.</p>
       ) : (
@@ -125,7 +125,7 @@ export default async function ContactDetail({ params }: { params: Promise<{ id: 
         </ul>
       )}
 
-      <h2 className="h3 mt-10">Estimate requests</h2>
+      <h2 className="h3 mt-10">Estimate Requests</h2>
       {(leads?.length ?? 0) === 0 ? (
         <p className="mt-2 text-mute-l">None on file.</p>
       ) : (

@@ -27,11 +27,11 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="h4 mb-3 text-lime-br">Services</h2>
+          <h2 className="h4 mb-3 text-green">Services</h2>
           <ul className="flex flex-col gap-2">
             {services.map((s) => (
               <li key={s.slug}>
-                <Link href={`/services/${s.slug}`} className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">
+                <Link href={`/services/${s.slug}`} className="text-[0.93rem] text-[#b6c4b2] hover:text-white">
                   {s.name}
                 </Link>
               </li>
@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="h4 mb-3 text-lime-br">Company</h2>
+          <h2 className="h4 mb-3 text-green">Company</h2>
           <ul className="flex flex-col gap-2">
             {[
               ["Our Work", "/work"],
@@ -50,7 +50,7 @@ export default function Footer() {
               ["Free Estimate", "/estimate"],
             ].map(([label, href]) => (
               <li key={href}>
-                <Link href={href} className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">
+                <Link href={href} className="text-[0.93rem] text-[#b6c4b2] hover:text-white">
                   {label}
                 </Link>
               </li>
@@ -59,17 +59,17 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="h4 mb-3 text-lime-br">Service Area</h2>
+          <h2 className="h4 mb-3 text-green">Service Area</h2>
           <ul className="flex flex-col gap-2">
             {cityPages.slice(0, 7).map((c) => (
               <li key={c.slug}>
-                <Link href={`/areas/${c.slug}`} className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">
+                <Link href={`/areas/${c.slug}`} className="text-[0.93rem] text-[#b6c4b2] hover:text-white">
                   {c.name}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/areas" className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">
+              <Link href="/areas" className="text-[0.93rem] text-[#b6c4b2] hover:text-white">
                 All Service Areas
               </Link>
             </li>
@@ -77,19 +77,19 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="h4 mb-3 text-lime-br">Contact</h2>
+          <h2 className="h4 mb-3 text-green">Contact</h2>
           <ul className="flex flex-col gap-2">
             <li>
               <a
                 href={`tel:${SITE.phoneE164}`}
-                className="font-[family-name:var(--font-display)] text-[1.2rem] text-white hover:text-lime-br"
+                className="font-[family-name:var(--font-display)] text-[1.2rem] text-white hover:opacity-80"
                 style={{ fontVariationSettings: '"wdth" 92, "wght" 750' }}
               >
                 {SITE.phoneDisplay}
               </a>
             </li>
             <li>
-              <a href={`mailto:${SITE.email}`} className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">
+              <a href={`mailto:${SITE.email}`} className="text-[0.93rem] text-[#b6c4b2] hover:text-white">
                 {SITE.email}
               </a>
             </li>
@@ -98,8 +98,8 @@ export default function Footer() {
             </li>
             <li className="text-[0.9rem] text-[#8fa08c]">Licensed And Insured</li>
             <li className="flex gap-4 pt-1">
-              <a href={SITE.instagram} rel="noopener" className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">Instagram</a>
-              <a href={SITE.facebook} rel="noopener" className="text-[0.93rem] text-[#b6c4b2] hover:text-lime-br">Facebook</a>
+              <a href={SITE.instagram} rel="noopener" className="text-[0.93rem] text-[#b6c4b2] hover:text-white">Instagram</a>
+              <a href={SITE.facebook} rel="noopener" className="text-[0.93rem] text-[#b6c4b2] hover:text-white">Facebook</a>
             </li>
           </ul>
         </div>
@@ -109,10 +109,10 @@ export default function Footer() {
         <div className="mx-auto flex max-w-[1340px] flex-wrap items-center justify-between gap-4 px-[clamp(1.1rem,4.2vw,4rem)] py-5 text-[0.85rem] text-[#8fa08c]">
           <p>&copy; {new Date().getFullYear()} {SITE.name}. All Rights Reserved.</p>
           <p className="flex gap-6">
-            <Link href="/blog" className="hover:text-lime-br">Blog</Link>
-            <Link href="/privacy" className="hover:text-lime-br">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-lime-br">Terms Of Service</Link>
-            <Link href="/sms-terms" className="hover:text-lime-br">SMS Terms</Link>
+            <Link href="/blog" className="hover:text-white">Blog</Link>
+            <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white">Terms Of Service</Link>
+            <Link href="/sms-terms" className="hover:text-white">SMS Terms</Link>
           </p>
         </div>
       </div>

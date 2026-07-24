@@ -39,11 +39,11 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
 
       <div className="mt-4 flex flex-wrap gap-3">
         <a href={`/api/calendar/job/${j.id}.ics`} className="btn btn-ol">
-          Add to my calendar
+          Add To My Calendar
         </a>
         {c?.phone && (
           <a href={`tel:${c.phone}`} className="btn btn-ol">
-            Call customer
+            Call Customer
           </a>
         )}
         {c && (
@@ -72,7 +72,7 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
             <select id="status" name="status" className="field" defaultValue={j.status}>
               {["scheduled", "confirmed", "in-progress", "complete", "cancelled", "no-show"].map((s) => (
                 <option key={s} value={s}>
-                  {s}
+                  {s.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ")}
                 </option>
               ))}
             </select>
@@ -123,7 +123,7 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
           <textarea id="notes" name="notes" className="field min-h-[96px]" defaultValue={j.notes ?? ""} />
         </div>
         <button type="submit" className="btn btn-p">
-          Save changes
+          Save Changes
         </button>
       </form>
 

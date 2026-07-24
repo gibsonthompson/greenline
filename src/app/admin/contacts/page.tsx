@@ -31,7 +31,7 @@ export default async function ContactsPage({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="h2">Contacts</h1>
         <Link href="/admin/contacts/new" className="btn btn-p btn-inline">
-          Add contact
+          Add Contact
         </Link>
       </div>
 

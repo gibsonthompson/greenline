@@ -98,7 +98,6 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
               <dt className="t-label text-mute-l">Address</dt>
               <dd>
                 {lead.address_line}, {lead.city} {lead.zip}
-                {lead.out_of_area && <span className="ml-2 text-green">(out of core area)</span>}
               </dd>
             </div>
             {lead.notes && (
@@ -116,7 +115,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
               </dd>
             </div>
             <div>
-              <dt className="t-label text-mute-l">SMS consent</dt>
+              <dt className="t-label text-mute-l">SMS Consent</dt>
               <dd>{lead.sms_consent ? `Yes, ${new Date(lead.sms_consent_at).toLocaleDateString()}` : "No"}</dd>
             </div>
           </dl>
@@ -126,7 +125,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
         </div>
 
         <div>
-          <h2 className="h3">Schedule this</h2>
+          <h2 className="h3">Schedule This</h2>
           <form action={createJobForLead} className="mt-3 space-y-4">
             <input type="hidden" name="lead_id" value={lead.id} />
             <input type="hidden" name="contact_id" value={lead.contact_id ?? ""} />
@@ -151,9 +150,9 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
                   Type
                 </label>
                 <select id="job-type" name="job_type" className="field" defaultValue="estimate">
-                  <option value="estimate">Estimate visit</option>
+                  <option value="estimate">Estimate Visit</option>
                   <option value="service">Service</option>
-                  <option value="followup">Follow up</option>
+                  <option value="followup">Follow Up</option>
                 </select>
               </div>
               <div>
@@ -184,7 +183,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
               </div>
             </div>
             <button type="submit" className="btn btn-p">
-              Create job
+              Create Job
             </button>
           </form>
         </div>

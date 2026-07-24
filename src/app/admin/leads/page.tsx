@@ -38,7 +38,7 @@ export default async function LeadsPage({
 
   let q = admin
     .from("gl_leads")
-    .select("id, name, phone, city, services, status, created_at, out_of_area")
+    .select("id, name, phone, city, services, status, created_at")
     .order("created_at", { ascending: false })
     .limit(200);
   if (status !== "all") q = q.eq("status", status);
@@ -94,8 +94,7 @@ export default async function LeadsPage({
                     <span>{l.city || "No city"}</span>
                     <span aria-hidden>&middot;</span>
                     <span>{ago(l.created_at)}</span>
-                    {l.out_of_area && <span className="text-green">&middot; out of area</span>}
-                    {stale && <span className="font-bold text-green">&middot; no reply yet</span>}
+                    {stale && <span className="font-bold text-green">&middot; No Reply Yet</span>}
                   </p>
                 </Link>
                 {l.phone && (
