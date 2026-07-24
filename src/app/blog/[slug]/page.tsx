@@ -45,20 +45,20 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   };
 
   return (
-    <article className="mx-auto max-w-6xl px-5 py-16 md:px-8">
+    <article className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(8rem,12vw,10rem)] md:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <div className="mx-auto max-w-[72ch]">
-        <nav aria-label="Breadcrumb" className="t-body-sm text-ink-60">
-          <Link href="/blog" className="text-turf-ink underline underline-offset-2">
+        <nav aria-label="Breadcrumb" className="t-sm text-mute-l">
+          <Link href="/blog" className="text-green underline underline-offset-2">
             Blog
           </Link>{" "}
           / {CATEGORY_LABELS[post.category] ?? post.category}
         </nav>
-        <h1 className="t-display-lg mt-3">{post.title}</h1>
-        <p className="t-body-sm mt-4 text-ink-60">
+        <h1 className="h2 mt-3">{post.title}</h1>
+        <p className="t-sm mt-4 text-mute-l">
           {new Date(post.published_at).toLocaleDateString("en-US", {
             month: "long",
             day: "numeric",
@@ -66,17 +66,17 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           })}
           {post.reading_minutes ? ` \u00b7 ${post.reading_minutes} min read` : ""}
         </p>
-        <div aria-hidden="true" className="line-h mt-6 w-24" />
+        <div aria-hidden="true" className="rule mt-6 w-24" />
         <div
           className="prose-gl mt-8"
           dangerouslySetInnerHTML={{ __html: post.content_html }}
         />
-        <div className="mt-14 border-l-[3px] border-turf bg-concrete-00 p-6">
-          <p className="t-display-sm">Want it handled instead of explained?</p>
-          <p className="mt-2 text-ink-60">
+        <div className="mt-14 border-l-[3px] border-lime bg-white p-6">
+          <p className="h3">Want it handled instead of explained?</p>
+          <p className="mt-2 text-mute-l">
             Send a few photos and get a real price for your property, usually the same day.
           </p>
-          <Link href="/estimate" className="btn btn-fill mt-4">
+          <Link href="/estimate" className="btn btn-p mt-4">
             Get a free estimate
           </Link>
         </div>

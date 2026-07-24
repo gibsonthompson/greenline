@@ -29,7 +29,7 @@ export default function ServiceArea() {
         <div className="aspect-[4/3] overflow-hidden border-[3px] border-lime bg-forest-2">
           <iframe
             title="Map of the Green Line Lawn Care service area in the East Bay"
-            src="https://maps.google.com/maps?q=Oakland,%20California&t=&z=9&ie=UTF8&iwloc=&output=embed"
+            src="https://maps.google.com/maps?q=Oakland,%20California&t=&z=11&ie=UTF8&iwloc=&output=embed"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen

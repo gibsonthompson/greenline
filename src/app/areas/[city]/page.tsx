@@ -39,19 +39,19 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   };
 
   return (
-    <article className="mx-auto max-w-6xl px-5 py-16 md:px-8">
+    <article className="mx-auto max-w-6xl px-5 pb-16 pt-[clamp(8rem,12vw,10rem)] md:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <nav aria-label="Breadcrumb" className="t-body-sm text-ink-60">
-        <Link href="/areas" className="text-turf-ink underline underline-offset-2">
+      <nav aria-label="Breadcrumb" className="t-sm text-mute-l">
+        <Link href="/areas" className="text-green underline underline-offset-2">
           Service areas
         </Link>{" "}
         / {c.name}
       </nav>
-      <h1 className="t-display-lg mt-3 max-w-[20ch]">Lawn care in {c.name}</h1>
-      <p className="t-body-lg mt-4 max-w-[52ch] text-ink-60">{c.intro}</p>
+      <h1 className="h2 mt-3 max-w-[20ch]">Lawn care in {c.name}</h1>
+      <p className="lead mt-4 max-w-[52ch] text-mute-l">{c.intro}</p>
 
       <div className="prose-gl mt-10 max-w-[68ch]">
         <p>{c.local}</p>
@@ -77,10 +77,10 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
       </div>
 
       <div className="mt-12 flex flex-wrap gap-4">
-        <Link href="/estimate" className="btn btn-fill">
+        <Link href="/estimate" className="btn btn-p">
           Get a free estimate in {c.name}
         </Link>
-        <a href={`tel:${SITE.phoneE164}`} className="btn btn-ghost-light">
+        <a href={`tel:${SITE.phoneE164}`} className="btn btn-ol">
           Call {SITE.phoneDisplay}
         </a>
       </div>

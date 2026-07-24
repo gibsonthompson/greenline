@@ -1,18 +1,18 @@
+import Image from "next/image";
 import { reviews } from "@/data/reviews";
 import { reviewLink } from "@/data/site";
 
-// Google-styled cards. The mark itself is a placeholder: pull the official
-// asset from Google's brand permissions page and drop it in. Do not
-// hand-draw it, that is both a trademark problem and an obvious tell.
+// Google-styled cards using the official Google mark.
 function GoogleMark({ size = 28 }: { size?: number }) {
   return (
-    <span
-      className="gph"
-      aria-hidden="true"
-      style={{ width: size, height: size, fontSize: Math.max(6, size * 0.19) }}
-    >
-      LOGO
-    </span>
+    <Image
+      src="/brand/google-g.png"
+      alt="Google"
+      width={size}
+      height={size}
+      className="flex-none"
+      style={{ width: size, height: size }}
+    />
   );
 }
 

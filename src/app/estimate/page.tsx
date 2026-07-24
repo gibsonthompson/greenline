@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 
 export default function EstimatePage() {
   return (
-    <div className="on-dark bg-field py-14 text-paper md:py-20">
+    <div className="bg-forest pb-14 pt-[clamp(9rem,13vw,11rem)] text-paper md:py-20">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <div className="mx-auto max-w-2xl">
-          <h1 className="t-display-lg">Free estimate</h1>
-          <p className="t-body-lg mt-3 text-paper/80">
+          <h1 className="h2">Free estimate</h1>
+          <p className="lead mt-3 text-paper/80">
             Four quick steps. Most requests get a price back the same day.
           </p>
         </div>
-        <div className="mx-auto mt-10 max-w-2xl border-l-[3px] border-turf bg-concrete-10 p-6 text-ink md:p-10">
+        <div className="mx-auto mt-10 max-w-2xl border-l-[3px] border-lime bg-paper p-6 text-ink md:p-10">
           <Suspense>
             <EstimateForm />
           </Suspense>

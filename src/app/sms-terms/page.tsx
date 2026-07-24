@@ -8,9 +8,17 @@ export const metadata: Metadata = {
 
 export default function SmsTermsPage() {
   return (
-    <div className="prose-gl mx-auto max-w-[72ch] px-5 py-16 md:px-0">
-      <h1 className="t-display-lg">SMS terms and conditions</h1>
-      <p className="t-body-sm text-ink-60">Last updated July 2026</p>
+    <article>
+      <header className="dark">
+        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-10 pt-[clamp(8.5rem,13vw,10.5rem)]">
+          <div className="rule" />
+          <div className="kicker">Legal</div>
+          <h1 className="h1 mt-2 max-w-[18ch] text-white">SMS Terms And Conditions</h1>
+          <p className="t-sm mt-3 text-mute-d">Last updated July 2026</p>
+        </div>
+      </header>
+
+      <div className="prose-gl mx-auto max-w-[72ch] px-[clamp(1.1rem,4.2vw,4rem)] py-14">
       <p>
         By checking the SMS consent box on our estimate form, you agree to receive text messages
         from {SITE.name} about your estimate request and any service you schedule with us. This
@@ -29,6 +37,7 @@ export default function SmsTermsPage() {
         described here and is never sold or shared for marketing by third parties. See our{" "}
         <a href="/privacy">privacy policy</a> for details.
       </p>
-    </div>
+      </div>
+    </article>
   );
 }

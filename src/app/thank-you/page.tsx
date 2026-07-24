@@ -9,23 +9,23 @@ export const metadata: Metadata = {
 
 export default function ThankYouPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-24 md:px-8">
+    <div className="mx-auto max-w-6xl px-5 pb-24 pt-[clamp(8rem,12vw,10rem)] md:px-8">
       <div className="max-w-[52ch]">
-        <div aria-hidden="true" className="line-h w-24" />
-        <h1 className="t-display-lg mt-6">Estimate request sent</h1>
-        <p className="t-body-lg mt-4 text-ink-60">
+        <div aria-hidden="true" className="rule w-24" />
+        <h1 className="h2 mt-6">Estimate request sent</h1>
+        <p className="lead mt-4 text-mute-l">
           Jaydin has it. You&rsquo;ll get a text or a call back with a price, usually the same
           day, always within one business day.
         </p>
         <p className="mt-4">
           Need us sooner? Call{" "}
-          <a href={`tel:${SITE.phoneE164}`} className="font-semibold text-turf-ink underline underline-offset-2">
+          <a href={`tel:${SITE.phoneE164}`} className="font-semibold text-green underline underline-offset-2">
             {SITE.phoneDisplay}
           </a>
           , {SITE.hours.days}, {SITE.hours.open} to {SITE.hours.close}.
         </p>
         <div className="mt-10 flex gap-4">
-          <Link href="/work" className="btn btn-ghost-light">
+          <Link href="/work" className="btn btn-ol">
             See our work while you wait
           </Link>
         </div>

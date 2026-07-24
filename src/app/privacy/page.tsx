@@ -8,9 +8,17 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="prose-gl mx-auto max-w-[72ch] px-5 py-16 md:px-0">
-      <h1 className="t-display-lg">Privacy policy</h1>
-      <p className="t-body-sm text-ink-60">Last updated July 2026</p>
+    <article>
+      <header className="dark">
+        <div className="mx-auto max-w-[1340px] px-[clamp(1.1rem,4.2vw,4rem)] pb-10 pt-[clamp(8.5rem,13vw,10.5rem)]">
+          <div className="rule" />
+          <div className="kicker">Legal</div>
+          <h1 className="h1 mt-2 max-w-[18ch] text-white">Privacy Policy</h1>
+          <p className="t-sm mt-3 text-mute-d">Last updated July 2026</p>
+        </div>
+      </header>
+
+      <div className="prose-gl mx-auto max-w-[72ch] px-[clamp(1.1rem,4.2vw,4rem)] py-14">
       <h2>What we collect</h2>
       <p>
         When you request an estimate we collect what you give us: your name, phone number, email
@@ -43,6 +51,7 @@ export default function PrivacyPage() {
       <p>
         {SITE.name}, {SITE.phoneDisplay}, {SITE.email}.
       </p>
-    </div>
+      </div>
+    </article>
   );
 }
