@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import AdminShell from "@/components/admin/AdminShell";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { getAdminClient } from "@/lib/supabase-admin";
 
 export const metadata: Metadata = {
   title: { default: "Admin", template: "%s | Green Line Admin" },
@@ -15,11 +16,21 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const admin = getAdminClient();
+  let newLeadCount = 0;
+  if (admin) {
+    const { count } = await admin
+      .from("gl_leads")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "new");
+    newLeadCount = count ?? 0;
+  }
+
   return (
     <>
       <ServiceWorkerRegister />
-      <AdminShell>{children}</AdminShell>
+      <AdminShell newLeadCount={newLeadCount}>{children}</AdminShell>
     </>
   );
 }

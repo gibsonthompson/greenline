@@ -1,0 +1,279 @@
+/* ============================================================
+   GREEN LINE ADMIN
+   JB Lawn Care layout language (Jobber-style light SaaS),
+   re-themed to the Green Line brand.
+   - Accent: logo green #2d6d14 (not JB bright #6BBF1A)
+   - Fonts: Public Sans body, Archivo display (already loaded)
+   Scoped under .gladmin so it never collides with the marketing
+   design system in globals.css or with Tailwind utilities.
+   ============================================================ */
+
+.gladmin {
+  --a-bg: #f5f6f2;
+  --a-surface: #ffffff;
+  --a-line: #e5e8e0;
+  --a-line-soft: #f0f2ec;
+  --a-ink: #1a1d16;
+  --a-ink-2: #3a3f35;
+  --a-mute: #7a8072;
+  --a-mute-2: #a8aea0;
+
+  /* Green Line brand green, not JB's bright green */
+  --a-green: #2d6d14;
+  --a-green-h: #245910;
+  --a-green-tint: #eef4e7;      /* pale wash for active nav + hovers */
+  --a-green-tint-line: #cfe3bd; /* border for tinted elements */
+
+  --a-blue-bg: #eff6ff; --a-blue: #2563eb;
+  --a-amber-bg: #fffbeb; --a-amber: #d97706;
+  --a-red-bg: #fef2f2; --a-red: #dc2626;
+  --a-green-bg: #f0fdf4; --a-green-fg: #16a34a;
+  --a-indigo-bg: #eef2ff; --a-indigo: #6366f1;
+  --a-violet-bg: #f5f3ff; --a-violet: #8b5cf6;
+
+  font-family: var(--font-body);
+  color: var(--a-ink);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== LAYOUT SHELL ========== */
+.gladmin-shell { display: flex; min-height: 100dvh; background: var(--a-bg); }
+
+.gladmin-sidebar {
+  width: 240px; min-width: 240px;
+  background: var(--a-surface);
+  border-right: 1px solid var(--a-line);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 40;
+  transition: transform 0.25s ease;
+}
+.gladmin-brand { padding: 18px 20px 14px; display: flex; align-items: center; gap: 12px; }
+.gladmin-brand img { height: 30px; width: auto; }
+.gladmin-brand span {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--a-mute-2);
+}
+.gladmin-nav { flex: 1; padding: 4px 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; }
+.gladmin-nav-label {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--a-mute-2); padding: 18px 12px 8px;
+}
+.gladmin-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 7px;
+  color: var(--a-mute); text-decoration: none;
+  font-size: 13.5px; font-weight: 550;
+  transition: background 0.12s ease, color 0.12s ease;
+  position: relative;
+}
+.gladmin-item:hover { background: var(--a-bg); color: var(--a-ink); }
+.gladmin-item.active { background: var(--a-green-tint); color: var(--a-green); font-weight: 650; }
+.gladmin-item.active::before {
+  content: ''; position: absolute; left: 0; top: 6px; bottom: 6px;
+  width: 3px; background: var(--a-green); border-radius: 0 3px 3px 0;
+}
+.gladmin-item svg { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 1.8; }
+.gladmin-badge {
+  margin-left: auto; background: var(--a-green); color: #fff;
+  font-size: 10.5px; font-weight: 750; padding: 1px 7px; border-radius: 10px;
+  min-width: 20px; text-align: center; line-height: 18px;
+}
+.gladmin-foot { padding: 14px 20px; border-top: 1px solid var(--a-line-soft); }
+.gladmin-foot a {
+  color: var(--a-mute-2); text-decoration: none; font-size: 12px; font-weight: 550;
+  display: flex; align-items: center; gap: 6px; transition: color 0.15s;
+}
+.gladmin-foot a:hover { color: var(--a-green); }
+.gladmin-foot a svg { width: 14px; height: 14px; }
+
+.gladmin-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 190; }
+
+.gladmin-main { flex: 1; margin-left: 240px; display: flex; flex-direction: column; min-height: 100dvh; }
+.gladmin-topbar {
+  height: 56px; background: var(--a-surface); border-bottom: 1px solid var(--a-line);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; position: sticky; top: 0; z-index: 30;
+}
+.gladmin-topbar-title { font-size: 15px; font-weight: 700; color: var(--a-ink); }
+.gladmin-topbar-right { display: flex; align-items: center; gap: 10px; }
+.gladmin-toggle { display: none; background: none; border: none; color: var(--a-ink); cursor: pointer; padding: 2px; }
+.gladmin-toggle svg { width: 22px; height: 22px; }
+.gladmin-content { flex: 1; padding: 24px; max-width: 1360px; width: 100%; }
+
+@media (max-width: 900px) {
+  .gladmin-sidebar { transform: translateX(-100%); z-index: 200; box-shadow: none; }
+  .gladmin-sidebar.open { transform: translateX(0); box-shadow: 8px 0 24px rgba(0,0,0,0.12); }
+  .gladmin-main { margin-left: 0; }
+  .gladmin-toggle { display: flex; }
+  .gladmin-content { padding: 18px 16px; }
+  .gladmin-topbar { padding: 0 16px; }
+}
+
+/* ========== BUTTONS ========== */
+.gladmin-btn {
+  padding: 7px 16px; background: var(--a-green); color: #fff; border: none; border-radius: 7px;
+  font-weight: 650; font-size: 13px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  transition: background 0.15s ease; font-family: inherit;
+}
+.gladmin-btn:hover { background: var(--a-green-h); }
+.gladmin-btn svg { width: 15px; height: 15px; }
+.gladmin-btn-ghost {
+  padding: 7px 16px; background: var(--a-surface); border: 1px solid var(--a-line); border-radius: 7px;
+  font-weight: 650; font-size: 13px; cursor: pointer; color: var(--a-ink-2);
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  transition: background 0.12s; font-family: inherit;
+}
+.gladmin-btn-ghost:hover { background: var(--a-bg); }
+
+/* ========== PAGE HEADER ========== */
+.gladmin-page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 22px; }
+.gladmin-page-header h1 { font-size: 20px; font-weight: 750; color: var(--a-ink); margin-bottom: 3px; letter-spacing: -0.01em; }
+.gladmin-page-header p { font-size: 13px; color: var(--a-mute); font-weight: 450; }
+
+/* ========== STAT CARDS ========== */
+.gladmin-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 22px; }
+.gladmin-stat {
+  background: var(--a-surface); border-radius: 12px; padding: 18px 20px; border: 1px solid var(--a-line);
+  text-decoration: none; color: inherit; display: block; transition: box-shadow 0.18s, border-color 0.12s;
+}
+a.gladmin-stat:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-color: var(--a-green-tint-line); }
+.gladmin-stat-label { font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.06em; color: var(--a-mute); }
+.gladmin-stat-value {
+  font-family: var(--font-display); font-variation-settings: "wdth" 90, "wght" 800;
+  font-size: 30px; color: var(--a-ink); margin-top: 6px; letter-spacing: -0.01em; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.gladmin-stat-meta { font-size: 12px; font-weight: 500; color: var(--a-mute-2); margin-top: 5px; }
+.gladmin-stat.accent { background: var(--a-green); border-color: var(--a-green); }
+.gladmin-stat.accent .gladmin-stat-label { color: #cfe3bd; }
+.gladmin-stat.accent .gladmin-stat-value,
+.gladmin-stat.accent .gladmin-stat-arrow { color: #fff; }
+.gladmin-stat-arrow { font-weight: 700; font-size: 15px; margin-top: 6px; }
+
+@media (max-width: 700px) { .gladmin-stats { grid-template-columns: 1fr; } }
+
+/* ========== CARD ========== */
+.gladmin-card { background: var(--a-surface); border-radius: 12px; border: 1px solid var(--a-line); overflow: hidden; }
+.gladmin-card + .gladmin-card { margin-top: 20px; }
+.gladmin-card-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--a-line-soft); }
+.gladmin-card-header h2, .gladmin-card-header h3 { font-size: 14px; font-weight: 700; color: var(--a-ink); }
+.gladmin-card-link { font-size: 12.5px; font-weight: 650; color: var(--a-green); text-decoration: none; }
+.gladmin-card-link:hover { color: var(--a-green-h); text-decoration: underline; }
+.gladmin-card-body { padding: 0; }
+.gladmin-card-body.padded { padding: 20px; }
+.gladmin-empty { padding: 40px 20px; text-align: center; color: var(--a-mute-2); font-size: 13px; }
+
+/* ========== TABLE ========== */
+.gladmin-tbl { width: 100%; border-collapse: collapse; }
+.gladmin-tbl th {
+  text-align: left; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--a-mute-2); padding: 10px 20px; border-bottom: 1px solid var(--a-line-soft);
+}
+.gladmin-tbl td { padding: 12px 20px; font-size: 13.5px; border-bottom: 1px solid var(--a-line-soft); color: var(--a-ink-2); vertical-align: top; }
+.gladmin-tbl tr:last-child td { border-bottom: none; }
+.gladmin-tbl a.gladmin-row-link { color: inherit; text-decoration: none; display: block; }
+.gladmin-tbl tr.linked:hover td { background: #fafbf8; }
+.gladmin-cell-primary { font-weight: 650; color: var(--a-ink); }
+.gladmin-cell-secondary { font-size: 12px; color: var(--a-mute-2); margin-top: 2px; }
+
+/* ========== BADGES ========== */
+.gladmin-badge-status {
+  display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 6px;
+  font-size: 11px; font-weight: 650; letter-spacing: 0.02em; white-space: nowrap; text-transform: capitalize;
+}
+.gladmin-badge-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+/* lead + job statuses mapped to a calm palette */
+.gladmin-badge-status.new { background: var(--a-blue-bg); color: var(--a-blue); } .gladmin-badge-status.new::before { background: var(--a-blue); }
+.gladmin-badge-status.contacted { background: var(--a-indigo-bg); color: var(--a-indigo); } .gladmin-badge-status.contacted::before { background: var(--a-indigo); }
+.gladmin-badge-status.quoted { background: var(--a-violet-bg); color: var(--a-violet); } .gladmin-badge-status.quoted::before { background: var(--a-violet); }
+.gladmin-badge-status.scheduled, .gladmin-badge-status.confirmed { background: var(--a-green-tint); color: var(--a-green); } .gladmin-badge-status.scheduled::before, .gladmin-badge-status.confirmed::before { background: var(--a-green); }
+.gladmin-badge-status.in-progress, .gladmin-badge-status.en-route { background: var(--a-amber-bg); color: var(--a-amber); } .gladmin-badge-status.in-progress::before, .gladmin-badge-status.en-route::before { background: var(--a-amber); }
+.gladmin-badge-status.won, .gladmin-badge-status.complete, .gladmin-badge-status.completed { background: var(--a-green-bg); color: var(--a-green-fg); } .gladmin-badge-status.won::before, .gladmin-badge-status.complete::before, .gladmin-badge-status.completed::before { background: var(--a-green-fg); }
+.gladmin-badge-status.lost, .gladmin-badge-status.cancelled, .gladmin-badge-status.no-show { background: var(--a-red-bg); color: var(--a-red); } .gladmin-badge-status.lost::before, .gladmin-badge-status.cancelled::before, .gladmin-badge-status.no-show::before { background: var(--a-red); }
+
+/* ========== FILTER PILLS ========== */
+.gladmin-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.gladmin-pill {
+  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--a-line); background: var(--a-surface);
+  color: var(--a-mute); font-weight: 600; font-size: 12.5px; cursor: pointer;
+  transition: background 0.12s; font-family: inherit; text-decoration: none; text-transform: capitalize;
+}
+.gladmin-pill:hover { background: var(--a-bg); }
+.gladmin-pill.active { background: var(--a-green-tint); border-color: var(--a-green-tint-line); color: var(--a-green); }
+
+/* ========== DETAIL / DEFINITION ========== */
+.gladmin-field { margin-bottom: 14px; }
+.gladmin-field:last-child { margin-bottom: 0; }
+.gladmin-field-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--a-mute-2); margin-bottom: 3px; }
+.gladmin-field-value { font-size: 13.5px; color: var(--a-ink); font-weight: 500; }
+.gladmin-notes { font-size: 13px; color: var(--a-ink-2); line-height: 1.55; background: #fafbf8; padding: 10px 12px; border-radius: 7px; border: 1px solid var(--a-line-soft); white-space: pre-line; }
+
+/* ========== FORM ========== */
+.gladmin-form { display: flex; flex-direction: column; gap: 16px; max-width: 640px; }
+.gladmin-form-row { display: grid; gap: 12px; }
+.gladmin-form-row.two { grid-template-columns: 1fr 1fr; }
+.gladmin-form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+.gladmin-label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--a-mute); }
+.gladmin-input, .gladmin-select, .gladmin-textarea {
+  width: 100%; padding: 9px 12px; border: 1px solid var(--a-line); border-radius: 7px;
+  font-size: 14px; font-family: inherit; box-sizing: border-box; background: var(--a-surface); color: var(--a-ink);
+}
+.gladmin-input:focus, .gladmin-select:focus, .gladmin-textarea:focus { outline: 2px solid var(--a-green-tint-line); outline-offset: 1px; border-color: var(--a-green); }
+.gladmin-textarea { min-height: 96px; resize: vertical; }
+@media (max-width: 560px) { .gladmin-form-row.two, .gladmin-form-row.three { grid-template-columns: 1fr; } }
+
+/* ========== SEARCH ========== */
+.gladmin-search {
+  padding: 9px 14px; border: 1px solid var(--a-line); border-radius: 8px; font-size: 13px;
+  width: 280px; max-width: 100%; font-family: inherit; outline: none; background: var(--a-surface); color: var(--a-ink);
+}
+.gladmin-search:focus { border-color: var(--a-green); }
+
+/* ========== CALENDAR ========== */
+.gladmin-cal-nav { display: flex; gap: 8px; align-items: center; }
+.gladmin-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--a-line); border-radius: 12px; overflow: hidden; }
+.gladmin-cal-head { background: var(--a-surface); padding: 10px; text-align: center; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--a-mute); }
+.gladmin-cal-cell { background: var(--a-surface); min-height: 104px; padding: 6px; }
+.gladmin-cal-cell.dim { background: #fafbf8; }
+.gladmin-cal-date { font-size: 12px; font-weight: 650; color: var(--a-ink-2); display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; border-radius: 6px; }
+.gladmin-cal-date.today { background: var(--a-green); color: #fff; }
+.gladmin-cal-event {
+  display: block; margin-top: 4px; padding: 3px 7px; border-radius: 5px; font-size: 11.5px; font-weight: 600;
+  text-decoration: none; border-left: 3px solid var(--a-green);
+  background: #fafbf8; color: var(--a-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.gladmin-cal-event.estimate { border-left-color: var(--a-amber); }
+.gladmin-cal-event.service { border-left-color: var(--a-green); }
+.gladmin-cal-event.followup { border-left-color: var(--a-mute-2); }
+.gladmin-cal-event.cancelled { text-decoration: line-through; color: var(--a-mute-2); }
+
+/* ========== ROUTE LIST (today) ========== */
+.gladmin-route { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.gladmin-route-item { display: flex; border: 1px solid var(--a-line); border-radius: 10px; overflow: hidden; background: var(--a-surface); }
+.gladmin-route-stop {
+  flex: none; width: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--a-green-tint); border-right: 1px solid var(--a-line);
+}
+.gladmin-route-stop small { font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; color: var(--a-green); text-transform: uppercase; }
+.gladmin-route-stop b { font-family: var(--font-display); font-variation-settings: "wght" 800; font-size: 20px; color: var(--a-green); }
+.gladmin-route-body { flex: 1; padding: 12px 14px; }
+
+/* ========== INLINE ACTIONS ========== */
+.gladmin-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.gladmin-chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 7px;
+  font-size: 13px; font-weight: 650; text-decoration: none; cursor: pointer; border: 1px solid var(--a-line);
+  background: var(--a-surface); color: var(--a-ink-2); font-family: inherit;
+}
+.gladmin-chip.primary { background: var(--a-green); border-color: var(--a-green); color: #fff; }
+.gladmin-chip.primary:hover { background: var(--a-green-h); }
+.gladmin-chip:hover { background: var(--a-bg); }
+.gladmin-chip.primary:hover { background: var(--a-green-h); }
+
+/* ========== BREADCRUMB ========== */
+.gladmin-crumb { font-size: 12.5px; color: var(--a-mute); margin-bottom: 6px; }
+.gladmin-crumb a { color: var(--a-green); text-decoration: none; }
+.gladmin-crumb a:hover { text-decoration: underline; }
