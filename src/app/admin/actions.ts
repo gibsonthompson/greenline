@@ -14,10 +14,9 @@ async function guard() {
   return admin;
 }
 
-export async function updateLeadStatus(leadId: string, status: string, quoted?: string) {
+export async function updateLeadStatus(leadId: string, status: string) {
   const admin = await guard();
   const patch: Record<string, unknown> = { status, updated_at: new Date().toISOString() };
-  if (quoted !== undefined && quoted !== "") patch.quoted_amount = Number(quoted) || null;
   await admin.from("gl_leads").update(patch).eq("id", leadId);
   revalidatePath(`/admin/leads/${leadId}`);
   revalidatePath("/admin/leads");
@@ -75,7 +74,6 @@ export async function createJob(formData: FormData) {
       address_line: String(formData.get("address_line") ?? "") || null,
       city: String(formData.get("city") ?? "") || null,
       zip: String(formData.get("zip") ?? "") || null,
-      price: Number(formData.get("price")) || null,
       notes: String(formData.get("notes") ?? "") || null,
     })
     .select("id")
@@ -106,7 +104,6 @@ export async function updateJob(jobId: string, formData: FormData) {
       ends_at: endsAt.toISOString(),
       address_line: String(formData.get("address_line") ?? "") || null,
       city: String(formData.get("city") ?? "") || null,
-      price: Number(formData.get("price")) || null,
       notes: String(formData.get("notes") ?? "") || null,
     })
     .eq("id", jobId);

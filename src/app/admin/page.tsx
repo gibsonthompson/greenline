@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { getAdminClient } from "@/lib/supabase-admin";
 import { formatDisplay } from "@/lib/phone";
+import { formatServices } from "@/lib/services-format";
 
 const LA_TZ = "America/Los_Angeles";
 
@@ -85,24 +86,19 @@ export default async function Dashboard() {
   const today = laParts(now);
   const todayStart = laMidnight(today.y, today.mo, today.d);
   const todayEnd = laMidnight(today.y, today.mo, today.d + 1);
-  const weekEnd = laMidnight(today.y, today.mo, today.d + 7);
 
-  const [newLeads, todayJobs, weekJobs, recentLeads, unanswered] = await Promise.all([
+  const [newLeads, todayJobs, recentLeads, unanswered] = await Promise.all([
     admin.from("gl_leads").select("id", { count: "exact", head: true }).eq("status", "new"),
     admin.from("gl_jobs")
       .select("id,title,starts_at,city,status,job_type,address_line,gl_contacts(first_name,last_name,phone)")
       .gte("starts_at", todayStart.toISOString()).lt("starts_at", todayEnd.toISOString())
       .neq("status", "cancelled").order("starts_at"),
-    admin.from("gl_jobs").select("price,status")
-      .gte("starts_at", todayStart.toISOString()).lt("starts_at", weekEnd.toISOString())
-      .neq("status", "cancelled"),
     admin.from("gl_leads").select("id,name,city,services,status,created_at,phone")
       .order("created_at", { ascending: false }).limit(6),
     admin.from("gl_leads").select("id", { count: "exact", head: true })
       .eq("status", "new").lt("created_at", new Date(Date.now() - 4 * 3600_000).toISOString()),
   ]);
 
-  const weekValue = (weekJobs.data ?? []).reduce((s, j) => s + (Number(j.price) || 0), 0);
   const jobs = todayJobs.data ?? [];
   const stale = unanswered.count ?? 0;
 
@@ -124,7 +120,7 @@ export default async function Dashboard() {
         </Link>
       )}
 
-      <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-3">
         <Link href="/admin/leads?status=new" className="border border-line bg-white p-4 hover:border-green">
           <div className="text-[0.72rem] uppercase tracking-[0.12em] text-mute-l">New Leads</div>
           <div className="mt-1 font-[family-name:var(--font-display)] text-4xl tabular-nums" style={{ fontVariationSettings: '"wdth" 90,"wght" 800' }}>
@@ -137,12 +133,6 @@ export default async function Dashboard() {
             {jobs.length}
           </div>
         </Link>
-        <div className="border border-line bg-white p-4">
-          <div className="text-[0.72rem] uppercase tracking-[0.12em] text-mute-l">Booked This Week</div>
-          <div className="mt-1 font-[family-name:var(--font-display)] text-4xl tabular-nums" style={{ fontVariationSettings: '"wdth" 90,"wght" 800' }}>
-            ${weekValue.toLocaleString()}
-          </div>
-        </div>
         <Link href="/admin/contacts/new" className="flex flex-col justify-between border border-line bg-forest p-4 text-white hover:bg-forest-2">
           <div className="text-[0.72rem] uppercase tracking-[0.12em] text-lime-br">Quick Action</div>
           <div className="mt-1 font-bold">Add A Customer &rarr;</div>
@@ -220,7 +210,7 @@ export default async function Dashboard() {
                 <span className="t-sm ml-auto text-mute-l">{ago(l.created_at)}</span>
                 <span className={`rounded-sm px-2 py-0.5 text-[0.7rem] font-bold uppercase ${STATUS_TONE[l.status] ?? ""}`}>{l.status}</span>
                 <span className="t-sm w-full text-mute-l">
-                  {(l.services ?? []).join(", ")} &middot; {formatDisplay(l.phone)}
+                  {formatServices(l.services)} &middot; {formatDisplay(l.phone)}
                 </span>
               </Link>
             </li>

@@ -64,25 +64,17 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
           </label>
           <input id="title" name="title" className="field" defaultValue={j.title} />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label htmlFor="status" className="mb-1 block font-medium">
-              Status
-            </label>
-            <select id="status" name="status" className="field" defaultValue={j.status}>
-              {["scheduled", "confirmed", "in-progress", "complete", "cancelled", "no-show"].map((s) => (
-                <option key={s} value={s}>
-                  {s.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ")}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="price" className="mb-1 block font-medium">
-              Price
-            </label>
-            <input id="price" name="price" className="field" inputMode="decimal" defaultValue={j.price ?? ""} />
-          </div>
+        <div>
+          <label htmlFor="status" className="mb-1 block font-medium">
+            Status
+          </label>
+          <select id="status" name="status" className="field" defaultValue={j.status}>
+            {["scheduled", "confirmed", "in-progress", "complete", "cancelled", "no-show"].map((s) => (
+              <option key={s} value={s}>
+                {s.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ")}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="grid grid-cols-3 gap-3">
           <div>

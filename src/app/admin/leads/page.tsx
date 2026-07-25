@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAdminClient } from "@/lib/supabase-admin";
 import { formatDisplay } from "@/lib/phone";
+import { formatServices } from "@/lib/services-format";
 
 const STATUSES = ["all", "new", "contacted", "quoted", "scheduled", "won", "lost"] as const;
 
@@ -51,8 +52,8 @@ export default async function LeadsPage({
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <h1 className="h2">Leads</h1>
         {status === "all" && newCount > 0 && (
-          <span className="rounded-sm bg-lime px-2 py-1 text-[0.7rem] font-bold uppercase tracking-wide text-ink">
-            {newCount} new
+          <span className="rounded-sm bg-green px-2 py-1 text-[0.7rem] font-bold uppercase tracking-wide text-white">
+            {newCount} New
           </span>
         )}
       </div>
@@ -81,7 +82,7 @@ export default async function LeadsPage({
           {leads!.map((l) => {
             const stale = l.status === "new" && Date.now() - new Date(l.created_at).getTime() > 4 * 3600_000;
             return (
-              <li key={l.id} className={`border border-line bg-white ${stale ? "border-l-4 border-l-lime" : ""}`}>
+              <li key={l.id} className={`border border-line bg-white ${stale ? "border-l-4 border-l-green" : ""}`}>
                 <Link href={`/admin/leads/${l.id}`} className="block px-4 pb-2 pt-3.5">
                   <div className="flex items-baseline justify-between gap-3">
                     <span className="font-bold">{l.name}</span>
@@ -89,7 +90,7 @@ export default async function LeadsPage({
                       {l.status}
                     </span>
                   </div>
-                  <p className="mt-0.5 t-sm text-mute-l">{(l.services ?? []).join(", ") || "No services listed"}</p>
+                  <p className="mt-0.5 t-sm text-mute-l">{formatServices(l.services) || "No Services Listed"}</p>
                   <p className="mt-1 flex flex-wrap items-center gap-x-2 text-[0.85rem] text-mute-l">
                     <span>{l.city || "No city"}</span>
                     <span aria-hidden>&middot;</span>

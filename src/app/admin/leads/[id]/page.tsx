@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAdminClient } from "@/lib/supabase-admin";
-import LeadActions from "@/components/admin/LeadActions";
 import { formatDisplay } from "@/lib/phone";
+import { formatServices } from "@/lib/services-format";
 import { createJob } from "@/app/admin/actions";
 
 // Shared with the leads list and dashboard so a status looks the same everywhere.
@@ -92,7 +92,7 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
           <dl className="mt-3 space-y-3">
             <div>
               <dt className="t-label text-mute-l">Services</dt>
-              <dd>{(lead.services ?? []).join(", ")}</dd>
+              <dd>{formatServices(lead.services) || "None listed"}</dd>
             </div>
             <div>
               <dt className="t-label text-mute-l">Address</dt>
@@ -119,9 +119,6 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
               <dd>{lead.sms_consent ? `Yes, ${new Date(lead.sms_consent_at).toLocaleDateString()}` : "No"}</dd>
             </div>
           </dl>
-          <div className="mt-6 max-w-sm">
-            <LeadActions leadId={lead.id} status={lead.status} quoted={lead.quoted_amount} />
-          </div>
         </div>
 
         <div>
@@ -144,23 +141,15 @@ export default async function LeadDetail({ params }: { params: Promise<{ id: str
                 defaultValue={`${(lead.services ?? [])[0] ?? "Job"}: ${lead.name}`}
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label htmlFor="job-type" className="mb-1 block font-medium">
-                  Type
-                </label>
-                <select id="job-type" name="job_type" className="field" defaultValue="estimate">
-                  <option value="estimate">Estimate Visit</option>
-                  <option value="service">Service</option>
-                  <option value="followup">Follow Up</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="job-price" className="mb-1 block font-medium">
-                  Price
-                </label>
-                <input id="job-price" name="price" className="field" inputMode="decimal" defaultValue={lead.quoted_amount ?? ""} />
-              </div>
+            <div>
+              <label htmlFor="job-type" className="mb-1 block font-medium">
+                Type
+              </label>
+              <select id="job-type" name="job_type" className="field" defaultValue="estimate">
+                <option value="estimate">Estimate Visit</option>
+                <option value="service">Service</option>
+                <option value="followup">Follow Up</option>
+              </select>
             </div>
             <div className="grid grid-cols-3 gap-3">
               <div>
