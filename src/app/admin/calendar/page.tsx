@@ -5,13 +5,6 @@ import {
   eachDayOfInterval, isSameMonth, isSameDay, parse,
 } from "date-fns";
 
-// Jobs are colored by type: estimate lime, service green, followup neutral.
-const typeColor: Record<string, string> = {
-  estimate: "bg-lime text-ink",
-  service: "bg-green text-white",
-  followup: "bg-paper-2 text-ink",
-};
-
 export default async function CalendarPage({
   searchParams,
 }: {
@@ -19,7 +12,7 @@ export default async function CalendarPage({
 }) {
   const { m } = await searchParams;
   const admin = getAdminClient();
-  if (!admin) return <p className="text-mute-l">Database not configured.</p>;
+  if (!admin) return <p style={{ color: "var(--a-mute)" }}>Database not configured.</p>;
 
   const anchor = m ? parse(m, "yyyy-MM", new Date()) : new Date();
   const monthStart = startOfMonth(anchor);
@@ -47,107 +40,81 @@ export default async function CalendarPage({
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="h2">{format(monthStart, "MMMM yyyy")}</h1>
-        <nav aria-label="Change month" className="flex gap-2">
-          <Link href={`/admin/calendar?m=${prev}`} className="rounded-sm border border-ink px-3 py-2 text-sm font-semibold text-ink">
-            &larr; {format(addMonths(monthStart, -1), "MMM")}
-          </Link>
-          <Link href="/admin/calendar" className="rounded-sm border border-ink px-3 py-2 text-sm font-semibold text-ink">
-            Today
-          </Link>
-          <Link href={`/admin/calendar?m=${next}`} className="rounded-sm border border-ink px-3 py-2 text-sm font-semibold text-ink">
-            {format(addMonths(monthStart, 1), "MMM")} &rarr;
-          </Link>
+      <div className="gladmin-page-header">
+        <div><h1>{format(monthStart, "MMMM yyyy")}</h1></div>
+        <nav aria-label="Change month" className="gladmin-cal-nav">
+          <Link href={`/admin/calendar?m=${prev}`} className="gladmin-pill">&larr; {format(addMonths(monthStart, -1), "MMM")}</Link>
+          <Link href="/admin/calendar" className="gladmin-pill active">Today</Link>
+          <Link href={`/admin/calendar?m=${next}`} className="gladmin-pill">{format(addMonths(monthStart, 1), "MMM")} &rarr;</Link>
         </nav>
       </div>
 
       {/* Desktop month grid */}
-      <div className="mt-6 hidden md:block">
-        <div className="grid grid-cols-7 border-b border-line pb-2">
+      <div style={{ display: "none" }} className="gladmin-cal-desktop">
+        <div className="gladmin-cal-grid">
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
-            <div key={d} className="t-label px-2 text-mute-l">
-              {d}
-            </div>
+            <div key={d} className="gladmin-cal-head">{d}</div>
           ))}
-        </div>
-        <div className="grid grid-cols-7">
           {days.map((day) => {
             const key = format(day, "yyyy-MM-dd");
             const dayJobs = jobsByDay.get(key) ?? [];
             const today = isSameDay(day, new Date());
             return (
-              <div
-                key={key}
-                className={`min-h-[104px] border-b border-r border-line p-1.5 ${
-                  isSameMonth(day, monthStart) ? "" : "opacity-40"
-                }`}
-              >
-                <span className={`t-data inline-block px-1 ${today ? "bg-green text-white" : ""}`}>
-                  {format(day, "d")}
-                </span>
-                <ul className="mt-1 space-y-1">
-                  {dayJobs.map((j) => (
-                    <li key={j.id}>
-                      <Link
-                        href={`/admin/jobs/${j.id}`}
-                        className={`block truncate rounded-sm px-1.5 py-0.5 text-[0.78rem] font-medium ${
-                          j.status === "cancelled" ? "bg-paper-2 line-through" : typeColor[j.job_type] ?? typeColor.service
-                        }`}
-                      >
-                        {new Date(j.starts_at).toLocaleTimeString("en-US", {
-                          timeZone: "America/Los_Angeles",
-                          hour: "numeric",
-                        })}{" "}
-                        {j.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+              <div key={key} className={`gladmin-cal-cell${isSameMonth(day, monthStart) ? "" : " dim"}`}>
+                <span className={`gladmin-cal-date${today ? " today" : ""}`}>{format(day, "d")}</span>
+                {dayJobs.map((j) => (
+                  <Link
+                    key={j.id}
+                    href={`/admin/jobs/${j.id}`}
+                    className={`gladmin-cal-event ${j.status === "cancelled" ? "cancelled" : j.job_type}`}
+                  >
+                    {new Date(j.starts_at).toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour: "numeric" })} {j.title}
+                  </Link>
+                ))}
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Mobile agenda: tap to edit rather than drag */}
-      <ul className="mt-6 space-y-4 md:hidden">
+      {/* Mobile agenda */}
+      <div className="gladmin-cal-mobile" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {days
           .filter((d) => isSameMonth(d, monthStart) && (jobsByDay.get(format(d, "yyyy-MM-dd"))?.length ?? 0) > 0)
           .map((day) => {
             const key = format(day, "yyyy-MM-dd");
             return (
-              <li key={key}>
-                <h2 className="t-label text-mute-l">{format(day, "EEEE, MMM d")}</h2>
-                <ul className="mt-1 divide-y divide-line">
-                  {(jobsByDay.get(key) ?? []).map((j) => (
-                    <li key={j.id}>
-                      <Link href={`/admin/jobs/${j.id}`} className="flex items-baseline gap-3 py-2.5">
-                        <span className="t-data w-20 shrink-0">
-                          {new Date(j.starts_at).toLocaleTimeString("en-US", {
-                            timeZone: "America/Los_Angeles",
-                            hour: "numeric",
-                            minute: "2-digit",
-                          })}
-                        </span>
-                        <span className={j.status === "cancelled" ? "line-through" : "font-medium"}>
-                          {j.title}
-                        </span>
-                        <span className="ml-auto text-[0.85rem] text-mute-l">{j.city}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
+              <div key={key} className="gladmin-card">
+                <div className="gladmin-card-header"><h3>{format(day, "EEEE, MMM d")}</h3></div>
+                <div className="gladmin-card-body">
+                  <table className="gladmin-tbl">
+                    <tbody>
+                      {(jobsByDay.get(key) ?? []).map((j) => (
+                        <tr key={j.id} className="linked">
+                          <td style={{ whiteSpace: "nowrap", width: 90 }}>
+                            <Link href={`/admin/jobs/${j.id}`} className="gladmin-row-link">
+                              {new Date(j.starts_at).toLocaleTimeString("en-US", { timeZone: "America/Los_Angeles", hour: "numeric", minute: "2-digit" })}
+                            </Link>
+                          </td>
+                          <td className={j.status === "cancelled" ? "" : "gladmin-cell-primary"} style={j.status === "cancelled" ? { textDecoration: "line-through", color: "var(--a-mute-2)" } : undefined}>
+                            {j.title}
+                          </td>
+                          <td style={{ textAlign: "right", color: "var(--a-mute)" }}>{j.city}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             );
           })}
-      </ul>
+      </div>
 
-      <p className="mt-8 text-[0.9rem] text-mute-l">
-        <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-lime" /> Estimate</span>
-        <span className="mr-4 inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm bg-green" /> Service</span>
-        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-sm border border-line bg-paper-2" /> Follow Up</span>
-      </p>
+      <div style={{ marginTop: 24, fontSize: 13, color: "var(--a-mute)", display: "flex", flexWrap: "wrap", gap: 16 }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: "var(--a-amber)" }} /> Estimate</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: "var(--a-green)" }} /> Service</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: "var(--a-mute-2)" }} /> Follow Up</span>
+      </div>
     </div>
   );
 }

@@ -21,6 +21,7 @@
   /* Green Line brand green, not JB's bright green */
   --a-green: #2d6d14;
   --a-green-h: #245910;
+  --a-lime: #a6ce2a;            /* logo light green, for accents on black (dark green vanishes there) */
   --a-green-tint: #eef4e7;      /* pale wash for active nav + hovers */
   --a-green-tint-line: #cfe3bd; /* border for tinted elements */
 
@@ -43,49 +44,49 @@
 
 .gladmin-sidebar {
   width: 240px; min-width: 240px;
-  background: var(--a-surface);
-  border-right: 1px solid var(--a-line);
+  background: #010101;                 /* black field, matching the logo + marketing header */
+  border-right: 1px solid #010101;
   display: flex; flex-direction: column;
   position: fixed; top: 0; left: 0; bottom: 0; z-index: 40;
   transition: transform 0.25s ease;
 }
-.gladmin-brand { padding: 18px 20px 14px; display: flex; align-items: center; gap: 12px; }
+.gladmin-brand { padding: 18px 20px 14px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .gladmin-brand img { height: 30px; width: auto; }
 .gladmin-brand span {
   font-size: 10.5px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.14em; color: var(--a-mute-2);
+  letter-spacing: 0.14em; color: var(--a-lime);   /* lime reads as the "admin" accent on black */
 }
-.gladmin-nav { flex: 1; padding: 4px 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; }
+.gladmin-nav { flex: 1; padding: 8px 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 1px; }
 .gladmin-nav-label {
   font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--a-mute-2); padding: 18px 12px 8px;
+  color: rgba(255,255,255,0.4); padding: 18px 12px 8px;
 }
 .gladmin-item {
   display: flex; align-items: center; gap: 10px;
   padding: 9px 12px; border-radius: 7px;
-  color: var(--a-mute); text-decoration: none;
+  color: rgba(255,255,255,0.72); text-decoration: none;
   font-size: 13.5px; font-weight: 550;
   transition: background 0.12s ease, color 0.12s ease;
   position: relative;
 }
-.gladmin-item:hover { background: var(--a-bg); color: var(--a-ink); }
-.gladmin-item.active { background: var(--a-green-tint); color: var(--a-green); font-weight: 650; }
+.gladmin-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.gladmin-item.active { background: rgba(138,175,23,0.16); color: var(--a-lime); font-weight: 650; }
 .gladmin-item.active::before {
   content: ''; position: absolute; left: 0; top: 6px; bottom: 6px;
-  width: 3px; background: var(--a-green); border-radius: 0 3px 3px 0;
+  width: 3px; background: var(--a-lime); border-radius: 0 3px 3px 0;
 }
 .gladmin-item svg { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 1.8; }
 .gladmin-badge {
-  margin-left: auto; background: var(--a-green); color: #fff;
+  margin-left: auto; background: var(--a-lime); color: #010101;
   font-size: 10.5px; font-weight: 750; padding: 1px 7px; border-radius: 10px;
   min-width: 20px; text-align: center; line-height: 18px;
 }
-.gladmin-foot { padding: 14px 20px; border-top: 1px solid var(--a-line-soft); }
+.gladmin-foot { padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.08); }
 .gladmin-foot a {
-  color: var(--a-mute-2); text-decoration: none; font-size: 12px; font-weight: 550;
+  color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px; font-weight: 550;
   display: flex; align-items: center; gap: 6px; transition: color 0.15s;
 }
-.gladmin-foot a:hover { color: var(--a-green); }
+.gladmin-foot a:hover { color: var(--a-lime); }
 .gladmin-foot a svg { width: 14px; height: 14px; }
 
 .gladmin-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 190; }
@@ -249,6 +250,12 @@ a.gladmin-stat:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-color: va
 .gladmin-cal-event.service { border-left-color: var(--a-green); }
 .gladmin-cal-event.followup { border-left-color: var(--a-mute-2); }
 .gladmin-cal-event.cancelled { text-decoration: line-through; color: var(--a-mute-2); }
+
+/* Desktop shows the month grid, mobile shows the agenda list. */
+@media (min-width: 760px) {
+  .gladmin-cal-desktop { display: block !important; }
+  .gladmin-cal-mobile { display: none !important; }
+}
 
 /* ========== ROUTE LIST (today) ========== */
 .gladmin-route { list-style: none; display: flex; flex-direction: column; gap: 10px; }

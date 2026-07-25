@@ -6,12 +6,19 @@ export default function CopyField({ label, value }: { label: string; value: stri
   const [copied, setCopied] = useState(false);
   return (
     <div>
-      <span className="mb-1 block font-medium">{label}</span>
-      <div className="flex gap-2">
-        <input className="field t-data" readOnly value={value} onFocus={(e) => e.target.select()} />
+      <span className="gladmin-label">{label}</span>
+      <div style={{ display: "flex", gap: 8 }}>
+        <input
+          className="gladmin-input"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+          readOnly
+          value={value}
+          onFocus={(e) => e.target.select()}
+        />
         <button
           type="button"
-          className="btn btn-ghost-light shrink-0"
+          className="gladmin-btn-ghost"
+          style={{ flexShrink: 0 }}
           onClick={async () => {
             try {
               await navigator.clipboard.writeText(value);

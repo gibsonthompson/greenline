@@ -4,15 +4,21 @@ export const metadata = { title: "Settings" };
 
 export default function SettingsPage() {
   return (
-    <div className="max-w-xl">
-      <h1 className="h2">Settings</h1>
+    <div>
+      <div className="gladmin-page-header">
+        <div><h1>Settings</h1></div>
+      </div>
 
-      <h2 className="h3 mt-8">Access</h2>
-      <p className="mt-2 text-mute-l">
-        Change the PIN used to reach this admin, or sign out on this device. Changing the PIN
-        needs the current one. Five wrong sign-in attempts lock access for 15 minutes.
-      </p>
-      <AccountControls />
+      <div className="gladmin-card" style={{ maxWidth: 640 }}>
+        <div className="gladmin-card-header"><h2>Access</h2></div>
+        <div className="gladmin-card-body padded">
+          <p style={{ color: "var(--a-mute)", marginBottom: 16, maxWidth: "60ch" }}>
+            Change the PIN used to reach this admin, or sign out on this device. Changing the PIN
+            needs the current one. Five wrong sign-in attempts lock access for 15 minutes.
+          </p>
+          <AccountControls />
+        </div>
+      </div>
     </div>
   );
 }

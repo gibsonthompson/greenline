@@ -6,7 +6,7 @@ import { updateJob } from "@/app/admin/actions";
 export default async function JobDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const admin = getAdminClient();
-  if (!admin) return <p className="text-mute-l">Database not configured.</p>;
+  if (!admin) return <p style={{ color: "var(--a-mute)" }}>Database not configured.</p>;
 
   const { data: j } = await admin
     .from("gl_jobs")
@@ -24,102 +24,83 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
   const update = updateJob.bind(null, j.id);
 
   return (
-    <div className="max-w-xl">
-      <nav aria-label="Breadcrumb" className="t-body-sm text-mute-l">
-        <Link href="/admin/calendar" className="text-green underline underline-offset-2">
-          Calendar
-        </Link>{" "}
-        / {j.title}
+    <div>
+      <nav aria-label="Breadcrumb" className="gladmin-crumb">
+        <Link href="/admin/calendar">Schedule</Link> / {j.title}
       </nav>
-      <h1 className="h2 mt-2">{j.title}</h1>
-      <p className="mt-1 text-mute-l">
-        {la(j.starts_at, { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" })}
-        {c ? ` \u00b7 ${c.first_name} ${c.last_name ?? ""}` : ""}
-      </p>
 
-      <div className="mt-4 flex flex-wrap gap-3">
-        <a href={`/api/calendar/job/${j.id}.ics`} className="btn btn-ol">
-          Add To My Calendar
-        </a>
-        {c?.phone && (
-          <a href={`tel:${c.phone}`} className="btn btn-ol">
-            Call Customer
-          </a>
-        )}
-        {c && (
-          <Link href={`/admin/contacts/${c.id}`} className="btn btn-ol">
-            Contact
-          </Link>
-        )}
+      <div className="gladmin-page-header">
+        <div>
+          <h1>{j.title}</h1>
+          <p>
+            {la(j.starts_at, { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" })}
+            {c ? ` \u00b7 ${c.first_name} ${c.last_name ?? ""}` : ""}
+          </p>
+        </div>
+        <span className={`gladmin-badge-status ${j.status}`}>{j.status}</span>
       </div>
-      <p className="mt-2 text-[0.85rem] text-mute-l">
+
+      <div className="gladmin-actions" style={{ marginBottom: 8 }}>
+        <a href={`/api/calendar/job/${j.id}.ics`} className="gladmin-chip">Add To My Calendar</a>
+        {c?.phone && <a href={`tel:${c.phone}`} className="gladmin-chip">Call Customer</a>}
+        {c && <Link href={`/admin/contacts/${c.id}`} className="gladmin-chip">Customer</Link>}
+      </div>
+      <p style={{ fontSize: 12.5, color: "var(--a-mute)", marginBottom: 20, maxWidth: "60ch" }}>
         Edits made here reach the subscribed iPhone calendar automatically within about an hour.
         The download button is for adding a brand-new event only.
       </p>
 
-      <form action={update} className="mt-8 space-y-4">
-        <div>
-          <label htmlFor="title" className="mb-1 block font-medium">
-            Title
-          </label>
-          <input id="title" name="title" className="field" defaultValue={j.title} />
+      <div className="gladmin-card" style={{ maxWidth: 640 }}>
+        <div className="gladmin-card-body padded">
+          <form action={update} className="gladmin-form">
+            <div>
+              <label htmlFor="title" className="gladmin-label">Title</label>
+              <input id="title" name="title" className="gladmin-input" defaultValue={j.title} />
+            </div>
+            <div>
+              <label htmlFor="status" className="gladmin-label">Status</label>
+              <select id="status" name="status" className="gladmin-select" defaultValue={j.status}>
+                {["scheduled", "confirmed", "in-progress", "complete", "cancelled", "no-show"].map((s) => (
+                  <option key={s} value={s}>
+                    {s.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ")}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="gladmin-form-row three">
+              <div>
+                <label htmlFor="date" className="gladmin-label">Date</label>
+                <input id="date" name="date" type="date" className="gladmin-input" defaultValue={dateVal} />
+              </div>
+              <div>
+                <label htmlFor="start" className="gladmin-label">Start</label>
+                <input id="start" name="start" type="time" className="gladmin-input" defaultValue={startVal} />
+              </div>
+              <div>
+                <label htmlFor="duration" className="gladmin-label">Minutes</label>
+                <input id="duration" name="duration" type="number" className="gladmin-input" defaultValue={duration} min={15} step={15} />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="address_line" className="gladmin-label">Address</label>
+              <input id="address_line" name="address_line" className="gladmin-input" defaultValue={j.address_line ?? ""} />
+            </div>
+            <div>
+              <label htmlFor="city" className="gladmin-label">City</label>
+              <input id="city" name="city" className="gladmin-input" defaultValue={j.city ?? ""} />
+            </div>
+            <div>
+              <label htmlFor="notes" className="gladmin-label">Notes</label>
+              <textarea id="notes" name="notes" className="gladmin-textarea" defaultValue={j.notes ?? ""} />
+            </div>
+            <div>
+              <button type="submit" className="gladmin-btn">Save Changes</button>
+            </div>
+          </form>
         </div>
-        <div>
-          <label htmlFor="status" className="mb-1 block font-medium">
-            Status
-          </label>
-          <select id="status" name="status" className="field" defaultValue={j.status}>
-            {["scheduled", "confirmed", "in-progress", "complete", "cancelled", "no-show"].map((s) => (
-              <option key={s} value={s}>
-                {s.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ")}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="grid grid-cols-3 gap-3">
-          <div>
-            <label htmlFor="date" className="mb-1 block font-medium">
-              Date
-            </label>
-            <input id="date" name="date" type="date" className="field" defaultValue={dateVal} />
-          </div>
-          <div>
-            <label htmlFor="start" className="mb-1 block font-medium">
-              Start
-            </label>
-            <input id="start" name="start" type="time" className="field" defaultValue={startVal} />
-          </div>
-          <div>
-            <label htmlFor="duration" className="mb-1 block font-medium">
-              Minutes
-            </label>
-            <input id="duration" name="duration" type="number" className="field" defaultValue={duration} min={15} step={15} />
-          </div>
-        </div>
-        <div>
-          <label htmlFor="address_line" className="mb-1 block font-medium">
-            Address
-          </label>
-          <input id="address_line" name="address_line" className="field" defaultValue={j.address_line ?? ""} />
-        </div>
-        <div>
-          <label htmlFor="city" className="mb-1 block font-medium">
-            City
-          </label>
-          <input id="city" name="city" className="field" defaultValue={j.city ?? ""} />
-        </div>
-        <div>
-          <label htmlFor="notes" className="mb-1 block font-medium">
-            Notes
-          </label>
-          <textarea id="notes" name="notes" className="field min-h-[96px]" defaultValue={j.notes ?? ""} />
-        </div>
-        <button type="submit" className="btn btn-p">
-          Save Changes
-        </button>
-      </form>
+      </div>
 
-      <p className="mt-6 text-[0.85rem] text-mute-l">
+      <p style={{ fontSize: 12.5, color: "var(--a-mute)", marginTop: 16, maxWidth: "60ch" }}>
         Cancelling keeps the event in the calendar feed marked CANCELLED so it disappears
         correctly from subscribed phones instead of lingering as a ghost.
       </p>

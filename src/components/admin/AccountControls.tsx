@@ -46,13 +46,14 @@ export default function AccountControls() {
   }
 
   return (
-    <div className="mt-4 max-w-sm space-y-8">
-      <form onSubmit={change} className="space-y-3">
+    <div style={{ maxWidth: 360, display: "flex", flexDirection: "column", gap: 28 }}>
+      <form onSubmit={change} className="gladmin-form" style={{ gap: 14 }}>
         <div>
-          <label htmlFor="currentPin" className="mb-1 block font-semibold">Current PIN</label>
+          <label htmlFor="currentPin" className="gladmin-label">Current PIN</label>
           <input
             id="currentPin"
-            className="field tabular-nums"
+            className="gladmin-input"
+            style={{ fontVariantNumeric: "tabular-nums" }}
             type="password"
             inputMode="numeric"
             autoComplete="current-password"
@@ -61,10 +62,11 @@ export default function AccountControls() {
           />
         </div>
         <div>
-          <label htmlFor="newPin" className="mb-1 block font-semibold">New PIN</label>
+          <label htmlFor="newPin" className="gladmin-label">New PIN</label>
           <input
             id="newPin"
-            className="field tabular-nums"
+            className="gladmin-input"
+            style={{ fontVariantNumeric: "tabular-nums" }}
             type="password"
             inputMode="numeric"
             autoComplete="new-password"
@@ -73,10 +75,11 @@ export default function AccountControls() {
           />
         </div>
         <div>
-          <label htmlFor="confirmPin" className="mb-1 block font-semibold">Confirm New PIN</label>
+          <label htmlFor="confirmPin" className="gladmin-label">Confirm New PIN</label>
           <input
             id="confirmPin"
-            className="field tabular-nums"
+            className="gladmin-input"
+            style={{ fontVariantNumeric: "tabular-nums" }}
             type="password"
             inputMode="numeric"
             autoComplete="new-password"
@@ -85,17 +88,28 @@ export default function AccountControls() {
           />
         </div>
         {msg && (
-          <p className={`t-sm border-l-4 bg-paper-2 p-3 ${msg.ok ? "border-green" : "border-ink"}`} role="alert">
+          <p
+            role="alert"
+            className="gladmin-notes"
+            style={{ borderLeft: `3px solid ${msg.ok ? "var(--a-green)" : "var(--a-red)"}` }}
+          >
             {msg.text}
           </p>
         )}
-        <button type="submit" className="btn btn-p btn-inline" disabled={busy || currentPin.length < 4 || newPin.length < 4}>
-          {busy ? "Saving\u2026" : "Change PIN"}
-        </button>
+        <div>
+          <button
+            type="submit"
+            className="gladmin-btn"
+            disabled={busy || currentPin.length < 4 || newPin.length < 4}
+            style={busy || currentPin.length < 4 || newPin.length < 4 ? { opacity: 0.5, cursor: "not-allowed" } : undefined}
+          >
+            {busy ? "Saving\u2026" : "Change PIN"}
+          </button>
+        </div>
       </form>
 
       <div>
-        <button onClick={signOut} className="btn btn-ol btn-inline">Sign Out On This Device</button>
+        <button onClick={signOut} className="gladmin-btn-ghost">Sign Out On This Device</button>
       </div>
     </div>
   );

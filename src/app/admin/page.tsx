@@ -33,18 +33,11 @@ const laParts = (d: Date): LaParts => {
   };
 };
 
-/* How far the Los Angeles wall clock sits from UTC at a given instant.
-   Negative: -7h under PDT, -8h under PST. Read from the tz database
-   instead of being hardcoded, so the day boundary stays correct through
-   both DST changes. */
 const laOffsetMs = (d: Date): number => {
   const p = laParts(d);
   return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi, p.s) - Math.floor(d.getTime() / 1000) * 1000;
 };
 
-/* The instant midnight begins in Los Angeles on the given calendar day.
-   Day may overflow (32, 38); Date.UTC normalises it. Solved by iteration
-   because the offset itself depends on the instant we are solving for. */
 const laMidnight = (y: number, mo: number, d: number): Date => {
   const wall = Date.UTC(y, mo - 1, d, 0, 0, 0, 0);
   let t = wall - laOffsetMs(new Date(wall));
@@ -62,22 +55,15 @@ const ago = (iso: string) => {
   return `${Math.floor(m / 1440)}d ago`;
 };
 
-const STATUS_TONE: Record<string, string> = {
-  new: "bg-lime text-ink",
-  contacted: "bg-paper-2 text-ink",
-  quoted: "bg-[#E8F0FE] text-[#1A56B8]",
-  scheduled: "bg-green text-white",
-  won: "bg-forest text-white",
-  lost: "bg-paper-2 text-mute-l",
-};
-
 export default async function Dashboard() {
   const admin = getAdminClient();
   if (!admin) {
     return (
-      <div className="border border-line bg-white p-6">
-        <h1 className="h3">Database Not Configured</h1>
-        <p className="mt-2 text-mute-l">Add the Supabase environment variables and redeploy.</p>
+      <div className="gladmin-card">
+        <div className="gladmin-card-body padded">
+          <h1 className="gladmin-page-header" style={{ marginBottom: 4 }}>Database not configured</h1>
+          <p style={{ color: "var(--a-mute)" }}>Add the Supabase environment variables and redeploy.</p>
+        </div>
       </div>
     );
   }
@@ -101,122 +87,148 @@ export default async function Dashboard() {
 
   const jobs = todayJobs.data ?? [];
   const stale = unanswered.count ?? 0;
+  const nextJob = jobs[0];
 
   return (
     <div>
-      <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="h2">Today</h1>
-        <p className="text-mute-l">
-          {now.toLocaleDateString("en-US", { timeZone: LA_TZ, weekday: "long", month: "long", day: "numeric" })}
-        </p>
+      <div className="gladmin-page-header">
+        <div>
+          <h1>Today</h1>
+          <p>{now.toLocaleDateString("en-US", { timeZone: LA_TZ, weekday: "long", month: "long", day: "numeric" })}</p>
+        </div>
+      </div>
+
+      <div className="gladmin-stats">
+        <Link href="/admin/leads?status=new" className="gladmin-stat">
+          <div className="gladmin-stat-label">New Requests</div>
+          <div className="gladmin-stat-value">{newLeads.count ?? 0}</div>
+          <div className="gladmin-stat-meta">
+            {stale > 0 ? `${stale} waiting over 4 hours` : "All caught up"}
+          </div>
+        </Link>
+        <Link href="/admin/calendar" className="gladmin-stat">
+          <div className="gladmin-stat-label">Jobs Today</div>
+          <div className="gladmin-stat-value">{jobs.length}</div>
+          <div className="gladmin-stat-meta">
+            {nextJob ? `Next at ${time(nextJob.starts_at)}` : "Nothing scheduled"}
+          </div>
+        </Link>
+        <Link href="/admin/contacts/new" className="gladmin-stat accent">
+          <div className="gladmin-stat-label">Quick Action</div>
+          <div className="gladmin-stat-arrow">Add a customer &rarr;</div>
+        </Link>
       </div>
 
       {stale > 0 && (
-        <Link href="/admin/leads?status=new" className="mt-4 block border-l-4 border-green bg-white p-4">
-          <p className="font-bold">
-            {stale} Lead{stale > 1 ? "s" : ""} Waiting More Than 4 Hours
-          </p>
-          <p className="t-sm mt-0.5 text-mute-l">Same-day response is the promise on the site. Tap to open.</p>
-        </Link>
-      )}
-
-      <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-3">
-        <Link href="/admin/leads?status=new" className="border border-line bg-white p-4 hover:border-green">
-          <div className="text-[0.72rem] uppercase tracking-[0.12em] text-mute-l">New Leads</div>
-          <div className="mt-1 font-[family-name:var(--font-display)] text-4xl tabular-nums" style={{ fontVariationSettings: '"wdth" 90,"wght" 800' }}>
-            {newLeads.count ?? 0}
+        <Link
+          href="/admin/leads?status=new"
+          className="gladmin-card"
+          style={{ display: "block", textDecoration: "none", borderColor: "var(--a-green-tint-line)", marginBottom: 20 }}
+        >
+          <div className="gladmin-card-body padded" style={{ borderLeft: "3px solid var(--a-green)" }}>
+            <div style={{ fontWeight: 700, color: "var(--a-ink)" }}>
+              {stale} request{stale > 1 ? "s" : ""} waiting more than 4 hours
+            </div>
+            <div style={{ fontSize: 13, color: "var(--a-mute)", marginTop: 2 }}>
+              Same-day response is the promise on the site. Tap to open.
+            </div>
           </div>
         </Link>
-        <Link href="/admin/calendar" className="border border-line bg-white p-4 hover:border-green">
-          <div className="text-[0.72rem] uppercase tracking-[0.12em] text-mute-l">Jobs Today</div>
-          <div className="mt-1 font-[family-name:var(--font-display)] text-4xl tabular-nums" style={{ fontVariationSettings: '"wdth" 90,"wght" 800' }}>
-            {jobs.length}
+      )}
+
+      <div className="gladmin-card">
+        <div className="gladmin-card-header">
+          <h2>Today&rsquo;s Route</h2>
+          <Link href="/admin/calendar" className="gladmin-card-link">Full calendar &rarr;</Link>
+        </div>
+        {jobs.length === 0 ? (
+          <div className="gladmin-empty">Nothing scheduled today.</div>
+        ) : (
+          <div className="gladmin-card-body padded">
+            <ol className="gladmin-route">
+              {jobs.map((j, i) => {
+                const c = j.gl_contacts as unknown as { first_name: string; last_name: string | null; phone: string | null } | null;
+                return (
+                  <li key={j.id} className="gladmin-route-item">
+                    <div className="gladmin-route-stop">
+                      <small>Stop</small>
+                      <b>{i + 1}</b>
+                    </div>
+                    <div className="gladmin-route-body">
+                      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: 10 }}>
+                        <span style={{ fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>{time(j.starts_at)}</span>
+                        <Link href={`/admin/jobs/${j.id}`} style={{ fontWeight: 650, color: "var(--a-green)", textDecoration: "none" }}>
+                          {j.title}
+                        </Link>
+                        <span className={`gladmin-badge-status ${j.status}`} style={{ marginLeft: "auto" }}>{j.status}</span>
+                      </div>
+                      <div style={{ fontSize: 12.5, color: "var(--a-mute)", marginTop: 4 }}>
+                        {[j.address_line, j.city].filter(Boolean).join(", ") || "No address"}
+                      </div>
+                      <div className="gladmin-actions" style={{ marginTop: 10 }}>
+                        {c?.phone && (
+                          <>
+                            <a href={`tel:${c.phone}`} className="gladmin-chip primary">Call</a>
+                            <a href={`sms:${c.phone}`} className="gladmin-chip">Text</a>
+                          </>
+                        )}
+                        {j.address_line && (
+                          <a
+                            href={`https://maps.apple.com/?daddr=${encodeURIComponent(`${j.address_line}, ${j.city ?? ""} CA`)}`}
+                            className="gladmin-chip"
+                          >
+                            Directions
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
           </div>
-        </Link>
-        <Link href="/admin/contacts/new" className="flex flex-col justify-between border border-line bg-forest p-4 text-white hover:bg-forest-2">
-          <div className="text-[0.72rem] uppercase tracking-[0.12em] text-lime-br">Quick Action</div>
-          <div className="mt-1 font-bold">Add A Customer &rarr;</div>
-        </Link>
+        )}
       </div>
 
-      {/* today's route */}
-      <h2 className="h3 mt-9">Today&rsquo;s Route</h2>
-      {jobs.length === 0 ? (
-        <p className="mt-2 border border-dashed border-line bg-white p-6 text-center text-mute-l">
-          Nothing scheduled today.
-        </p>
-      ) : (
-        <ol className="mt-3 space-y-2">
-          {jobs.map((j, i) => {
-            const c = j.gl_contacts as unknown as { first_name: string; last_name: string | null; phone: string | null } | null;
-            return (
-              <li key={j.id} className="border border-line bg-white">
-                <div className="flex items-stretch">
-                  <div className="flex w-16 flex-none flex-col items-center justify-center border-r border-line bg-paper-2 py-3">
-                    <span className="text-[0.7rem] text-mute-l">STOP</span>
-                    <span className="font-[family-name:var(--font-display)] text-xl" style={{ fontVariationSettings: '"wght" 800' }}>{i + 1}</span>
-                  </div>
-                  <div className="flex-1 p-3">
-                    <div className="flex flex-wrap items-baseline gap-x-3">
-                      <span className="tabular-nums font-bold">{time(j.starts_at)}</span>
-                      <Link href={`/admin/jobs/${j.id}`} className="font-semibold text-green">{j.title}</Link>
-                      <span className={`ml-auto rounded-sm px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide ${STATUS_TONE[j.status] ?? "bg-paper-2 text-mute-l"}`}>
-                        {j.status}
-                      </span>
-                    </div>
-                    <p className="t-sm mt-1 text-mute-l">
-                      {[j.address_line, j.city].filter(Boolean).join(", ") || "No Address"}
-                    </p>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {c?.phone && (
-                        <>
-                          <a href={`tel:${c.phone}`} className="rounded-sm bg-green px-3 py-2 text-[0.82rem] font-bold text-white">Call</a>
-                          <a href={`sms:${c.phone}`} className="rounded-sm border border-ink px-3 py-2 text-[0.82rem] font-bold">Text</a>
-                        </>
-                      )}
-                      {j.address_line && (
-                        <a
-                          href={`https://maps.apple.com/?daddr=${encodeURIComponent(`${j.address_line}, ${j.city ?? ""} CA`)}`}
-                          className="rounded-sm border border-ink px-3 py-2 text-[0.82rem] font-bold"
-                        >
-                          Directions
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
-      )}
-
-      {/* newest leads */}
-      <div className="mt-9 flex items-baseline justify-between">
-        <h2 className="h3">Newest Leads</h2>
-        <Link href="/admin/leads" className="font-bold text-green">All Leads &rarr;</Link>
+      <div className="gladmin-card">
+        <div className="gladmin-card-header">
+          <h2>Newest Requests</h2>
+          <Link href="/admin/leads" className="gladmin-card-link">All requests &rarr;</Link>
+        </div>
+        {(recentLeads.data?.length ?? 0) === 0 ? (
+          <div className="gladmin-empty">No requests yet. Estimate requests land here automatically.</div>
+        ) : (
+          <div className="gladmin-card-body">
+            <table className="gladmin-tbl">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Service</th>
+                  <th>City</th>
+                  <th>Age</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentLeads.data!.map((l) => (
+                  <tr key={l.id} className="linked">
+                    <td>
+                      <Link href={`/admin/leads/${l.id}`} className="gladmin-row-link">
+                        <div className="gladmin-cell-primary">{l.name}</div>
+                        <div className="gladmin-cell-secondary">{formatDisplay(l.phone)}</div>
+                      </Link>
+                    </td>
+                    <td>{formatServices(l.services) || "\u2014"}</td>
+                    <td>{l.city || "\u2014"}</td>
+                    <td style={{ whiteSpace: "nowrap" }}>{ago(l.created_at)}</td>
+                    <td><span className={`gladmin-badge-status ${l.status}`}>{l.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-      {(recentLeads.data?.length ?? 0) === 0 ? (
-        <p className="mt-2 border border-dashed border-line bg-white p-6 text-center text-mute-l">
-          No leads yet. Estimate requests land here automatically.
-        </p>
-      ) : (
-        <ul className="mt-3 divide-y divide-line border border-line bg-white">
-          {recentLeads.data!.map((l) => (
-            <li key={l.id}>
-              <Link href={`/admin/leads/${l.id}`} className="flex flex-wrap items-center gap-x-3 gap-y-1 p-3.5">
-                <span className="font-bold">{l.name}</span>
-                <span className="t-sm text-mute-l">{l.city}</span>
-                <span className="t-sm ml-auto text-mute-l">{ago(l.created_at)}</span>
-                <span className={`rounded-sm px-2 py-0.5 text-[0.7rem] font-bold uppercase ${STATUS_TONE[l.status] ?? ""}`}>{l.status}</span>
-                <span className="t-sm w-full text-mute-l">
-                  {formatServices(l.services)} &middot; {formatDisplay(l.phone)}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }

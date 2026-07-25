@@ -9,7 +9,7 @@ export default async function ContactsPage({
 }) {
   const { q = "" } = await searchParams;
   const admin = getAdminClient();
-  if (!admin) return <p className="text-mute-l">Database not configured.</p>;
+  if (!admin) return <p style={{ color: "var(--a-mute)" }}>Database not configured.</p>;
 
   let query = admin
     .from("gl_contacts")
@@ -28,59 +28,66 @@ export default async function ContactsPage({
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="h2">Contacts</h1>
-        <Link href="/admin/contacts/new" className="btn btn-p btn-inline">
-          Add Contact
+      <div className="gladmin-page-header">
+        <div>
+          <h1>Customers</h1>
+          <p>
+            {contacts?.length ?? 0} shown{!q && recurringCount > 0 ? ` \u00b7 ${recurringCount} recurring` : ""}
+          </p>
+        </div>
+        <Link href="/admin/contacts/new" className="gladmin-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14 M5 12h14" /></svg>
+          Add Customer
         </Link>
       </div>
 
-      <form className="mt-4 max-w-sm" action="/admin/contacts" method="get">
-        <label htmlFor="q" className="sr-only">Search contacts</label>
-        <input id="q" name="q" className="field" placeholder="Search name, phone, or city" defaultValue={q} />
+      <form className="gladmin-pills" action="/admin/contacts" method="get" style={{ alignItems: "center" }}>
+        <label htmlFor="q" style={{ position: "absolute", left: -9999 }}>Search customers</label>
+        <input id="q" name="q" className="gladmin-search" placeholder="Search name, phone, or city" defaultValue={q} />
+        <button type="submit" className="gladmin-btn-ghost">Search</button>
+        {q && <Link href="/admin/contacts" className="gladmin-pill">Clear</Link>}
       </form>
 
-      {!q && recurringCount > 0 && (
-        <p className="mt-3 text-[0.85rem] text-mute-l">
-          {recurringCount} recurring {recurringCount === 1 ? "customer" : "customers"}
-        </p>
-      )}
-
       {(contacts?.length ?? 0) === 0 ? (
-        <p className="mt-8 text-mute-l">
-          {q ? "No contacts match that search." : "No contacts yet. Website leads create them automatically, or add one."}
-        </p>
+        <div className="gladmin-card">
+          <div className="gladmin-empty">
+            {q ? "No customers match that search." : "No customers yet. Website leads create them automatically, or add one."}
+          </div>
+        </div>
       ) : (
-        <ul className="mt-6 space-y-3">
-          {contacts!.map((c) => (
-            <li key={c.id} className="border border-line bg-white">
-              <Link href={`/admin/contacts/${c.id}`} className="block px-4 pb-2 pt-3.5">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <span className="font-bold">{c.first_name} {c.last_name}</span>
-                  {c.is_recurring && (
-                    <span className="shrink-0 rounded-sm bg-green px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide text-white">
-                      {c.cadence ?? "recurring"}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[0.85rem] text-mute-l">
-                  <span className="capitalize">{c.contact_type}</span>
-                  {c.city && (<><span aria-hidden>&middot;</span><span>{c.city}</span></>)}
-                </p>
-              </Link>
-              {c.phone && (
-                <div className="flex gap-2 border-t border-line px-4 py-2.5">
-                  <a href={`tel:${c.phone}`} className="inline-flex flex-1 items-center justify-center rounded-sm bg-green px-3 py-2.5 text-sm font-bold text-white">
-                    Call {formatDisplay(c.phone)}
-                  </a>
-                  <a href={`sms:${c.phone}`} className="inline-flex items-center justify-center rounded-sm border border-ink px-4 py-2.5 text-sm font-bold text-ink">
-                    Text
-                  </a>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+        <div className="gladmin-card">
+          <div className="gladmin-card-body">
+            <table className="gladmin-tbl">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>City</th>
+                  <th>Schedule</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contacts!.map((c) => (
+                  <tr key={c.id} className="linked">
+                    <td>
+                      <Link href={`/admin/contacts/${c.id}`} className="gladmin-row-link">
+                        <div className="gladmin-cell-primary">{c.first_name} {c.last_name}</div>
+                        {c.phone && <div className="gladmin-cell-secondary">{formatDisplay(c.phone)}</div>}
+                      </Link>
+                    </td>
+                    <td style={{ textTransform: "capitalize" }}>{c.contact_type ?? "\u2014"}</td>
+                    <td>{c.city || "\u2014"}</td>
+                    <td>
+                      {c.is_recurring
+                        ? <span className="gladmin-badge-status scheduled">{c.cadence ?? "recurring"}</span>
+                        : <span style={{ color: "var(--a-mute-2)" }}>One time</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );
