@@ -51,28 +51,40 @@ async function getBusinessId(): Promise<string | null> {
   }
 }
 
+// Reading time from word count: ~200 words per minute, minimum 1.
+function readingMinutes(wordCount: number | null): number | null {
+  if (!wordCount || wordCount <= 0) return null;
+  return Math.max(1, Math.ceil(wordCount / 200));
+}
+
 export async function getAllPosts(): Promise<BlogPost[]> {
   try {
     const client = getBlogFarmClient();
     if (!client) return [];
     const bizId = await getBusinessId();
     if (!bizId) return [];
+    // NOTE: column names match the blog-farm schema exactly:
+    // html_content (not content_html), publish_date (not published_at),
+    // word_count (reading time is computed, no reading_minutes column),
+    // and there is no author column (author is per-business, defaulted below).
     const { data, error } = await client
       .from("blog_generated_posts")
-      .select("slug,title,meta_description,content_html,category,published_at,author,reading_minutes")
+      .select("slug,title,meta_description,html_content,category,publish_date,word_count")
       .eq("business_id", bizId)
       .eq("status", "published")
-      .order("published_at", { ascending: false });
+      .order("publish_date", { ascending: false });
     if (error || !data) return [];
     return data.map((p) => ({
       slug: p.slug,
       title: p.title,
       description: p.meta_description ?? "",
-      content_html: p.content_html ?? "",
+      content_html: p.html_content ?? "",
       category: p.category ?? "lawn-maintenance",
-      published_at: p.published_at,
-      author: p.author ?? "Green Line Lawn Care",
-      reading_minutes: p.reading_minutes ?? null,
+      published_at: p.publish_date
+        ? `${p.publish_date}T12:00:00Z`
+        : new Date().toISOString(),
+      author: "Green Line Lawn Care",
+      reading_minutes: readingMinutes(p.word_count),
     }));
   } catch {
     return [];
