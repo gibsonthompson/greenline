@@ -2,8 +2,8 @@ export const SITE = {
   name: "Green Line Lawn Care LLC",
   shortName: "Green Line Lawn Care",
   owner: "Jaydin", // TODO(gibson): surname
-  phoneDisplay: "(925) 436-6691",
-  phoneE164: "+19254366691",
+  phoneDisplay: "(510) 342-9043",
+  phoneE164: "+15103429043",
   email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "hello@greenlinelawncare.com", // TODO(gibson)
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://greenlinelawncare.com", // TODO(gibson): domain
   instagram: "https://www.instagram.com/greenlinelawncare.llc/",

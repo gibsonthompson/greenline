@@ -28,7 +28,7 @@ function businessSchema() {
     "@type": "LandscapingBusiness",
     "@id": `${SITE.url}/#business`,
     name: SITE.name,
-    telephone: "+1-925-436-6691",
+    telephone: "+1-510-342-9043",
     email: SITE.email,
     url: SITE.url,
     image: `${SITE.url}/photos/hero-wide.jpg`,
